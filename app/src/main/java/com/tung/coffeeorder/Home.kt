@@ -18,15 +18,8 @@ class Home: Fragment() {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.coffeeRecyclerView)
 
-        loadCoffeeToGrid(grid) //thêm các cà phê vào danh sách trong grid
+        recyclerView.adapter=CoffeeAdapter(requireContext(), listCoffee)
 
         return view
-    }
-
-    fun loadCoffeeToGrid(grid: GridLayout){
-        //duyệt từng cà phê
-        for (coffee in listCoffee){
-            grid.addView(CoffeePreview(requireContext(),coffee)) //thêm vào grid từng cà phê
-        }
     }
 }
