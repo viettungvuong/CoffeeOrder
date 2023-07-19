@@ -18,14 +18,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction().replace(R.id.fragment,Home()).commit() //hiện fragment Home đầu tiên
+        if (listCoffee==null){ //nếu danh sách coffee là null
+            initCoffeeList(listCoffee,db)
+        }
 
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationHandler=BottomNavigationHandler(this,bottomNavigationView) //handler bottom navigation view
 
-        if (listCoffee==null){ //nếu danh sách coffee là null
-            initCoffeeList(listCoffee,db)
-        }
+        supportFragmentManager.beginTransaction().replace(R.id.fragment,Home()).commit() //hiện fragment Home đầu tiên
     }
 
     fun initCoffeeList(listCoffee: LinkedList<Coffee>, db: FirebaseFirestore){
