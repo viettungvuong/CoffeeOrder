@@ -35,10 +35,10 @@ class CoffeePreview @JvmOverloads constructor(context: Context, coffee: Coffee):
         val scope = CoroutineScope(Dispatchers.Main) //chạy đoạn code trong Coroutine cho suspend fun
         scope.launch {
             try{
-                val imageFromStorage = getDownloadUrl(coffeeUrl)
+                val imageFromStorage = getDownloadUrl(coffeeUrl) //lấy hình ảnh từ firebase storage
                 Glide.with(context)
                     .load(imageFromStorage)
-                    .into(coffeeImage) //lấy hình ảnh từ firebase storage
+                    .into(coffeeImage) //đặt hình ảnh vào imageView
             }catch (exception: Exception) {
                 println("Không thể tải được file ảnh")
             }
