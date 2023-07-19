@@ -13,6 +13,9 @@ class Functions {
         var db= Firebase.firestore
         val storage = Firebase.storage.reference
         lateinit var listCoffee: LinkedList<Coffee> //danh sách các coffee
+        val dbCoffeeList="coffee"
+        val dbCoffeeNameField="name"
+        val dbCoffeeImageField="imageName"
 
         @JvmStatic
         suspend fun getDownloadUrl(fileName: String): String {
