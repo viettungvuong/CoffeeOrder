@@ -58,6 +58,15 @@
         android:layout_height="match_parent"
         android:background="@drawable/rounded_corner">
 
+        <GridLayout
+            android:id="@+id/grid"
+            android:layout_margin="20dp"
+            android:layout_marginVertical="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </GridLayout>
 
     </RelativeLayout>
 
