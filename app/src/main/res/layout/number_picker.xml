@@ -3,7 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/background_number_picker"
     android:layout_marginEnd="10dp"
     android:padding="2dp">
 

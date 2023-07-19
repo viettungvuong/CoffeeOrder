@@ -23,11 +23,10 @@
 
         <TextView
             android:id="@+id/coffeeName"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:text="Cappuccino"
             android:textStyle="bold"/>
 
@@ -36,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:text="16,000 VNĐ"/>
 
 
