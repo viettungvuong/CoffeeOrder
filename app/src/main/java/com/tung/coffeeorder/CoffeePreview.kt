@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CoffeePreview @JvmOverloads constructor(context: Context, coffee: Coffee): LinearLayout(context) {
+class CoffeePreview(context: Context, coffee: Coffee): LinearLayout(context) {
     private var coffee: Coffee
     private var coffeeImage: ImageView
     private var coffeeText: TextView
