@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 
 class NumberPicker(context: Context, coffee: Coffee): LinearLayout(context){
@@ -12,7 +13,7 @@ class NumberPicker(context: Context, coffee: Coffee): LinearLayout(context){
     private var numberEditText: TextInputEditText
     private var coffeeInCart: CoffeeInCart
     init {
-        val view = LayoutInflater.from(context).inflate(R.layout.number_picker,this,false)
+        LayoutInflater.from(context).inflate(R.layout.number_picker,this,false)
 
         plusButton=findViewById(R.id.plusButton)
         minusButton=findViewById(R.id.minusButton)
@@ -34,9 +35,17 @@ class NumberPicker(context: Context, coffee: Coffee): LinearLayout(context){
 
     fun minusButtonClick(): OnClickListener{
         return OnClickListener {
-            coffeeInCart.changeQuantity(--coffeeInCart.quantity) //giảm quantity
-            numberEditText.setText(coffeeInCart.quantity)
-
+            if (coffeeInCart.quantity<=1){
+                Toast.makeText(
+                    context,
+                    "Không thể giảm số lượng thêm nữa",
+                    Toast.LENGTH_SHORT,
+                ).show()
+            }
+            else {
+                coffeeInCart.changeQuantity(--coffeeInCart.quantity) //giảm quantity
+                numberEditText.setText(coffeeInCart.quantity)
+            }
         }
     }
 }
