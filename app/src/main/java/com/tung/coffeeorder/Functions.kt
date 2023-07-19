@@ -79,6 +79,7 @@ class Functions {
             db.collection(dbCoffeeList).get().addOnSuccessListener {
                     documents->
                 for (document in documents){
+                    Log.d("document",document.id)
                     val coffeeName = document.getString(dbCoffeeNameField)!!
                     Log.d("coffee name",coffeeName)
                     val imageName = document.getString(dbCoffeeImageField)!!
