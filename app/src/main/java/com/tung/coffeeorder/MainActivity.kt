@@ -2,7 +2,9 @@ package com.tung.coffeeorder
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.Functions.Companion.db
@@ -11,6 +13,9 @@ import com.tung.coffeeorder.Functions.Companion.dbCoffeeList
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeNameField
 import com.tung.coffeeorder.Functions.Companion.dbCoffeePriceField
 import com.tung.coffeeorder.Functions.Companion.listCoffee
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.LinkedList
 
 class MainActivity : AppCompatActivity() {
@@ -18,9 +23,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (listCoffee==null){ //nếu danh sách coffee là null
-            initCoffeeList(listCoffee,db)
+        FirebaseApp.initializeApp(this)
+        CoroutineScope(Dispatchers.Main).launch {
+            try{
+                initCoffeeList(listCoffee,db)
+            }
+            catch (exception: Exception){
+                print("Lỗi khi thông tin cà phê")
+            }
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.fragment,Home()).commit() //hiện fragment Home đầu tiên
     }
 
-    fun initCoffeeList(listCoffee: LinkedList<Coffee>, db: FirebaseFirestore){
+    suspend fun initCoffeeList(listCoffee: LinkedList<Coffee>, db: FirebaseFirestore){
         db.collection(dbCoffeeList).get().addOnSuccessListener {
             documents->
             for (document in documents){
@@ -44,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
                 val coffee = Coffee(coffeeName,imageName,price) //thêm cà phê vào linkedlist
                 listCoffee.add(coffee)
+
             }
         }
     }

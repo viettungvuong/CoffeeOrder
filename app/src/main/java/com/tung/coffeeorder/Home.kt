@@ -18,6 +18,7 @@ class Home: Fragment() {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.coffeeRecyclerView)
 
+
         recyclerView.adapter=CoffeeAdapter(requireContext(), listCoffee)
 
         return view

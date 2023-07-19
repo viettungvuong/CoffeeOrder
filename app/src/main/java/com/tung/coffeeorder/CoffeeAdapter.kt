@@ -69,7 +69,7 @@ class CoffeeAdapter(context: Context, coffeeList: LinkedList<Coffee>) :
     //tạo view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoffeeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.coffee_view, //lấy coffee_view làm view cho adapter
+            R.layout.coffee_preview, //lấy coffee_view làm view cho adapter
             parent,false
         )
         return CoffeeViewHolder(view) //trả về cart view holder ứng với layout

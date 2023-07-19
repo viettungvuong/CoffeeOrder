@@ -12,7 +12,7 @@ class Functions {
         @JvmField
         var db= Firebase.firestore
         val storage = Firebase.storage.reference
-        lateinit var listCoffee: LinkedList<Coffee> //danh sách các coffee
+        var listCoffee= LinkedList<Coffee>() //danh sách các coffee
         val dbCoffeeList="coffee"
         val dbCoffeeNameField="name"
         val dbCoffeeImageField="imageName"
