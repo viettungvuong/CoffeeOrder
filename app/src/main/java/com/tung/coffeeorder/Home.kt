@@ -36,7 +36,7 @@ class Home: Fragment() {
         //đặt margin cho các item trong recycler view
         recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing))
 
-        recyclerView.adapter = CoffeeAdapter(requireContext(), listCoffee)
+        recyclerView.adapter = CoffeeAdapter(requireActivity(), listCoffee)
 
         return view
     }

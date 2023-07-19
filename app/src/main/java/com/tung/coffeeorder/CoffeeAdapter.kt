@@ -1,12 +1,14 @@
 package com.tung.coffeeorder
 
-import android.content.Context
+import android.app.Activity
+import android.content.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -16,14 +18,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.LinkedList
 
-class CoffeeAdapter(context: Context, coffeeList: LinkedList<Coffee>) :
+class CoffeeAdapter(activity: Activity, coffeeList: LinkedList<Coffee>) :
     RecyclerView.Adapter<CoffeeAdapter.CoffeeViewHolder>() {
 
-    private var context: Context
+    private var activity: Activity
     private var coffeeList: LinkedList<Coffee>
 
     init {
-        this.context=context
+        this.activity=activity
         this.coffeeList=coffeeList
     }
 
@@ -45,7 +47,7 @@ class CoffeeAdapter(context: Context, coffeeList: LinkedList<Coffee>) :
         }
 
         fun setImage(coffee: Coffee){
-            coffeeImage.setImageResource(Functions.imageFromCoffee(context, coffee))
+            coffeeImage.setImageResource(Functions.imageFromCoffee(activity, coffee))
         }
 
         fun setPrice(coffee: Coffee){
@@ -61,7 +63,7 @@ class CoffeeAdapter(context: Context, coffeeList: LinkedList<Coffee>) :
 
     //tạo view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoffeeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
+        val view = LayoutInflater.from(activity).inflate(
             R.layout.coffee_preview, //lấy coffee_view làm view cho adapter
             parent,false
         )
@@ -75,9 +77,8 @@ class CoffeeAdapter(context: Context, coffeeList: LinkedList<Coffee>) :
         //thêm xử lý khi click
         holder.itemView.setOnClickListener(
             View.OnClickListener {
-                val intent=Intent(context,CoffeeView::class.java)
-                intent.putExtra("Coffee",currentItem)
-                context.startService(intent)
+                (activity as FragmentActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment,CoffeeView(currentItem)).commit() //mở coffeView
             }
         )
     }
