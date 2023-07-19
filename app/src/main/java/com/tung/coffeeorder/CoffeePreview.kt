@@ -24,8 +24,8 @@ class CoffeePreview @JvmOverloads constructor(context: Context, coffee: Coffee):
         coffeeText=findViewById(R.id.coffeeName)
         this.coffee=coffee
 
-        setText(this.coffee)
         setImage(this.coffee)
+        setText(this.coffee)
     }
 
     fun setText(coffee: Coffee){
@@ -33,9 +33,17 @@ class CoffeePreview @JvmOverloads constructor(context: Context, coffee: Coffee):
     }
 
     fun setImage(coffee: Coffee){
-        Glide.with(context)
-            .load(coffee.getImage())
-            .into(coffeeImage) //đặt hình ảnh vào imageView
+        CoroutineScope(Dispatchers.Main).launch { //để có thể mở trong suspend fun
+            try{
+                Glide.with(context)
+                    .load(getDownloadUrl(coffee.getImageFilename()))
+                    .into(coffeeImage) //đặt hình ảnh vào imageView
+            }
+            catch (exception: Exception){
+                print("Lỗi khi tải hình ảnh")
+            }
+        }
+
 
     }
 }

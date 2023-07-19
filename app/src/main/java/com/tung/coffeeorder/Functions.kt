@@ -4,6 +4,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import java.util.*
 import kotlin.coroutines.suspendCoroutine
 
 class Functions {
@@ -11,6 +12,7 @@ class Functions {
         @JvmField
         var db= Firebase.firestore
         val storage = Firebase.storage.reference
+        lateinit var listCoffee: LinkedList<Coffee> //danh sách các coffee
 
         @JvmStatic
         suspend fun getDownloadUrl(fileName: String): String {

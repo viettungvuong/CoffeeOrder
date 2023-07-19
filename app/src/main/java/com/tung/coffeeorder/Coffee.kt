@@ -2,15 +2,15 @@ package com.tung.coffeeorder
 
 import android.media.Image
 
-class Coffee(coffeeName: String, image: Image) {
+class Coffee(coffeeName: String, imageFilename: String) {
     private var name=coffeeName
-    private var image=image
+    private var image=imageFilename
 
     fun getName(): String{
         return this.name
     }
 
-    fun getImage(): Image{
+    fun getImageFilename(): String{
         return this.image
     }
 }
