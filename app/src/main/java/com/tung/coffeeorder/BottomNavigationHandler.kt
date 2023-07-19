@@ -2,15 +2,17 @@ package com.tung.coffeeorder
 
 import android.app.Activity
 import android.content.Intent
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class BottomNavigationHandler(activity: Activity, navBar: BottomNavigationView) {
+class BottomNavigationHandler(activity: Activity, fragment: Fragment, navBar: BottomNavigationView) {
     //dùng class này để quản lý bottom nav bar gọn hơn
     init {
         var currentSelected=0
 
-        when (activity) {
-            is MainActivity -> {
+        when (fragment) {
+            is Home -> {
                 currentSelected = R.id.home
             }
             is Rewards -> {
@@ -24,20 +26,23 @@ class BottomNavigationHandler(activity: Activity, navBar: BottomNavigationView) 
         navBar.selectedItemId=currentSelected //đặt index cho bottom nav bar
 
         navBar.setOnItemSelectedListener { item ->
-            // do stuff
+            //khi bấm vào sẽ mở fragment tương ứng
+            lateinit var selectedFragment: Fragment
+
             when (item.itemId) {
                 R.id.home -> {
-                    val intent = Intent(activity, MainActivity::class.java)
-                    activity.startActivity(intent)
+                   selectedFragment=Home()
                 }
                 R.id.rewards-> {
-                    val intent = Intent(activity, Rewards::class.java)
-                    activity.startActivity(intent)
+                    selectedFragment=Rewards()
                 }
                 R.id.orders -> {
-                    val intent = Intent(activity, Orders::class.java)
-                    activity.startActivity(intent)
+                    selectedFragment=Orders()
                 }
+            }
+
+            if (selectedFragment!=null){
+                (activity as FragmentActivity).supportFragmentManager.beginTransaction().replace(R.id.fragment,selectedFragment).commit() //hiện fragment lên
             }
 
             return@setOnItemSelectedListener true
