@@ -34,9 +34,10 @@ class CoffeeView(coffee: Coffee) : Fragment() {
 
         //ta sẽ thế vào vị trí numberPicker là custom view NumberPicker của chúng ta
         val numberPickerLayout = view.findViewById<LinearLayout>(R.id.numberPicker)
-        numberPickerLayout.removeAllViews()
+        numberPickerLayout.removeAllViews() //xoá hết mọi view trong linearLayout này
         val numberPicker = NumberPicker(requireContext(), inflater, coffee)
         numberPickerLayout.addView(numberPicker)
+        //rồi bây giờ ta thêm customView vào vị trí linearLayout
 
         //tương tự với sizePicker
         val sizePickerLayout = view.findViewById<LinearLayout>(R.id.sizePicker)
