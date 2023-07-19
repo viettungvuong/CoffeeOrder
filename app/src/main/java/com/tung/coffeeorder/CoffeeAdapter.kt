@@ -1,7 +1,6 @@
 package com.tung.coffeeorder
 
 import android.app.Activity
-import android.content.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View

@@ -13,6 +13,7 @@ class CoffeeView(coffee: Coffee): Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+        val view = inflater.inflate(R.layout.coffee_view,container,false)
+        return view
     }
 }
