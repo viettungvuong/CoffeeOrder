@@ -6,22 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class BottomNavigationHandler(activity: Activity, fragment: Fragment, navBar: BottomNavigationView) {
+class BottomNavigationHandler(activity: Activity, navBar: BottomNavigationView) {
     //dùng class này để quản lý bottom nav bar gọn hơn
     init {
         var currentSelected=0
 
-        when (fragment) {
-            is Home -> {
-                currentSelected = R.id.home
-            }
-            is Rewards -> {
-                currentSelected = R.id.rewards
-            }
-            is Orders -> {
-                currentSelected = R.id.orders
-            }
-        }
 
         navBar.selectedItemId=currentSelected //đặt index cho bottom nav bar
 
