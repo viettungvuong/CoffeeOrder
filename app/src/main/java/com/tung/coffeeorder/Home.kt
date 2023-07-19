@@ -1,5 +1,6 @@
 package com.tung.coffeeorder
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.Functions.Companion.db
@@ -24,11 +26,35 @@ class Home: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
 
+        val recyclerView: RecyclerView = view.findViewById(R.id.coffeeRecyclerView)
 
-        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.coffeeRecyclerView)
+        val spanCount = 2
+        val spacing = 30
+        val layoutManager = GridLayoutManager(requireContext(), spanCount)
         recyclerView.layoutManager = layoutManager
+
+        //đặt margin cho các item trong recycler view
+        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing))
+
         recyclerView.adapter = CoffeeAdapter(requireContext(), listCoffee)
+
         return view
+    }
+
+
+    //decorate grid cho recyccler view
+    inner class GridSpacingItemDecoration(private val spanCount: Int, private val spacing: Int) : RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            val position = parent.getChildAdapterPosition(view)
+            val column = position % spanCount
+
+            outRect.left = spacing - column * spacing / spanCount
+            outRect.right = (column + 1) * spacing / spanCount
+
+            if (position >= spanCount) {
+                outRect.top = spacing
+            }
+        }
     }
 }
