@@ -1,5 +1,7 @@
 package com.tung.coffeeorder
 
+import android.content.Context
+import android.media.Image
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -20,22 +22,25 @@ class Functions {
         val dbCoffeeImageField="imageName"
         val dbCoffeePriceField="price"
 
-        @JvmStatic
-        suspend fun getDownloadUrl(fileName: String): String {
-            return suspendCoroutine { continuation ->
-                val storageRef = FirebaseStorage.getInstance().reference
-                val fileRef = storageRef.child(fileName)
 
-                fileRef.downloadUrl
-                    .addOnSuccessListener { uri ->
-                        val downloadUrl = uri.toString()
-                        continuation.resumeWith(Result.success(downloadUrl)) //trả về kết quả nếu được
-                    }
-                    .addOnFailureListener { exception ->
-                        continuation.resumeWith(Result.failure(exception))
-                    }
-            }
-        }
+
+//        @JvmStatic
+//        suspend fun getDownloadUrl(fileName: String): String {
+//            return suspendCoroutine { continuation ->
+//                val storageRef = FirebaseStorage.getInstance().reference
+//                val fileRef = storageRef.child(fileName)
+//
+//                fileRef.downloadUrl
+//                    .addOnSuccessListener { uri ->
+//                        val downloadUrl = uri.toString()
+//                        continuation.resumeWith(Result.success(downloadUrl)) //trả về kết quả nếu được
+//                    }
+//                    .addOnFailureListener { exception ->
+//                        continuation.resumeWith(Result.failure(exception))
+//                    }
+//            }
+//        }
+
 
         @JvmStatic
         //reformat định dạng số
@@ -74,27 +79,35 @@ class Functions {
             //gio ta phai cho no xuat dung chieu
         }
 
-        @JvmStatic
-        fun initCoffeeList(listCoffee: LinkedList<Coffee>, db: FirebaseFirestore, callback: ()->Unit){
-            db.collection(dbCoffeeList).get().addOnSuccessListener {
-                    documents->
-                for (document in documents){
-                    Log.d("document",document.id)
-                    val coffeeName = document.getString(dbCoffeeNameField)!!
-                    Log.d("coffee name",coffeeName)
-                    val imageName = document.getString(dbCoffeeImageField)!!
-                    val price=document.getLong(dbCoffeePriceField)!!
-                    Log.d("coffee price",price.toString())
-                    //lấy dữ liệu cà phê
+//        @JvmStatic
+//        fun initCoffeeList(listCoffee: LinkedList<Coffee>, db: FirebaseFirestore){
+//            db.collection(dbCoffeeList).get().addOnSuccessListener {
+//                    documents->
+//                for (document in documents){
+//                    Log.d("document",document.id)
+//                    val coffeeName = document.getString(dbCoffeeNameField)!!
+//                    Log.d("coffee name",coffeeName)
+//                    val imageName = document.getString(dbCoffeeImageField)!!
+//                    val price=document.getLong(dbCoffeePriceField)!!
+//                    Log.d("coffee price",price.toString())
+//                    //lấy dữ liệu cà phê
+//
+//                    val coffee = Coffee(coffeeName,imageName,price) //thêm cà phê vào linkedlist
+//                    listCoffee.add(coffee)
+//                }
+//
+//            }
+//        }
 
-                    val coffee = Coffee(coffeeName,imageName,price) //thêm cà phê vào linkedlist
-                    listCoffee.add(coffee)
-                }
+        fun initCoffeeList(listCoffee: LinkedList<Coffee>){
+            listCoffee.add(Coffee("Cà phê sữa đá","caphesuada",18000))
+            listCoffee.add(Coffee("Cà phê muối","caphemuoi",19000))
+        }
 
-                Log.d("Number of coffees",listCoffee.size.toString())
-
-                callback() //xong thì tiến hành tiếp các code trong callback
-            }
+        fun imageFromCoffee(context: Context, coffee: Coffee): Int {
+            return context.resources.getIdentifier(coffee.getImageFilename(),
+            "drawable",
+            context.packageName)
         }
     }
 

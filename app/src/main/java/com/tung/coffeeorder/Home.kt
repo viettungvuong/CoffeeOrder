@@ -26,13 +26,9 @@ class Home: Fragment() {
 
 
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
-
-        initCoffeeList(listCoffee,db) {
-            val recyclerView = view.findViewById<RecyclerView>(R.id.coffeeRecyclerView)
-            recyclerView.layoutManager = layoutManager
-            recyclerView.adapter = CoffeeAdapter(requireContext(), listCoffee)
-        }
-
+        val recyclerView = view.findViewById<RecyclerView>(R.id.coffeeRecyclerView)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = CoffeeAdapter(requireContext(), listCoffee)
         return view
     }
 }

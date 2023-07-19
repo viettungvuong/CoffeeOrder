@@ -12,6 +12,7 @@ import com.tung.coffeeorder.Functions.Companion.dbCoffeeImageField
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeList
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeNameField
 import com.tung.coffeeorder.Functions.Companion.dbCoffeePriceField
+import com.tung.coffeeorder.Functions.Companion.initCoffeeList
 import com.tung.coffeeorder.Functions.Companion.listCoffee
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         FirebaseApp.initializeApp(this)
+
+        initCoffeeList(listCoffee)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.tung.coffeeorder.Functions.Companion.getDownloadUrl
+import com.tung.coffeeorder.Functions.Companion.imageFromCoffee
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,16 +37,7 @@ class CoffeePreview(context: Context, coffee: Coffee): LinearLayout(context) {
     }
 
     fun setImage(coffee: Coffee){
-        CoroutineScope(Dispatchers.Main).launch { //để có thể mở trong suspend fun
-            try{
-                Glide.with(context)
-                    .load(getDownloadUrl(coffee.getImageFilename()))
-                    .into(coffeeImage) //đặt hình ảnh vào imageView
-            }
-            catch (exception: Exception){
-                print("Lỗi khi tải hình ảnh")
-            }
-        }
+        coffeeImage.setImageResource(imageFromCoffee(context,coffee))
     }
 
     fun setPrice(coffee: Coffee){
