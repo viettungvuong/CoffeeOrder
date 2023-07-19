@@ -15,13 +15,17 @@ import java.util.LinkedList
 
 class MainActivity : AppCompatActivity() {
     lateinit var bottomNavigationHandler: BottomNavigationHandler
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
+    override fun onStart() {
+        super.onStart()
         if (listCoffee==null){ //nếu danh sách coffee là null
             initCoffeeList(listCoffee,db)
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationHandler=BottomNavigationHandler(this,bottomNavigationView) //handler bottom navigation view

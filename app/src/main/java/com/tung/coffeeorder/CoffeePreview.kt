@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.tung.coffeeorder.Functions.Companion.getDownloadUrl
+import com.tung.coffeeorder.Functions.Companion.reformatNumber
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,16 +17,20 @@ class CoffeePreview @JvmOverloads constructor(context: Context, coffee: Coffee):
     private var coffee: Coffee
     private var coffeeImage: ImageView
     private var coffeeText: TextView
+    private var coffePriceText: TextView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.coffee_view,this,true)
 
         coffeeImage=findViewById(R.id.coffeeImage)
         coffeeText=findViewById(R.id.coffeeName)
+        coffePriceText=findViewById(R.id.coffeePrice)
+
         this.coffee=coffee
 
         setImage(this.coffee)
         setText(this.coffee)
+        setPrice(this.coffee)
     }
 
     fun setText(coffee: Coffee){
@@ -43,7 +48,9 @@ class CoffeePreview @JvmOverloads constructor(context: Context, coffee: Coffee):
                 print("Lỗi khi tải hình ảnh")
             }
         }
+    }
 
-
+    fun setPrice(coffee: Coffee){
+        coffePriceText.text= reformatNumber(coffee.getPrice())
     }
 }
