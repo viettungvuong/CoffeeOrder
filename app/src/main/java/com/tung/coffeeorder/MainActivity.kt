@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.tung.coffeeorder.Functions.Companion.db
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeImageField
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeList
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeNameField
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationHandler=BottomNavigationHandler(this,bottomNavigationView) //handler bottom navigation view
 
         if (listCoffee==null){ //nếu danh sách coffee là null
-            initCoffeeList(listCoffee)
+            initCoffeeList(listCoffee,db)
         }
     }
 
