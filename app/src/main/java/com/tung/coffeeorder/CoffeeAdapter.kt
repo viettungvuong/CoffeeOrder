@@ -83,6 +83,7 @@ class CoffeeAdapter(context: Context, coffeeList: LinkedList<Coffee>) :
         holder.itemView.setOnClickListener(
             View.OnClickListener {
                 val intent=Intent(context,CoffeeView::class.java)
+                intent.putExtra("Coffee",currentItem)
                 context.startService(intent)
             }
         )
