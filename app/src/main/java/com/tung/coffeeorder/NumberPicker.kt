@@ -1,6 +1,8 @@
 package com.tung.coffeeorder
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -18,11 +20,24 @@ class NumberPicker(context: Context, inflater: LayoutInflater, coffee: Coffee): 
         plusButton=findViewById(R.id.plusButton)
         minusButton=findViewById(R.id.minusButton)
 
+        coffeeInCart=CoffeeInCart(coffee) //class cho phép tuỳ biến cafe đang chọn
+
         numberEditText=findViewById(R.id.currentNumber)
         numberEditText.setText("1")
-        //thêm onchangetextlistener nữa
+        numberEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
 
-        coffeeInCart=CoffeeInCart(coffee) //class cho phép tuỳ biến cafe đang chọn
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                //sau khi chữ trong numberEditText thay đổi
+                //ta đặt lại số lượng cho coffeeInCart
+                coffeeInCart.changeQuantity(Integer.parseInt(s.toString())) //đổi số lượng
+            }
+        })
+        //thêm onchangetextlistener nữa
 
         plusButton.setOnClickListener(plusButtonClick())
         minusButton.setOnClickListener(minusButtonClick())
