@@ -1,8 +1,5 @@
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="#008888">
-    <item>
-        <shape android:shape="oval">
-            <solid android:color="#008888"/>
-        </shape>
-    </item>
-</ripple>
+<!-- res/drawable/rounded_corner_shape.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#0048B0" /> <!-- Replace with the background color of your section -->
+    <corners android:radius="35dp" /> <!-- Adjust the radius value to set the border radius (rounded corner) -->
+</shape>
