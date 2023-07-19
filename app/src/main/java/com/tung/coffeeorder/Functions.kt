@@ -1,5 +1,7 @@
 package com.tung.coffeeorder
 
+import android.util.Log
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -70,6 +72,28 @@ class Functions {
 
             return moneyString;
             //gio ta phai cho no xuat dung chieu
+        }
+
+        @JvmStatic
+        fun initCoffeeList(listCoffee: LinkedList<Coffee>, db: FirebaseFirestore, callback: ()->Unit){
+            db.collection(dbCoffeeList).get().addOnSuccessListener {
+                    documents->
+                for (document in documents){
+                    val coffeeName = document.getString(dbCoffeeNameField)!!
+                    Log.d("coffee name",coffeeName)
+                    val imageName = document.getString(dbCoffeeImageField)!!
+                    val price=document.getLong(dbCoffeePriceField)!!
+                    Log.d("coffee price",price.toString())
+                    //lấy dữ liệu cà phê
+
+                    val coffee = Coffee(coffeeName,imageName,price) //thêm cà phê vào linkedlist
+                    listCoffee.add(coffee)
+                }
+
+                Log.d("Number of coffees",listCoffee.size.toString())
+
+                callback() //xong thì tiến hành tiếp các code trong callback
+            }
         }
     }
 

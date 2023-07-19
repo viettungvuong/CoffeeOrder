@@ -24,15 +24,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         FirebaseApp.initializeApp(this)
-        CoroutineScope(Dispatchers.Main).launch {
-            try{
-                initCoffeeList(listCoffee,db)
-            }
-            catch (exception: Exception){
-                print("Lỗi khi thông tin cà phê")
-            }
-        }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,19 +36,5 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.fragment,Home()).commit() //hiện fragment Home đầu tiên
     }
 
-    suspend fun initCoffeeList(listCoffee: LinkedList<Coffee>, db: FirebaseFirestore){
-        db.collection(dbCoffeeList).get().addOnSuccessListener {
-            documents->
-            for (document in documents){
-                val coffeeName = document.getString(dbCoffeeNameField)!!
-                val imageName = document.getString(dbCoffeeImageField)!!
-                val price=document.getLong(dbCoffeePriceField)!!
-                //lấy dữ liệu cà phê
 
-                val coffee = Coffee(coffeeName,imageName,price) //thêm cà phê vào linkedlist
-                listCoffee.add(coffee)
-
-            }
-        }
-    }
 }
