@@ -16,6 +16,7 @@ class Functions {
         val dbCoffeeList="coffee"
         val dbCoffeeNameField="name"
         val dbCoffeeImageField="imageName"
+        val dbCoffeePriceField="price"
 
         @JvmStatic
         suspend fun getDownloadUrl(fileName: String): String {
@@ -32,6 +33,43 @@ class Functions {
                         continuation.resumeWith(Result.failure(exception))
                     }
             }
+        }
+
+        @JvmStatic
+        //reformat định dạng số
+        fun reformatNumber(money: Long): String {
+            if (money <= 100)
+                return money.toString()
+
+
+            var moneyString = money.toString();
+
+            val strings = ArrayList<String>()
+
+            val n = moneyString.length - 1;
+
+            for (i in n downTo 0 step 3) {
+                val start = Integer.max(i - 2, 0)
+                val end = Integer.min(n + 1, i + 1)
+                val s = moneyString.substring(start, end)
+                strings.add(s)
+                strings.add(",")
+            }
+
+            if (strings[strings.size - 1] == ",") {
+                strings.removeAt(strings.size - 1);
+            }
+
+            strings.reverse() //đảo ngược mảng
+
+            moneyString = ""
+
+            for (i in 0..strings.size - 1) {
+                moneyString += strings[i]
+            }
+
+            return moneyString;
+            //gio ta phai cho no xuat dung chieu
         }
     }
 

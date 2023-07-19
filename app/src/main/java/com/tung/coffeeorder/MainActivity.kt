@@ -9,6 +9,7 @@ import com.tung.coffeeorder.Functions.Companion.db
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeImageField
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeList
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeNameField
+import com.tung.coffeeorder.Functions.Companion.dbCoffeePriceField
 import com.tung.coffeeorder.Functions.Companion.listCoffee
 import java.util.LinkedList
 
@@ -34,9 +35,10 @@ class MainActivity : AppCompatActivity() {
             for (document in documents){
                 val coffeeName = document.getString(dbCoffeeNameField)!!
                 val imageName = document.getString(dbCoffeeImageField)!!
+                val price=document.getLong(dbCoffeePriceField)!!
                 //lấy dữ liệu cà phê
 
-                val coffee = Coffee(coffeeName,imageName) //thêm cà phê vào linkedlist
+                val coffee = Coffee(coffeeName,imageName,price) //thêm cà phê vào linkedlist
                 listCoffee.add(coffee)
             }
         }
