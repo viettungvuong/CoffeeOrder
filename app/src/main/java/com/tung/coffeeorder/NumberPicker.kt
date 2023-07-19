@@ -7,18 +7,20 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 
-class NumberPicker(context: Context, coffee: Coffee): LinearLayout(context){
-    private var plusButton: ImageButton
-    private var minusButton: ImageButton
+class NumberPicker(context: Context, inflater: LayoutInflater, coffee: Coffee): LinearLayout(context){
+    var plusButton: ImageButton
+    var minusButton: ImageButton
     private var numberEditText: TextInputEditText
     private var coffeeInCart: CoffeeInCart
     init {
-        LayoutInflater.from(context).inflate(R.layout.number_picker,this,false)
+        inflater.inflate(R.layout.number_picker,this,true)
 
         plusButton=findViewById(R.id.plusButton)
         minusButton=findViewById(R.id.minusButton)
+
         numberEditText=findViewById(R.id.currentNumber)
         numberEditText.setText("1")
+        //thêm onchangetextlistener nữa
 
         coffeeInCart=CoffeeInCart(coffee) //class cho phép tuỳ biến cafe đang chọn
 
@@ -29,7 +31,7 @@ class NumberPicker(context: Context, coffee: Coffee): LinearLayout(context){
     fun plusButtonClick(): OnClickListener{
         return OnClickListener {
             coffeeInCart.changeQuantity(++coffeeInCart.quantity) //tăng quantity
-            numberEditText.setText(coffeeInCart.quantity)
+            numberEditText.setText(coffeeInCart.quantity.toString())
         }
     }
 
@@ -44,7 +46,7 @@ class NumberPicker(context: Context, coffee: Coffee): LinearLayout(context){
             }
             else {
                 coffeeInCart.changeQuantity(--coffeeInCart.quantity) //giảm quantity
-                numberEditText.setText(coffeeInCart.quantity)
+                numberEditText.setText(coffeeInCart.quantity.toString())
             }
         }
     }

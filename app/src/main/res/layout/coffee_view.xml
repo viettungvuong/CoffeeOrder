@@ -1,100 +1,100 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:numberpicker="http://schemas.android.com/tools">
+    xmlns:numberpicker="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ScrollView
+
+    <LinearLayout
         android:id="@+id/introSection"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/coffee_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/caphesuada" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/coffee_image"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/caphesuada" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/coffee_title"
-                        android:layout_width="0dp"
-                        android:layout_weight="70"
-                        android:layout_height="wrap_content"
-                        android:text="Cà phê sữa đá"
-                        android:textSize="24sp"
-                        android:textColor="#000000"
-                        android:layout_gravity="center"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/buttonFavorite"
-                        android:layout_width="0dp"
-                        android:layout_weight="30"
-                        android:layout_height="60dp"
-                        android:src="@drawable/favorite_btn"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
-                        android:layout_gravity="end"
-                        android:layout_marginLeft="150dp"/>
-
-                </LinearLayout>
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/product_description"
-                    android:layout_width="match_parent"
+                    android:id="@+id/coffee_title"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Đây là cà phê sữa đá"
-                    android:textSize="16sp"
-                    android:textColor="#757575" />
+                    android:layout_gravity="center"
+                    android:layout_weight="70"
+                    android:text="Cà phê sữa đá"
+                    android:textColor="#000000"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/buttonFavorite"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="150dp"
+                    android:layout_weight="30"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/favorite_btn" />
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/product_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Đây là cà phê sữa đá"
+                android:textColor="#757575"
+                android:textSize="16sp" />
+
         </LinearLayout>
-    </ScrollView>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/purchaseBtn">
+        app:layout_constraintBottom_toTopOf="@id/purchaseBtn"
+        app:layout_constraintTop_toBottomOf="@id/introSection">
 
         <LinearLayout
             android:id="@+id/sizeSection"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="50dp"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="60"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="60"
                 android:text="Kích cỡ:"
                 android:textSize="20dp"
-                android:layout_marginLeft="20dp"
-                android:textStyle="bold"
-                android:layout_gravity="left"
-                />
+                android:textStyle="bold" />
 
-            <include layout="@layout/pick_size" android:id="@+id/numberPicker"/>
+            <include
+                android:id="@+id/sizePicker"
+                layout="@layout/pick_size" />
 
         </LinearLayout>
 
@@ -102,22 +102,23 @@
             android:id="@+id/quantitySection"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="60"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="60"
                 android:text="Số lượng:"
                 android:textSize="20dp"
-                android:layout_marginLeft="20dp"
-                android:textStyle="bold"
-                android:layout_gravity="left"
-                />
+                android:textStyle="bold" />
 
-            <include layout="@layout/number_picker" android:id="@+id/numberPicker"/>
+            <include
+                android:id="@+id/numberPicker"
+                layout="@layout/number_picker" />
 
         </LinearLayout>
 
@@ -125,51 +126,47 @@
             android:id="@+id/priceSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="60"
                 android:layout_height="wrap_content"
-                android:text="Tổng cộng:"
-                android:textSize="20dp"
-                android:textColor="#FF2E7D32"
-                android:layout_marginLeft="20dp"
-                android:textStyle="bold"
                 android:layout_gravity="left"
-                />
+                android:layout_marginLeft="20dp"
+                android:layout_weight="60"
+                android:text="Tổng cộng:"
+                android:textColor="#FF2E7D32"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/coffee_price"
                 android:layout_width="0dp"
-                android:layout_weight="40"
                 android:layout_height="wrap_content"
-                android:text="18,000 VNĐ"
-                android:textSize="20dp"
-                android:textColor="#FF2E7D32"
-                android:layout_marginLeft="100dp"
                 android:layout_gravity="end"
-                />
+                android:layout_marginLeft="100dp"
+                android:layout_weight="40"
+                android:text="18,000 VNĐ"
+                android:textColor="#FF2E7D32"
+                android:textSize="20dp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
 
-
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/purchaseBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon="@drawable/cart"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/rounded_button"
         android:text="Thêm vào giỏ hàng"
         android:textSize="15dp"
-        android:background="@drawable/rounded_button"
-        android:layout_marginBottom="20dp"
+        app:icon="@drawable/cart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/purchaseBtn"
-        />
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
