@@ -24,6 +24,8 @@ class CoffeePreview @JvmOverloads constructor(context: Context, coffee: Coffee):
         coffeeText=findViewById(R.id.coffeeName)
         this.coffee=coffee
 
+        setText(this.coffee)
+        setImage(this.coffee)
     }
 
     fun setText(coffee: Coffee){
