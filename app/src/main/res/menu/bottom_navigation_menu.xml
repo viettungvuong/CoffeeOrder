@@ -5,12 +5,12 @@
         android:icon="@drawable/store"
         android:title="Trang chủ"/>
     <item
-        android:id="@+id/cart"
+        android:id="@+id/rewards"
         android:enabled="true"
         android:icon="@drawable/giftcard"
         android:title="Tích điểm"/>
     <item
-        android:id="@+id/favorite"
+        android:id="@+id/orders"
         android:enabled="true"
         android:icon="@drawable/order"
         android:title="Đơn hàng"/>
