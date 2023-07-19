@@ -102,6 +102,10 @@ class Functions {
         fun initCoffeeList(listCoffee: LinkedList<Coffee>){
             listCoffee.add(Coffee("Cà phê sữa đá","caphesuada",18000))
             listCoffee.add(Coffee("Cà phê muối","caphemuoi",19000))
+            listCoffee.add(Coffee("Americano","americano",35000))
+            listCoffee.add(Coffee("Cappuccino","cappuccino",36000))
+            listCoffee.add(Coffee("Espresso","espresso",33000))
+            listCoffee.add(Coffee("Cold brew","coldbrew",42000))
         }
 
         fun imageFromCoffee(context: Context, coffee: Coffee): Int {

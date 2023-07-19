@@ -49,7 +49,7 @@ class CoffeeAdapter(context: Context, coffeeList: LinkedList<Coffee>) :
         }
 
         fun setPrice(coffee: Coffee){
-            coffePriceText.text= Functions.reformatNumber(coffee.getPrice())
+            coffePriceText.text= Functions.reformatNumber(coffee.getPrice())+" VNĐ"
         }
 
         fun bind(coffee: Coffee){
