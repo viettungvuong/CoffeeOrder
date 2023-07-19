@@ -4,23 +4,7 @@ import android.media.Image
 import android.os.Parcel
 import android.os.Parcelable
 
-class Coffee(private val coffeeName: String, private val imageFilename: String, private val price: Long) : Parcelable {
-
-    constructor(parcel: Parcel) : this(
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readLong()
-    )
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(coffeeName)
-        parcel.writeString(imageFilename)
-        parcel.writeLong(price)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
+open class Coffee(private val coffeeName: String, private val imageFilename: String, private val price: Long) {
 
     fun getName(): String {
         return coffeeName
@@ -34,13 +18,23 @@ class Coffee(private val coffeeName: String, private val imageFilename: String, 
         return price
     }
 
-    companion object CREATOR : Parcelable.Creator<Coffee> {
-        override fun createFromParcel(parcel: Parcel): Coffee {
-            return Coffee(parcel)
-        }
 
-        override fun newArray(size: Int): Array<Coffee?> {
-            return arrayOfNulls(size)
-        }
+}
+
+class CoffeeInCart(coffee: Coffee): Coffee(
+    coffee.getName(),
+    coffee.getImageFilename(),
+    coffee.getPrice()
+){
+    var quantity=1
+    var currentSize=1 //1 là size nhỏ, 2 là size vừa, 3 là size lớn
+
+    fun changeQuantity(newQuantity: Int){
+        this.quantity=newQuantity
     }
+
+    fun changeSize(newSize: Int){
+        this.currentSize=newSize
+    }
+
 }
