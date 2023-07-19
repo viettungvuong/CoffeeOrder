@@ -5,6 +5,7 @@
     xmlns:numberpicker="http://schemas.android.com/tools">
 
     <ScrollView
+        android:id="@+id/introSection"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -72,7 +73,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/priceSection">
+        app:layout_constraintBottom_toTopOf="@id/purchaseBtn">
+
+        <LinearLayout
+            android:id="@+id/sizeSection"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="60"
+                android:layout_height="wrap_content"
+                android:text="Kích cỡ:"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:textStyle="bold"
+                android:layout_gravity="left"
+                />
+
+            <include layout="@layout/pick_size" android:id="@+id/numberPicker"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/quantitySection"
@@ -97,41 +121,42 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/priceSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="60"
+                android:layout_height="wrap_content"
+                android:text="Tổng cộng:"
+                android:textSize="20dp"
+                android:textColor="#FF2E7D32"
+                android:layout_marginLeft="20dp"
+                android:textStyle="bold"
+                android:layout_gravity="left"
+                />
+
+            <TextView
+                android:id="@+id/product_price"
+                android:layout_width="0dp"
+                android:layout_weight="40"
+                android:layout_height="wrap_content"
+                android:text="18,000 VNĐ"
+                android:textSize="20dp"
+                android:textColor="#FF2E7D32"
+                android:layout_marginLeft="100dp"
+                android:layout_gravity="end"
+                />
+
+        </LinearLayout>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/priceSection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/purchaseBtn"
-        android:layout_marginBottom="20dp">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="60"
-            android:layout_height="wrap_content"
-            android:text="Tổng cộng:"
-            android:textSize="20dp"
-            android:textColor="#FF2E7D32"
-            android:layout_marginLeft="20dp"
-            android:textStyle="bold"
-            android:layout_gravity="left"
-            />
-
-        <TextView
-            android:id="@+id/product_price"
-            android:layout_width="0dp"
-            android:layout_weight="40"
-            android:layout_height="wrap_content"
-            android:text="18,000 VNĐ"
-            android:textSize="20dp"
-            android:textColor="#FF2E7D32"
-            android:layout_marginLeft="100dp"
-            android:layout_gravity="end"
-            />
-
-    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
