@@ -1,14 +1,16 @@
 package com.tung.coffeeorder
 
-class Coffee(coffeeName: String, imageUrl: String) {
+import android.media.Image
+
+class Coffee(coffeeName: String, image: Image) {
     private var name=coffeeName
-    private var image=imageUrl
+    private var image=image
 
     fun getName(): String{
         return this.name
     }
 
-    fun getImageUrl(): String{
+    fun getImage(): Image{
         return this.image
     }
 }
