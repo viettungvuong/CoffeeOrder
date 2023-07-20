@@ -7,10 +7,10 @@
     android:background="@color/white">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:id="@+id/coffeeImage"
-        android:src="@drawable/coffee"
+        android:src="@drawable/caphesuada"
         android:scaleType="centerCrop"
         />
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textSize="15dp"
-            android:text="16,000 VNĐ"/>
+            android:text="35,000 VNĐ"/>
 
 
     </LinearLayout>

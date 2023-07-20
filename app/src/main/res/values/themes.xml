@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.CoffeeOrder" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#19008E</item>
-        <item name="colorPrimaryVariant">#2F1999</item>
+        <item name="colorPrimary">#1D79CB</item>
+        <item name="colorPrimaryVariant">#4A93D5</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
