@@ -4,7 +4,7 @@ import android.media.Image
 import android.os.Parcel
 import android.os.Parcelable
 
-open class Coffee(private val coffeeName: String, private val imageFilename: String, private val price: Long) {
+open class Coffee(private val coffeeName: String, private val imageFilename: String, private val price: Long): java.io.Serializable {
 
     fun getName(): String {
         return coffeeName
@@ -17,8 +17,6 @@ open class Coffee(private val coffeeName: String, private val imageFilename: Str
     fun getPrice(): Long {
         return price
     }
-
-
 }
 
 class CoffeeInCart(coffee: Coffee): Coffee(

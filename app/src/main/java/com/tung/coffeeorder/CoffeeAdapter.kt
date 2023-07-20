@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import java.util.LinkedList
@@ -70,8 +71,9 @@ class CoffeeAdapter(activity: Activity, coffeeList: LinkedList<Coffee>) :
         //thêm xử lý khi click
         holder.itemView.setOnClickListener(
             View.OnClickListener {
-                (activity as FragmentActivity).supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment,CoffeeView(currentItem)).commit() //mở coffeView
+                val intent = Intent(activity,CoffeeView::class.java)
+                intent.putExtra("Coffee",currentItem)
+                activity.startActivity(intent) //mở activity
             }
         )
     }

@@ -106,6 +106,8 @@ class Functions {
             listCoffee.add(Coffee("Cappuccino","cappuccino",36000))
             listCoffee.add(Coffee("Espresso","espresso",33000))
             listCoffee.add(Coffee("Cold brew","coldbrew",42000))
+            listCoffee.add(Coffee("Bạc sỉu","bacsiu",20000))
+            listCoffee.add(Coffee("Latte","latte",41000))
         }
 
         fun imageFromCoffee(context: Context, coffee: Coffee): Int {

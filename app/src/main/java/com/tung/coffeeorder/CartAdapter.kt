@@ -19,6 +19,7 @@ class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): Recyc
     }
 
     inner class CartViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
         fun bind(coffeeInCart: CoffeeInCart){
 
         }
@@ -26,7 +27,7 @@ class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): Recyc
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val view = LayoutInflater.from(activity).inflate(
-            R.layout.coffee_preview, //lấy coffee_view làm view cho adapter
+            R.layout.cart_preview, //lấy coffee_view làm view cho adapter
             parent,false
         )
         return CartViewHolder(view)//trả về cart view holder ứng với layout
