@@ -1,25 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rounded_button"
-    android:padding="100dp">
+    android:padding="20dp"
+    android:layout_gravity="center_horizontal">
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/textSection"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tichdiem"
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
+            android:layout_height="wrap_content"
+            android:text="Tích điểm: "
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:layout_height="wrap_content"
+            android:text="4/8"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@id/tichdiem"
+            android:padding="5dp"
+            android:gravity="end"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cupsRewards"
+        app:layout_constraintTop_toBottomOf="@+id/textSection"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/coffee_cup"
-        app:tint="@color/white"
-        />
+        android:layout_margin="20dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/coffee_cup"
-        app:tint="@color/white"
-        android:alpha="0.3"
-        />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/coffee_cup" />
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:alpha="0.3"
+            android:src="@drawable/coffee_cup" />
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
