@@ -70,6 +70,7 @@
             android:background="@drawable/rounded_button"
             app:backgroundTint="#324A59"
             android:layout_marginStart="40dp"
+            android:id="@+id/checkoutBtn"
             />
 
 

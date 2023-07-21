@@ -173,6 +173,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
         android:background="@drawable/rounded_button"
+        app:backgroundTint="#324A59"
         android:text="Thêm vào giỏ hàng"
         android:textSize="15dp"
         app:icon="@drawable/cart"
