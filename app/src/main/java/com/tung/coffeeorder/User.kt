@@ -8,7 +8,6 @@ class User() {
 
     inner class Reward(){
         private var currentPoints=-0
-
         private var loyaltyCardCount=0
 
         fun getCurrentPoints(): Int{

@@ -9,21 +9,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.Functions.Companion.imageFromCoffee
+import java.util.LinkedList
 
 class RewardsAdapter(activity: Activity, user: User): RecyclerView.Adapter<RewardsAdapter.rewardViewHolder>() {
-    var activity: Activity
-    var user: User
-
-    init {
-        this.activity=activity
-        this.user=user
-
-    }
+    val activity=activity
+    var user=user
 
     inner class rewardViewHolder(view: View): RecyclerView.ViewHolder(view){
         val view=view
         var drawable=activity.getDrawable(R.drawable.coffee_cup)!!
-
 
         fun bind(position: Int){
 
@@ -40,10 +34,10 @@ class RewardsAdapter(activity: Activity, user: User): RecyclerView.Adapter<Rewar
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): rewardViewHolder {
         val view = LayoutInflater.from(activity).inflate(
-            R.layout.reward_cup, //lấy coffee_view làm view cho adapter
+            R.layout.reward_cup,
             parent,false
         )
-        return rewardViewHolder(view)//trả về cart view holder ứng với layout
+        return rewardViewHolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -52,6 +46,5 @@ class RewardsAdapter(activity: Activity, user: User): RecyclerView.Adapter<Rewar
 
     override fun onBindViewHolder(holder: rewardViewHolder, position: Int) {
         holder.bind(position)
-
     }
 }
