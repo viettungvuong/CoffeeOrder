@@ -3,6 +3,7 @@ package com.tung.coffeeorder
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
@@ -59,8 +60,8 @@ class CoffeeView() : AppCompatActivity() {
                     cartList[checkInCart].changeQuantity(coffeeInCart.quantity) //thay đổi số lượng nếu đã có trong giỏ hàng
                 }
                 else{
-                    cartList.add(coffeeInCart) //thêm ly cà phê hiện tại vào giỏ hàng
-                    purchaseBtn.text="Cập nhật tuỳ chọn" //đổi tên nút
+                    val temp = CoffeeInCart(coffeeInCart) //tạo copy để đề phòng người dùng muốn thêm ly khác size của cùng một loại cà phê
+                    cartList.add(temp) //thêm ly cà phê hiện tại vào giỏ hàng
                 }
 
                 val intent= Intent(this,Cart::class.java)
