@@ -6,14 +6,16 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 
-class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart): LinearLayout(context){
+class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart, priceText: TextView): LinearLayout(context){
     var plusButton: ImageButton
     var minusButton: ImageButton
     private var numberEditText: TextInputEditText
     private var coffeeInCart= coffeeInCart
+    private var priceText=priceText
     init {
         inflater.inflate(R.layout.number_picker,this,true)
 
@@ -46,6 +48,8 @@ class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: Cof
         return OnClickListener {
             coffeeInCart.changeQuantity(++coffeeInCart.quantity) //tăng quantity
             numberEditText.setText(coffeeInCart.quantity.toString())
+
+            priceText.text= Functions.reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
         }
     }
 
@@ -61,6 +65,8 @@ class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: Cof
             else {
                 coffeeInCart.changeQuantity(--coffeeInCart.quantity) //giảm quantity
                 numberEditText.setText(coffeeInCart.quantity.toString())
+
+                priceText.text= Functions.reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
             }
         }
     }

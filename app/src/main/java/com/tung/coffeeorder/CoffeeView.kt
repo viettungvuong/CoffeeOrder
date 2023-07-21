@@ -41,7 +41,7 @@ class CoffeeView() : AppCompatActivity() {
         //ta sẽ thế vào vị trí numberPicker là custom view NumberPicker của chúng ta
         val numberPickerLayout = findViewById<LinearLayout>(R.id.numberPicker)
         numberPickerLayout.removeAllViews() //xoá hết mọi view trong linearLayout này
-        val numberPicker = NumberPicker(this, inflater, coffeeInCart)
+        val numberPicker = NumberPicker(this, inflater, coffeeInCart, priceText)
         numberPickerLayout.addView(numberPicker)
         //rồi bây giờ ta thêm customView vào vị trí linearLayout
 

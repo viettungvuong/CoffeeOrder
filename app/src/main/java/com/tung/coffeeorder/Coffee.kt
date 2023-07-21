@@ -28,13 +28,19 @@ class CoffeeInCart(coffee: Coffee): Coffee(
 ){
     var quantity=1
     var currentSize=1 //1 là size nhỏ, 2 là size vừa, 3 là size lớn
+    private val singlePrice=coffee.getPrice()
 
     fun changeQuantity(newQuantity: Int){
         this.quantity=newQuantity
+
     }
 
     fun changeSize(newSize: Int){
         this.currentSize=newSize
+    }
+
+    fun calculatePrice(): Long{
+        return singlePrice*quantity
     }
 
 }
