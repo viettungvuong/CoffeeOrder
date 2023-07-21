@@ -5,6 +5,17 @@
 
     <include layout="@layout/back_button"/>
 
+    <ImageButton
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="20dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/cart"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        app:tint="@color/black"
+        android:id="@+id/cartButton"/>
+
     <LinearLayout
         android:id="@+id/introSection"
         android:layout_width="match_parent"
