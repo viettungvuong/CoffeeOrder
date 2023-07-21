@@ -15,6 +15,6 @@ class RewardSectionHandler(activity: Activity, rewardSection: View) {
         cupsRecycler.adapter=RewardsAdapter(activity,AppController.user)
 
         val currentPoint: TextView =rewardSection.findViewById(R.id.currentPoints)
-        currentPoint.text=AppController.user.reward.getCurrentPoints().toString()+" /8"
+        currentPoint.text=AppController.user.reward.getCurrentPoints().toString()+"/8"
     }
 }

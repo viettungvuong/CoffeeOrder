@@ -18,14 +18,15 @@
         android:orientation="horizontal"
         android:id="@+id/textSection"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tichdiem"
             android:layout_width="0dp"
             android:layout_weight="0.7"
             android:layout_height="wrap_content"
-            android:text="Tích điểm: "
+            android:text="Điểm thành viên: "
             android:textColor="@color/white"
             android:textSize="25dp"
             android:textStyle="bold"/>
@@ -53,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@color/white"
-        android:padding="10dp">
+        android:padding="5dp">
     </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
