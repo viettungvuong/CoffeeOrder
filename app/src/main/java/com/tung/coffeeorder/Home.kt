@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +30,9 @@ class Home: Fragment() {
         val rewardView: RecyclerView=view.findViewById(R.id.cupsRewards) //phần reward section
         rewardView.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         rewardView.adapter=RewardsAdapter(requireActivity(),AppController.user)
+
+        val currentPoint: TextView =view.findViewById(R.id.currentPoints)
+        currentPoint.text=AppController.user.reward.getCurrentPoints().toString()+" /8"
 
         val coffeeRecyclerView: RecyclerView = view.findViewById(R.id.coffeeRecyclerView)
         val spanCount = 2

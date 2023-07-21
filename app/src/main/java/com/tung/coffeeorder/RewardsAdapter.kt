@@ -17,6 +17,7 @@ class RewardsAdapter(activity: Activity, user: User): RecyclerView.Adapter<Rewar
     init {
         this.activity=activity
         this.user=user
+
     }
 
     inner class rewardViewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -51,5 +52,6 @@ class RewardsAdapter(activity: Activity, user: User): RecyclerView.Adapter<Rewar
 
     override fun onBindViewHolder(holder: rewardViewHolder, position: Int) {
         holder.bind(position)
+
     }
 }
