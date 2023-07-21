@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -54,6 +55,21 @@ class CoffeeView() : AppCompatActivity() {
             View.OnClickListener {
                 cartList.add(coffeeInCart) //thêm ly cà phê hiện tại vào giỏ hàng
 
+                val intent= Intent(this,Cart::class.java)
+                startActivity(intent) //mở cart lên
+            }
+        )
+
+        val backBtn = findViewById<ImageButton>(R.id.back_button)
+        backBtn.setOnClickListener(
+            View.OnClickListener {
+                finish() //quay về activity trước
+            }
+        )
+
+        val cartBtn=findViewById<ImageButton>(R.id.cartButton)
+        cartBtn.setOnClickListener(
+            View.OnClickListener {
                 val intent= Intent(this,Cart::class.java)
                 startActivity(intent) //mở cart lên
             }
