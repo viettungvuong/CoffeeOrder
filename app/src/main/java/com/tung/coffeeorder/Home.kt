@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 import java.util.LinkedList
 
 class Home: Fragment() {
-    private lateinit var rewardSectionHandler: RewardSectionHandler
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +28,7 @@ class Home: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
 
-        rewardSectionHandler=RewardSectionHandler(requireActivity(),view.findViewById(R.id.rewards_section))
+        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.rewards_section,RewardSection()).commit()
 
         val coffeeRecyclerView: RecyclerView = view.findViewById(R.id.coffeeRecyclerView)
         val spanCount = 2

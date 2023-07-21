@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.Functions.Companion.listCoffee
 
 class Rewards: Fragment() {
-    private lateinit var rewardSectionHandler: RewardSectionHandler
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -19,7 +18,7 @@ class Rewards: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.rewards_fragment, container, false)
 
-        rewardSectionHandler=RewardSectionHandler(requireActivity(),view.findViewById(R.id.rewards_section))
+        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.rewards_section,RewardSection()).commit()
 
         return view
     }
