@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.cartList
+import com.tung.coffeeorder.AppController.Companion.checkInCart
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
 
 class CoffeeView() : AppCompatActivity() {
@@ -53,7 +54,14 @@ class CoffeeView() : AppCompatActivity() {
         val purchaseBtn=findViewById<MaterialButton>(R.id.purchaseBtn)
         purchaseBtn.setOnClickListener(
             View.OnClickListener {
-                cartList.add(coffeeInCart) //thêm ly cà phê hiện tại vào giỏ hàng
+                val checkInCart = checkInCart(coffeeInCart) //kiểm tra loại cà phê hiện tại đã có trong giỏ hàng hay chưa
+                if (checkInCart!=-1){
+                    cartList[checkInCart].changeQuantity(coffeeInCart.quantity) //thay đổi số lượng nếu đã có trong giỏ hàng
+                }
+                else{
+                    cartList.add(coffeeInCart) //thêm ly cà phê hiện tại vào giỏ hàng
+                    purchaseBtn.text="Cập nhật tuỳ chọn" //đổi tên nút
+                }
 
                 val intent= Intent(this,Cart::class.java)
                 startActivity(intent) //mở cart lên
