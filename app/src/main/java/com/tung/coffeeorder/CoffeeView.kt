@@ -1,5 +1,6 @@
 package com.tung.coffeeorder
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.LayoutInflater
@@ -52,6 +53,9 @@ class CoffeeView() : AppCompatActivity() {
         purchaseBtn.setOnClickListener(
             View.OnClickListener {
                 cartList.add(coffeeInCart) //thêm ly cà phê hiện tại vào giỏ hàng
+
+                val intent= Intent(this,Cart::class.java)
+                startActivity(intent) //mở cart lên
             }
         )
     }
