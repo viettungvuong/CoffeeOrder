@@ -14,13 +14,6 @@ import com.tung.coffeeorder.Functions.Companion.reformatNumber
 class Cart: AppCompatActivity() {
     var totalPrice=0L
 
-    override fun onStart() {
-        super.onStart()
-
-        for (coffeeInCart in cartList){
-            totalPrice+=coffeeInCart.calculatePrice()
-        }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,6 +30,19 @@ class Cart: AppCompatActivity() {
         )
 
         val totalPriceText = findViewById<TextView>(R.id.totalPrice)
+        totalPriceText.text=reformatNumber(totalPrice)+" VNĐ"
+    }
+
+    //mỗi lần mở đi mở lại cái activity này thì sẽ cập nhật giá
+    override fun onResume() {
+        super.onResume()
+        updateCartPrice(findViewById(R.id.totalPrice))
+    }
+
+    fun updateCartPrice(totalPriceText: TextView){
+        for (coffeeInCart in cartList){
+            totalPrice+=coffeeInCart.calculatePrice()
+        }
         totalPriceText.text=reformatNumber(totalPrice)+" VNĐ"
     }
 }
