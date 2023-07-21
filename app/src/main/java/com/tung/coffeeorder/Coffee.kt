@@ -3,8 +3,10 @@ package com.tung.coffeeorder
 import android.media.Image
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.Serializable
 
-open class Coffee(private val coffeeName: String, private val imageFilename: String, private val price: Long): java.io.Serializable {
+open class Coffee(private val coffeeName: String, private val imageFilename: String, private val price: Long):
+    Serializable {
 
     fun getName(): String {
         return coffeeName

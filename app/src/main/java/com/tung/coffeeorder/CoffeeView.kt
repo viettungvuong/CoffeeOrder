@@ -23,7 +23,7 @@ class CoffeeView() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.coffee_view)
 
-        coffee = intent.getSerializableExtra("coffee") as Coffee
+        coffee = intent.getSerializableExtra("Coffee") as Coffee
         coffeeInCart=CoffeeInCart(coffee) //tạo object coffeeInCart để chỉnh sửa
 
         val coffeeText = findViewById<TextView>(R.id.coffee_title)
