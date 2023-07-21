@@ -44,9 +44,9 @@
                 android:layout_width="0dp"
                 android:layout_weight="0.5"
                 android:layout_height="wrap_content"
-                android:text="x4"
+                android:text="Số lượng: 4"
                 android:layout_marginTop="5dp"
-                android:textSize="16dp"
+                android:textSize="17dp"
                 android:textStyle="italic"
                 />
 

@@ -26,10 +26,24 @@ class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): Recyc
         val coffeeName=view.findViewById<TextView>(R.id.coffeeTitle)
         val coffeePriceText = view.findViewById<TextView>(R.id.price)
         val coffeeImage=view.findViewById<ImageView>(R.id.coffeeImage)
+        val coffeeQuantity=view.findViewById<TextView>(R.id.quantity)
+        val coffeeSize=view.findViewById<TextView>(R.id.size)
 
         fun bind(coffeeInCart: CoffeeInCart){
             coffeeName.text=coffeeInCart.getName()
             coffeePriceText.text=reformatNumber(coffeeInCart.getPrice())
+            coffeeQuantity.text="Số lượng: "+coffeeInCart.quantity.toString()
+            when (coffeeInCart.currentSize){
+                1->{
+                    coffeeSize.text="Size S"
+                }
+                2->{
+                    coffeeSize.text="Size M"
+                }
+                3->{
+                    coffeeSize.text="Size L"
+                } //hiện ra size của ly cà phê
+            }
 
             coffeeImage.setImageResource(imageFromCoffee(activity,coffeeInCart)) //đặt hình ảnh
         }
