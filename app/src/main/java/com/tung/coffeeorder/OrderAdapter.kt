@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
-class OrderAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+class OrderAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
     var activity: Activity
     var cartList: LinkedList<CoffeeInCart>
 
@@ -16,26 +16,26 @@ class OrderAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): Recy
         this.cartList=cartList
     }
 
-    inner class CartViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(coffeeInCart: CoffeeInCart){
 
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val view = LayoutInflater.from(activity).inflate(
             R.layout.cart_preview, //lấy coffee_view làm view cho adapter
             parent,false
         )
-        return CartViewHolder(view)//trả về cart view holder ứng với layout
+        return OrderViewHolder(view)//trả về cart view holder ứng với layout
     }
 
     override fun getItemCount(): Int {
         return cartList.size
     }
 
-    override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         holder.bind(cartList[position])
     }
 }
