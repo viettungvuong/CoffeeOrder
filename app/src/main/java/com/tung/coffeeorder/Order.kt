@@ -10,11 +10,8 @@ class Order(cart: LinkedList<CoffeeInCart>)
         this.cart = cart
     }
 
-    fun addToOrder(coffeeInCart: CoffeeInCart){
-        cart.add(coffeeInCart)
-    }
+    //up order này lên firebase
+    fun updateOrders(){
 
-    fun removeFromOrder(position: Int){
-        cart.removeAt(position)
     }
 }

@@ -11,6 +11,6 @@ class OrderSuccess : AppCompatActivity() {
         setContentView(R.layout.order_success)
 
         val trackOrderBtn = findViewById<MaterialButton>(R.id.trackBtn)
-        
+
     }
 }
