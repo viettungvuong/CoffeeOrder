@@ -25,7 +25,7 @@ class OrderAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): Recy
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val view = LayoutInflater.from(activity).inflate(
-            R.layout.cart_preview, //lấy coffee_view làm view cho adapter
+            R.layout.order_adapter, //lấy coffee_view làm view cho adapter
             parent,false
         )
         return OrderViewHolder(view)//trả về cart view holder ứng với layout
