@@ -23,9 +23,15 @@ class Orders: Fragment() {
         val tabLayout=view.findViewById<TabLayout>(R.id.tabLayout) //tabLayout
         viewPager.adapter=TabPageAdapter(requireActivity()) //adapter tab cho viewPager
 
+        tabLayout.tabMode = TabLayout.MODE_FIXED
+
         //hiển thị tab
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             val customView = layoutInflater.inflate(R.layout.custom_tab, null) //đặt custom layout cho tab item
+            customView.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
             val tabTextView = customView.findViewById<TextView>(R.id.tab_text) //khi đặt custom layout thì ta phải set text thủ công như thế này
             val tabImage = customView.findViewById<ImageView>(R.id.tab_icon)
             when (position) {
