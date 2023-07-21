@@ -13,7 +13,7 @@ import java.util.LinkedList
 
 class RewardsAdapter(activity: Activity, user: User): RecyclerView.Adapter<RewardsAdapter.rewardViewHolder>() {
     val activity=activity
-    var user=user
+    val user=user
 
     inner class rewardViewHolder(view: View): RecyclerView.ViewHolder(view){
         val view=view
@@ -21,7 +21,7 @@ class RewardsAdapter(activity: Activity, user: User): RecyclerView.Adapter<Rewar
 
         fun bind(position: Int){
 
-            if (user.reward.getLoyaltyCardCount()<position){
+            if (user.reward.getLoyaltyCardCount()<position+1){
                 drawable.alpha=155 //làm mờ hình ảnh cái ly nếu như vị trí ly hơn số điểm đã tích được
             }
             else{
@@ -41,7 +41,7 @@ class RewardsAdapter(activity: Activity, user: User): RecyclerView.Adapter<Rewar
     }
 
     override fun getItemCount(): Int {
-        return 8
+        return 8 //sẽ luôn luôn thêm 8 item
     }
 
     override fun onBindViewHolder(holder: rewardViewHolder, position: Int) {

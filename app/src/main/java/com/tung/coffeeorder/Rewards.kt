@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tung.coffeeorder.Functions.Companion.listCoffee
 
 class Rewards: Fragment() {
     override fun onCreateView(
