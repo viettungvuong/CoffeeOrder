@@ -6,11 +6,11 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.google.android.material.textfield.TextInputEditText
 
-class SizePicker(context: Context, inflater: LayoutInflater, coffee: Coffee): LinearLayout(context){
+class SizePicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart): LinearLayout(context){
     private var smallButton: ImageButton
     private var mediumButton: ImageButton
     private var largeButton: ImageButton
-    private var coffeeInCart: CoffeeInCart
+    private var coffeeInCart=coffeeInCart
     init {
         inflater.inflate(R.layout.pick_size,this,true)
 
@@ -18,7 +18,6 @@ class SizePicker(context: Context, inflater: LayoutInflater, coffee: Coffee): Li
         mediumButton=findViewById(R.id.buttonMedium)
         largeButton=findViewById(R.id.buttonLarge)
 
-        coffeeInCart=CoffeeInCart(coffee) //class cho phép tuỳ biến cafe đang chọn
 
         smallButton.setOnClickListener(smallButtonClick())
         mediumButton.setOnClickListener(mediumButtonClick())
@@ -51,4 +50,5 @@ class SizePicker(context: Context, inflater: LayoutInflater, coffee: Coffee): Li
             largeButton.alpha=1f
         }
     }
+
 }

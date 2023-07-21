@@ -9,18 +9,17 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 
-class NumberPicker(context: Context, inflater: LayoutInflater, coffee: Coffee): LinearLayout(context){
+class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart): LinearLayout(context){
     var plusButton: ImageButton
     var minusButton: ImageButton
     private var numberEditText: TextInputEditText
-    private var coffeeInCart: CoffeeInCart
+    private var coffeeInCart= coffeeInCart
     init {
         inflater.inflate(R.layout.number_picker,this,true)
 
         plusButton=findViewById(R.id.plusButton)
         minusButton=findViewById(R.id.minusButton)
 
-        coffeeInCart=CoffeeInCart(coffee) //class cho phép tuỳ biến cafe đang chọn
 
         numberEditText=findViewById(R.id.currentNumber)
         numberEditText.setText("1")
