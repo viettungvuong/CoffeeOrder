@@ -26,7 +26,7 @@ class Home: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
 
-        val rewardView: RecyclerView=view.findViewById(R.id.rewards_section) //phần reward section
+        val rewardView: RecyclerView=view.findViewById(R.id.cupsRewards) //phần reward section
         rewardView.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         rewardView.adapter=RewardsAdapter(requireActivity(),AppController.user)
 

@@ -20,12 +20,11 @@ class RewardsAdapter(activity: Activity, user: User): RecyclerView.Adapter<Rewar
     }
 
     inner class rewardViewHolder(view: View): RecyclerView.ViewHolder(view){
-        lateinit var view: View
-        lateinit var drawable: Drawable
+        val view=view
+        var drawable=activity.getDrawable(R.drawable.coffee_cup)!!
+
 
         fun bind(position: Int){
-            this.view = view
-            drawable=activity.getDrawable(R.drawable.coffee_cup)!!
 
             if (user.reward.getLoyaltyCardCount()<position){
                 drawable.alpha=155 //làm mờ hình ảnh cái ly nếu như vị trí ly hơn số điểm đã tích được
