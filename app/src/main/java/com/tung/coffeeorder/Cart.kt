@@ -1,5 +1,6 @@
 package com.tung.coffeeorder
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.cartList
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
 
@@ -31,6 +33,21 @@ class Cart: AppCompatActivity() {
 
         val totalPriceText = findViewById<TextView>(R.id.totalPrice)
         totalPriceText.text=reformatNumber(totalPrice)+" VNĐ"
+
+        val checkoutBtn=findViewById<MaterialButton>(R.id.checkoutBtn)
+        checkoutBtn.setOnClickListener(
+            View.OnClickListener {
+                //thêm vào một order
+                //temp=cartList
+                //orders.add(temp)
+
+                //xoá hết giỏ hàng khi đã checkout
+                cartList.clear()
+
+                val intent = Intent(this,OrderSuccess::class.java)
+                startActivity(intent) //mở order success
+            }
+        )
     }
 
     //mỗi lần mở đi mở lại cái activity này thì sẽ cập nhật giá
