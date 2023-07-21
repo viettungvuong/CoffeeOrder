@@ -51,12 +51,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
+    <include layout="@layout/rewards_section" android:id="@+id/rewards_section"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/coffeeRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="2dp"
         android:layout_marginBottom="20dp"
         android:padding="30dp"
         android:background="@drawable/rounded_corner" />

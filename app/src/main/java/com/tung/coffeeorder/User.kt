@@ -44,19 +44,19 @@ class User() {
         this.address=newAddress
     }
 
-    fun getName(): String{
+    fun getname(): String{
         return fullName
     }
 
-    fun getPhoneNumber(): String{
+    fun getphoneNumber(): String{
         return phoneNumber
     }
 
-    fun getEmail(): String{
+    fun getemail(): String{
         return email
     }
 
-    fun getAddress(): String{
+    fun getaddress(): String{
         return address
     }
 }

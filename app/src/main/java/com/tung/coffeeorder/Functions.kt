@@ -81,7 +81,3 @@ class Functions {
 
 }
 
-class AppController{
-    @JvmField
-    val user= User() //user của session hiện tại
-}

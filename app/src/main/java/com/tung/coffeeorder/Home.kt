@@ -19,10 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class Home: Fragment() {
-    override fun onStart() {
-        super.onStart()
-        
-    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,17 +26,20 @@ class Home: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.coffeeRecyclerView)
+        val rewardView: RecyclerView=view.findViewById(R.id.rewards_section) //phần reward section
+        rewardView.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        rewardView.adapter=RewardsAdapter(requireActivity(),AppController.user)
 
+        val coffeeRecyclerView: RecyclerView = view.findViewById(R.id.coffeeRecyclerView)
         val spanCount = 2
         val spacing = 30
         val layoutManager = GridLayoutManager(requireContext(), spanCount)
-        recyclerView.layoutManager = layoutManager
+        coffeeRecyclerView.layoutManager = layoutManager
 
         //đặt margin cho các item trong recycler view
-        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing))
+        coffeeRecyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing))
 
-        recyclerView.adapter = CoffeeAdapter(requireActivity(), listCoffee)
+        coffeeRecyclerView.adapter = CoffeeAdapter(requireActivity(), listCoffee)
 
         return view
     }
