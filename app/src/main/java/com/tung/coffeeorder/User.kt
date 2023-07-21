@@ -1,10 +1,10 @@
 package com.tung.coffeeorder
 
-class User(fullName: String, phoneNumber: String, email: String, address: String) {
-    private var fullName=fullName
-    private var phoneNumber=phoneNumber
-    private var email=email
-    private var address=address
+class User() {
+    lateinit var fullName: String
+    lateinit var phoneNumber: String
+    lateinit var email: String
+    lateinit var address: String
 
     inner class Reward(){
         private var currentPoints=-0
@@ -26,8 +26,7 @@ class User(fullName: String, phoneNumber: String, email: String, address: String
         }
     }
 
-    private val reward= Reward()
-
+    val reward= Reward()
 
     fun editName(newFullName: String){
         this.fullName=newFullName

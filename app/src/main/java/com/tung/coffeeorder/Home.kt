@@ -19,6 +19,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class Home: Fragment() {
+    override fun onStart() {
+        super.onStart()
+        
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

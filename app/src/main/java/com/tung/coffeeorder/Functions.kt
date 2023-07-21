@@ -24,24 +24,6 @@ class Functions {
 
 
 
-//        @JvmStatic
-//        suspend fun getDownloadUrl(fileName: String): String {
-//            return suspendCoroutine { continuation ->
-//                val storageRef = FirebaseStorage.getInstance().reference
-//                val fileRef = storageRef.child(fileName)
-//
-//                fileRef.downloadUrl
-//                    .addOnSuccessListener { uri ->
-//                        val downloadUrl = uri.toString()
-//                        continuation.resumeWith(Result.success(downloadUrl)) //trả về kết quả nếu được
-//                    }
-//                    .addOnFailureListener { exception ->
-//                        continuation.resumeWith(Result.failure(exception))
-//                    }
-//            }
-//        }
-
-
         @JvmStatic
         //reformat định dạng số
         fun reformatNumber(money: Long): String {
@@ -79,26 +61,6 @@ class Functions {
             //gio ta phai cho no xuat dung chieu
         }
 
-//        @JvmStatic
-//        fun initCoffeeList(listCoffee: LinkedList<Coffee>, db: FirebaseFirestore){
-//            db.collection(dbCoffeeList).get().addOnSuccessListener {
-//                    documents->
-//                for (document in documents){
-//                    Log.d("document",document.id)
-//                    val coffeeName = document.getString(dbCoffeeNameField)!!
-//                    Log.d("coffee name",coffeeName)
-//                    val imageName = document.getString(dbCoffeeImageField)!!
-//                    val price=document.getLong(dbCoffeePriceField)!!
-//                    Log.d("coffee price",price.toString())
-//                    //lấy dữ liệu cà phê
-//
-//                    val coffee = Coffee(coffeeName,imageName,price) //thêm cà phê vào linkedlist
-//                    listCoffee.add(coffee)
-//                }
-//
-//            }
-//        }
-
         fun initCoffeeList(listCoffee: LinkedList<Coffee>){
             listCoffee.add(Coffee("Cà phê sữa đá","caphesuada",18000))
             listCoffee.add(Coffee("Cà phê muối","caphemuoi",19000))
@@ -117,4 +79,9 @@ class Functions {
         }
     }
 
+}
+
+class AppController{
+    @JvmField
+    val user= User() //user của session hiện tại
 }
