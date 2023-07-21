@@ -4,13 +4,23 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.AppController.Companion.cartList
+import com.tung.coffeeorder.Functions.Companion.reformatNumber
 
 class Cart: AppCompatActivity() {
+    var totalPrice=0L
 
+    override fun onStart() {
+        super.onStart()
+
+        for (coffeeInCart in cartList){
+            totalPrice+=coffeeInCart.calculatePrice()
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,5 +35,8 @@ class Cart: AppCompatActivity() {
                 finish() //quay về activity trước
             }
         )
+
+        val totalPriceText = findViewById<TextView>(R.id.totalPrice)
+        totalPriceText.text=reformatNumber(totalPrice)+" VNĐ"
     }
 }
