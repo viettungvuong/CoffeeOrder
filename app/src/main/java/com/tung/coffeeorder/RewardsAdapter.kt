@@ -19,8 +19,9 @@ class RewardsAdapter(activity: Activity): RecyclerView.Adapter<RewardsAdapter.re
     inner class rewardViewHolder(view: View): RecyclerView.ViewHolder(view){
         lateinit var drawable: Drawable
 
-        fun bind(){
+        fun bind(position: Int){
             drawable=activity.getDrawable(R.drawable.coffee_cup)!!
+
             drawable.alpha=50 //làm mờ hình ảnh
         }
     }
@@ -38,6 +39,6 @@ class RewardsAdapter(activity: Activity): RecyclerView.Adapter<RewardsAdapter.re
     }
 
     override fun onBindViewHolder(holder: rewardViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(position)
     }
 }
