@@ -5,8 +5,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.rpc.Help.Link
+import com.tung.coffeeorder.Functions.Companion.imageFromCoffee
+import com.tung.coffeeorder.Functions.Companion.reformatNumber
 import java.util.LinkedList
 
 class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
@@ -19,9 +23,15 @@ class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): Recyc
     }
 
     inner class CartViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val coffeeName=view.findViewById<TextView>(R.id.coffeeTitle)
+        val coffeePriceText = view.findViewById<TextView>(R.id.price)
+        val coffeeImage=view.findViewById<ImageView>(R.id.coffeeImage)
 
         fun bind(coffeeInCart: CoffeeInCart){
+            coffeeName.text=coffeeInCart.getName()
+            coffeePriceText.text=reformatNumber(coffeeInCart.getPrice())
 
+            coffeeImage.setImageResource(imageFromCoffee(activity,coffeeInCart)) //đặt hình ảnh
         }
     }
 

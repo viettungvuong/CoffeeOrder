@@ -8,6 +8,7 @@
     android:background="@drawable/layout_border">
 
     <ImageView
+        android:id="@+id/coffeeImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/caphesuada"/>
