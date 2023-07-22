@@ -6,11 +6,11 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
-class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: Address)
+class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String)
 {
     private var cart: ArrayList<CoffeeInCart>
     private var time: LocalDateTime
-    private var address: Address
+    private var address: String
 
     init{
         this.cart = cart
@@ -31,7 +31,7 @@ class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: Address
         return time
     }
 
-    fun getaddress(): Address{
+    fun getaddress(): String{
         return address
     }
 }

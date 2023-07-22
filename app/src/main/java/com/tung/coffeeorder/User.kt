@@ -6,7 +6,7 @@ class User() {
     private lateinit var fullName: String
     private lateinit var phoneNumber: String
     private lateinit var email: String
-    private lateinit var address: Address
+    private lateinit var address: String
 
     inner class Reward(){
         private var currentPoints=-0
@@ -41,7 +41,7 @@ class User() {
         this.email=newEmail
     }
 
-    fun editAddress(newAddress: Address){
+    fun editAddress(newAddress: String){
         this.address=newAddress
     }
 
@@ -57,7 +57,7 @@ class User() {
         return email
     }
 
-    fun getaddress(): Address{
+    fun getaddress(): String{
         return address
     }
 }

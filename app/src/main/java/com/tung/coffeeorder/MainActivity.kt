@@ -7,6 +7,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.tung.coffeeorder.AppController.Companion.user
 import com.tung.coffeeorder.Functions.Companion.db
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeImageField
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeList
@@ -27,6 +28,9 @@ class MainActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
 
         initCoffeeList(listCoffee)
+
+        //dummy address để test
+        user.editAddress("18 đường số 7, phường Tân Hưng, quận 7")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

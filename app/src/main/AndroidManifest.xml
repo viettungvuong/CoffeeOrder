@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".CoffeeView" />
         <activity android:name=".Cart" />
+
     </application>
 
 </manifest>
