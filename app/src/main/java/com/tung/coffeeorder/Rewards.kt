@@ -29,4 +29,5 @@ class Rewards: Fragment() {
 
         return view
     }
+
 }

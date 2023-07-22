@@ -42,7 +42,9 @@ class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String)
     fun setDone(ongoing: LinkedList<Order>, history: LinkedList<Order>, rewards: LinkedList<Reward>){
         ongoing.remove(this) //xoá khỏi danh sách History
         history.add(this) //thêm vào danh sách History
-        rewards.add(Reward(this)) //thêm vào reward khi đơn hàng đã xong
+        val reward=Reward(this)
+        rewards.add(reward) //thêm vào reward khi đơn hàng đã xong
+        AppController.user.loyalty.addPoints(reward.calculateBonusPoint())
         done=true
     }
 }
