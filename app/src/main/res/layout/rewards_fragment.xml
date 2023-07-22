@@ -39,11 +39,58 @@
         android:id="@+id/rewards_section"
         />
 
+    <LinearLayout
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button"
+        app:layout_constraintTop_toBottomOf="@id/rewards_section"
+        android:orientation="vertical"
+        android:id="@+id/total_points"
+        android:padding="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Điểm tích luỹ:"
+            android:textColor="@color/white"
+            android:textSize="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:layout_height="wrap_content"
+                android:text="2500"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content"
+                android:text="Đổi điểm"
+                android:background="@drawable/rounded_button"
+                app:backgroundTint="#3e698c"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reward_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/rewards_section"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/total_points"
+        android:layout_marginVertical="40dp"
+        android:layout_marginHorizontal="20dp"
+/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
