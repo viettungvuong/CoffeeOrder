@@ -17,6 +17,7 @@ class OngoingFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.ongoing_fragment, container, false)
         val ordersRecycler = view.findViewById<RecyclerView>(R.id.ongoingRecycler)
+        ordersRecycler.setHasFixedSize(false)
         ordersRecycler.layoutManager=
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
 

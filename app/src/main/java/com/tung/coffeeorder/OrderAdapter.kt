@@ -28,6 +28,7 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
         val timeText = view.findViewById<TextView>(R.id.time)
         val addressText = view.findViewById<TextView>(R.id.address)
         val drinksList = view.findViewById<LinearLayout>(R.id.drinks)
+        val totalPriceText = view.findViewById<TextView>(R.id.total_price)
 
         init {
             drinksList.removeAllViewsInLayout() //xoá hết những cái dummy view trong linearLayout này
@@ -63,6 +64,7 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
                 drinksList.addView(drinkView(drink)) //với từng cà phê trong order này thì thêm vào view
             }
 
+            totalPriceText.text= reformatNumber(order.totalPrice())+" VNĐ"
         }
     }
 
@@ -84,10 +86,11 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
         holder.itemView.setOnClickListener(
             View.OnClickListener {
                 if (fragment is OngoingFragment){ //chỉ nhận onclick của OngoingFragment
-                    orders[position].setDone(AppController.ongoingOrders,AppController.historyOrders,AppController.rewardsPoint) //đánh dấu đã hoàn thành
+                    Log.d("History orders size",AppController.historyOrders.size.toString())
+                    orders[position].setDone(AppController.ongoingOrders,AppController.historyOrders,AppController.rewardsPoint) //đánh dấu đã hoàn thành order này
                     AppController.ongoingAdapter.notifyItemRemoved(position)
                     Log.d("HistoryOrders size",AppController.historyOrders.size.toString())
-                    AppController.historyAdapter.notifyItemInserted(AppController.historyOrders.size-1)
+                    AppController.historyAdapter.notifyItemInserted(AppController.historyOrders.size-1) //thông báo mới thêm item
                     holder.itemView.visibility= View.GONE
                     Toast.makeText(
                         activity,
@@ -99,4 +102,5 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
             }
         )
     }
+
 }

@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         user.editAddress("18 đường số 7, phường Tân Hưng, quận 7")
 
         AppController.ongoingAdapter = OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())
-        AppController.historyAdapter = OrderAdapter(this, AppController.ongoingOrders, HistoryFragment())
+        AppController.historyAdapter = OrderAdapter(this, AppController.historyOrders, HistoryFragment())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

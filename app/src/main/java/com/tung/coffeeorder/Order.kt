@@ -47,4 +47,12 @@ class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String)
         AppController.user.loyalty.addPoints(reward.calculateBonusPoint())
         done=true
     }
+
+    fun totalPrice(): Long{
+        var res=0L
+        for (coffeeInCart in cart){
+            res+=coffeeInCart.calculatePrice()
+        }
+        return res
+    }
 }
