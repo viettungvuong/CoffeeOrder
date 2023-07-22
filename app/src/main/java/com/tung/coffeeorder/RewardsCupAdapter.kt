@@ -17,7 +17,7 @@ class RewardsCupAdapter(activity: Activity, user: User): RecyclerView.Adapter<Re
 
         fun bind(position: Int){
 
-            if (user.reward.getLoyaltyCardCount()<position+1){
+            if (user.loyalty.getLoyaltyCardCount()<position+1){
                 drawable.alpha=155 //làm mờ hình ảnh cái ly nếu như vị trí ly hơn số điểm đã tích được
             }
             else{

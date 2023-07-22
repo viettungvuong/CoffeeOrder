@@ -8,7 +8,7 @@ class User() {
     private var email=""
     private var address=""
 
-    inner class Reward(){
+    inner class LoyaltyPoint(){
         private var currentPoints=-0
         private var loyaltyCardCount=0
 
@@ -27,7 +27,7 @@ class User() {
         }
     }
 
-    val reward= Reward()
+    val loyalty=LoyaltyPoint()
 
     fun editName(newFullName: String){
         this.fullName=newFullName
