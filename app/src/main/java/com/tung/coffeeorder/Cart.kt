@@ -69,4 +69,6 @@ class Cart: AppCompatActivity() {
         }
         totalPriceText.text=reformatNumber(totalPrice)+" VNĐ"
     }
+
+    //rảnh thì đổi Cart qua Map (key là tên cà phê cùng với size) để tối ưu vụ updateCartPrice
 }
