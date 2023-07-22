@@ -1,24 +1,67 @@
 package com.tung.coffeeorder
 
 import android.app.Activity
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.tung.coffeeorder.Functions.Companion.reformatNumber
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
-class OrderAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
+class OrderAdapter(activity: Activity, orders: LinkedList<Order>): RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
     var activity: Activity
-    var cartList: LinkedList<CoffeeInCart>
+    var orders: LinkedList<Order>
 
     init {
         this.activity=activity
-        this.cartList=cartList
+        this.orders=orders
     }
 
     inner class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val timeText = view.findViewById<TextView>(R.id.time)
+        val addressText = view.findViewById<TextView>(R.id.address)
+        val drinksList = view.findViewById<LinearLayout>(R.id.drinks)
 
-        fun bind(coffeeInCart: CoffeeInCart){
+        init {
+            drinksList.removeAllViewsInLayout() //xoá hết những cái dummy view trong linearLayout này
+        }
+
+        fun drinkView(coffeeInCart: CoffeeInCart): LinearLayout{
+            var linearLayout =  LayoutInflater.from(activity).inflate(R.layout.dummy_drink_order, null) //lấy mẫu linear layout có sẵn
+
+            val drinkContent=linearLayout.findViewById<TextView>(R.id.drinkContent)
+            val priceText = linearLayout.findViewById<TextView>(R.id.price)
+
+            var sizeString = ""
+            when (coffeeInCart.currentSize){
+                1->sizeString="(size S)"
+                2->sizeString="(size M)"
+                3->sizeString="(size L)"
+            }
+            drinkContent.text=coffeeInCart.getName()+" "+sizeString+" x"+coffeeInCart.quantity.toString()
+
+            priceText.text=reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
+
+            return linearLayout as LinearLayout
+        }
+
+        fun bind(order: Order){
+            val dateFormat = "dd-MM-yy HH:mm" //format ngày tháng
+            timeText.text=order.gettime().format(DateTimeFormatter.ofPattern(dateFormat)).toString()
+
+            addressText.text=order.getaddress().toString()
+
+            val cart = order.getCart()
+            for (drink in cart){
+                drinksList.addView(drinkView(drink)) //với từng cà phê trong order này thì thêm vào view
+            }
 
         }
     }
@@ -32,10 +75,10 @@ class OrderAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): Recy
     }
 
     override fun getItemCount(): Int {
-        return cartList.size
+        return orders.size
     }
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
-        holder.bind(cartList[position])
+        holder.bind(orders[position])
     }
 }
