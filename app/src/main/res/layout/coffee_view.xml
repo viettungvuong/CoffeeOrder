@@ -158,11 +158,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginLeft="100dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="40"
                 android:text="18,000 VNĐ"
                 android:textColor="#FF2E7D32"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:textAlignment="textEnd"/>
 
         </LinearLayout>
 
