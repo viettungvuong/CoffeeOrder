@@ -2,6 +2,7 @@ package com.tung.coffeeorder
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
@@ -40,7 +41,28 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationHandler=BottomNavigationHandler(this,bottomNavigationView) //handler bottom navigation view
 
-        supportFragmentManager.beginTransaction().replace(R.id.fragment,Home()).commit() //hiện fragment Home đầu tiên
+        val caller=intent?.getStringExtra("CallingActivity")
+        if (caller!=null){
+            if (caller=="OrderSuccess"){
+                val thirdMenuItem: MenuItem = bottomNavigationView.menu.getItem(2)
+                thirdMenuItem.isChecked = true //mở orders fragment
+            }
+        }
+        else{
+            supportFragmentManager.beginTransaction().replace(R.id.fragment,Home()).commit() //hiện fragment Home đầu tiên
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val caller=intent?.getStringExtra("CallingActivity")
+        if (caller!=null){
+            if (caller=="OrderSuccess"){
+                val thirdMenuItem: MenuItem = findViewById<BottomNavigationView>(R.id.bottom_navigation).menu.getItem(2)
+                thirdMenuItem.isChecked = true //mở orders fragment
+            }
+        }
     }
 
 

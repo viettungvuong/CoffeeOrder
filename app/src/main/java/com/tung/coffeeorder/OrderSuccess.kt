@@ -15,8 +15,10 @@ class OrderSuccess : AppCompatActivity() {
         val trackOrderBtn = findViewById<MaterialButton>(R.id.trackBtn)
         trackOrderBtn.setOnClickListener(
             View.OnClickListener {
-                val intent = Intent(this,Orders::class.java)
+                val intent = Intent(this,MainActivity::class.java)
+                intent.putExtra("CallingActivity","OrderSuccess") ///thông báo để MainActivity mở đúng Orders fragment
                 startActivity(intent)
+                finish()
             }
         )
 
