@@ -71,8 +71,8 @@ class UserEdit : AppCompatActivity() {
 
 
             cancelButton.setImageResource(R.drawable.cancel)
-            cancelButton.setOnClickListener{
-                    view->cancelEdit(view)
+            cancelButton.setOnClickListener { v ->
+                cancelEdit(v,view as ImageButton)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
@@ -84,8 +84,7 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             AppController.user.editName(userName.text.toString())
-            cancelEdit(cancelButton)
-            (view as ImageButton).setImageResource(R.drawable.edit)
+            cancelEdit(cancelButton,view as ImageButton)
         }
     }
 
@@ -100,8 +99,8 @@ class UserEdit : AppCompatActivity() {
 
 
             cancelButton.setImageResource(R.drawable.cancel)
-            cancelButton.setOnClickListener { view ->
-                cancelEdit(view)
+            cancelButton.setOnClickListener { v ->
+                cancelEdit(v,view as ImageButton)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
@@ -113,8 +112,7 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             AppController.user.editEmail(userEmail.text.toString())
-            cancelEdit(cancelButton)
-            (view as ImageButton).setImageResource(R.drawable.edit)
+            cancelEdit(cancelButton,view as ImageButton)
         }
     }
 
@@ -129,8 +127,8 @@ class UserEdit : AppCompatActivity() {
 
 
             cancelButton.setImageResource(R.drawable.cancel)
-            cancelButton.setOnClickListener { view ->
-                cancelEdit(view)
+            cancelButton.setOnClickListener { v ->
+                cancelEdit(v,view as ImageButton)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
@@ -142,8 +140,7 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             AppController.user.editPhoneNumber(userPhone.text.toString())
-            cancelEdit(cancelButton)
-            (view as ImageButton).setImageResource(R.drawable.edit)
+            cancelEdit(cancelButton,view as ImageButton)
         }
     }
 
@@ -158,8 +155,8 @@ class UserEdit : AppCompatActivity() {
 
 
             cancelButton.setImageResource(R.drawable.cancel)
-            cancelButton.setOnClickListener { view ->
-                cancelEdit(view)
+            cancelButton.setOnClickListener { v ->
+                cancelEdit(v,view as ImageButton)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
@@ -171,12 +168,11 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             AppController.user.editAddress(userAddress.text.toString())
-            cancelEdit(cancelButton)
-            (view as ImageButton).setImageResource(R.drawable.edit)
+            cancelEdit(cancelButton,view as ImageButton)
         }
     }
 
-    fun cancelEdit(view: View) {
+    fun cancelEdit(view: View, mainBtn: ImageButton) {
 
         editMode = false
         userAddress.isEnabled = false
@@ -185,6 +181,7 @@ class UserEdit : AppCompatActivity() {
         userEmail.isEnabled = false
 
         view.setVisibility(View.INVISIBLE) //ẩn nút
+        mainBtn.setImageResource(R.drawable.edit)
     }
 
 }
