@@ -11,6 +11,10 @@ class BottomNavigationHandler(activity: Activity, navBar: BottomNavigationView) 
     init {
         var currentSelected=0
 
+        when (navBar.selectedItemId){
+
+        }
+
 
         navBar.selectedItemId=currentSelected //đặt index cho bottom nav bar
 

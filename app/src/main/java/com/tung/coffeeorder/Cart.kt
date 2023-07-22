@@ -3,6 +3,7 @@ package com.tung.coffeeorder
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -15,6 +16,7 @@ import com.tung.coffeeorder.AppController.Companion.orders
 import com.tung.coffeeorder.AppController.Companion.user
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
 import java.time.LocalDateTime
+import java.util.*
 
 class Cart: AppCompatActivity() {
     var totalPrice=0L
@@ -41,11 +43,13 @@ class Cart: AppCompatActivity() {
         checkoutBtn.setOnClickListener(
             View.OnClickListener {
                 //thêm vào một order
-                val temp=cartList
+                val temp= ArrayList(cartList) //copy constructor
                 orders.add(Order(temp, LocalDateTime.now(), user.getaddress())) //thêm vào orders
+                Log.d("Cart size",temp.size.toString())
 
                 //xoá hết giỏ hàng khi đã checkout
                 cartList.clear()
+                Log.d("Cart size",temp.size.toString())
 
                 val intent = Intent(this,OrderSuccess::class.java)
                 startActivity(intent) //mở order success
