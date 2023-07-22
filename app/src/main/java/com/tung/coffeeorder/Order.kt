@@ -12,6 +12,8 @@ class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String)
     private var time: LocalDateTime
     private var address: String
 
+    private var done=false //false là ongoing, true là history
+
     init{
         this.cart = cart
         this.time=time
@@ -19,7 +21,7 @@ class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String)
     }
 
     //up order này lên firebase
-    fun updateOrders(){
+    fun updateOrder(){
 
     }
 
@@ -33,5 +35,12 @@ class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String)
 
     fun getaddress(): String{
         return address
+    }
+
+    //đánh dấu là đã xong
+    fun setDone(ongoing: LinkedList<Order>, history: LinkedList<Order>){
+        ongoing.remove(this) //xoá khỏi danh sách History
+        history.add(this) //thêm vào danh sách History
+        done=true
     }
 }

@@ -2,8 +2,6 @@ package com.tung.coffeeorder
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
@@ -11,9 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
-import com.tung.coffeeorder.AppController.Companion.cartList
 import com.tung.coffeeorder.AppController.Companion.checkInCart
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
 
@@ -57,14 +53,14 @@ class CoffeeView() : AppCompatActivity() {
             View.OnClickListener {
                 val checkInCart = checkInCart(coffeeInCart) //kiểm tra loại cà phê hiện tại đã có trong giỏ hàng hay chưa
                 if (checkInCart!=-1){
-                    cartList[checkInCart].changeQuantity(coffeeInCart.quantity) //thay đổi số lượng nếu đã có trong giỏ hàng
+                    Cart.singleton.getList()[checkInCart].changeQuantity(coffeeInCart.quantity) //thay đổi số lượng nếu đã có trong giỏ hàng
                 }
                 else{
                     val temp = CoffeeInCart(coffeeInCart) //tạo copy để đề phòng người dùng muốn thêm ly khác size của cùng một loại cà phê
-                    cartList.add(temp) //thêm ly cà phê hiện tại vào giỏ hàng
+                    Cart.singleton.addToCart(temp) //thêm ly cà phê hiện tại vào giỏ hàng
                 }
 
-                val intent= Intent(this,Cart::class.java)
+                val intent= Intent(this,CartActivity::class.java)
                 startActivity(intent) //mở cart lên
             }
         )
@@ -79,7 +75,7 @@ class CoffeeView() : AppCompatActivity() {
         val cartBtn=findViewById<ImageButton>(R.id.cartButton)
         cartBtn.setOnClickListener(
             View.OnClickListener {
-                val intent= Intent(this,Cart::class.java)
+                val intent= Intent(this,CartActivity::class.java)
                 startActivity(intent) //mở cart lên
             }
         )

@@ -3,24 +3,14 @@ package com.tung.coffeeorder
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tung.coffeeorder.Functions.Companion.db
-import com.tung.coffeeorder.Functions.Companion.initCoffeeList
 import com.tung.coffeeorder.Functions.Companion.listCoffee
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.util.LinkedList
 
 class Home: Fragment() {
     override fun onCreateView(
@@ -46,7 +36,7 @@ class Home: Fragment() {
         val cartBtn = view.findViewById<ImageButton>(R.id.cartBtn)
         cartBtn.setOnClickListener(
             View.OnClickListener {
-                val intent= Intent(requireActivity(),Cart::class.java)
+                val intent= Intent(requireActivity(),CartActivity::class.java)
                 startActivity(intent) //mở cart lên
             }
         )

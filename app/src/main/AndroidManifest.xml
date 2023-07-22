@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CoffeeView" />
-        <activity android:name=".Cart" />
+        <activity android:name=".CartActivity" />
     </application>
 
 </manifest>
