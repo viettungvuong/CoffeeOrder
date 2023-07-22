@@ -1,27 +1,26 @@
 package com.tung.coffeeorder
 
-import android.location.Address
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import android.widget.Button
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
 import com.tung.coffeeorder.AppController.Companion.user
 
 class UserEdit : AppCompatActivity() {
-    lateinit var currentuser: User
 
-    lateinit var userName: EditText
-    lateinit var userEmail: EditText
-    lateinit var userPhone: EditText
-    lateinit var userAddress: EditText
+
+    private lateinit var userName: EditText
+    private lateinit var userEmail: EditText
+    private lateinit var userPhone: EditText
+    private lateinit var userAddress: EditText
 
     var editMode = false
     override fun onStart() {
         super.onStart()
-        this.currentuser = user
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +61,7 @@ class UserEdit : AppCompatActivity() {
     }
 
     fun changeName(view: View) {
+        val cancelButton = findViewById<ImageButton>(R.id.secondaryProfileBtn)
         if (!editMode){
             editMode = true
             userName.isEnabled = true
@@ -69,20 +69,28 @@ class UserEdit : AppCompatActivity() {
             userPhone.isEnabled = false
             userAddress.isEnabled = false
 
-            val cancelButton = findViewById<ImageButton>(R.id.secondaryProfileBtn)
+
             cancelButton.setImageResource(R.drawable.cancel)
             cancelButton.setOnClickListener{
                     view->cancelEdit(view)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
+
+            userName.requestFocus()
+            val imm: InputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(userName, InputMethodManager.SHOW_IMPLICIT)
         }
         else{
             AppController.user.editName(userName.text.toString())
+            cancelEdit(cancelButton)
+            (view as ImageButton).setImageResource(R.drawable.edit)
         }
     }
 
     fun changeEmail(view: View) {
+        val cancelButton = findViewById<ImageButton>(R.id.secondaryEmailBtn)
         if (!editMode) {
             editMode = true
             userEmail.isEnabled = true
@@ -90,20 +98,28 @@ class UserEdit : AppCompatActivity() {
             userPhone.isEnabled = false
             userAddress.isEnabled = false
 
-            val cancelButton = findViewById<ImageButton>(R.id.secondaryEmailBtn)
+
             cancelButton.setImageResource(R.drawable.cancel)
             cancelButton.setOnClickListener { view ->
                 cancelEdit(view)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
+
+            userEmail.requestFocus()
+            val imm: InputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(userEmail, InputMethodManager.SHOW_IMPLICIT)
         }
         else{
             AppController.user.editEmail(userEmail.text.toString())
+            cancelEdit(cancelButton)
+            (view as ImageButton).setImageResource(R.drawable.edit)
         }
     }
 
     fun changePhone(view: View) {
+        val cancelButton = findViewById<ImageButton>(R.id.secondaryPhoneBtn)
         if (!editMode) {
             editMode = true
             userPhone.isEnabled = true
@@ -111,20 +127,28 @@ class UserEdit : AppCompatActivity() {
             userEmail.isEnabled = false
             userAddress.isEnabled = false
 
-            val cancelButton = findViewById<ImageButton>(R.id.secondaryPhoneBtn)
+
             cancelButton.setImageResource(R.drawable.cancel)
             cancelButton.setOnClickListener { view ->
                 cancelEdit(view)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
+
+            userPhone.requestFocus()
+            val imm: InputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(userPhone, InputMethodManager.SHOW_IMPLICIT)
         }
         else{
             AppController.user.editPhoneNumber(userPhone.text.toString())
+            cancelEdit(cancelButton)
+            (view as ImageButton).setImageResource(R.drawable.edit)
         }
     }
 
     fun changeAddress(view: View) {
+        val cancelButton = findViewById<ImageButton>(R.id.secondaryAddressBtn)
         if (!editMode) {
             editMode = true
             userAddress.isEnabled = true
@@ -132,16 +156,23 @@ class UserEdit : AppCompatActivity() {
             userPhone.isEnabled = false
             userEmail.isEnabled = false
 
-            val cancelButton = findViewById<ImageButton>(R.id.secondaryAddressBtn)
+
             cancelButton.setImageResource(R.drawable.cancel)
             cancelButton.setOnClickListener { view ->
                 cancelEdit(view)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
+
+            userAddress.requestFocus()
+            val imm: InputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(userAddress, InputMethodManager.SHOW_IMPLICIT)
         }
         else{
             AppController.user.editAddress(userAddress.text.toString())
+            cancelEdit(cancelButton)
+            (view as ImageButton).setImageResource(R.drawable.edit)
         }
     }
 
