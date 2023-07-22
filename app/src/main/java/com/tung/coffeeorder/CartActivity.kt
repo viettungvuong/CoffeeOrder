@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
-import com.tung.coffeeorder.AppController.Companion.orders
 import com.tung.coffeeorder.AppController.Companion.user
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
 import java.time.LocalDateTime
@@ -58,7 +57,7 @@ class CartActivity: AppCompatActivity() {
             View.OnClickListener {
                 //thêm vào một order
                 val temp= ArrayList(Cart.singleton.getList()) //copy constructor
-                orders.add(Order(temp, LocalDateTime.now(), user.getaddress())) //thêm vào orders
+                AppController.ongoingOrders.add(Order(temp, LocalDateTime.now(), user.getaddress())) //thêm vào orders
                 Log.d("Cart size",temp.size.toString())
 
                 //xoá hết giỏ hàng khi đã checkout
@@ -172,6 +171,7 @@ class CartActivity: AppCompatActivity() {
             super.onChildDraw(c, recyclerView, viewHolder, dX/5, dY, actionState, isCurrentlyActive)
         }
     }
+
     //rảnh thì đổi Cart qua Map (key là tên cà phê cùng với size) để tối ưu vụ updateCartPrice
 }
 

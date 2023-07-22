@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
 import java.time.LocalDate
@@ -16,14 +18,11 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class OrderAdapter(activity: Activity, orders: LinkedList<Order>): RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
-    var activity: Activity
-    var orders: LinkedList<Order>
+class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Fragment): RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
+    val activity=activity
+    val orders=orders
+    val fragment = fragment
 
-    init {
-        this.activity=activity
-        this.orders=orders
-    }
 
     inner class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val timeText = view.findViewById<TextView>(R.id.time)
@@ -81,5 +80,22 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>): RecyclerView.
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         holder.bind(orders[position])
+
+        holder.itemView.setOnClickListener(
+            View.OnClickListener {
+                if (fragment is OngoingFragment){ //chỉ nhận onclick của OngoingFragment
+                    orders[position].setDone(AppController.ongoingOrders,AppController.historyOrders,AppController.rewardsPoint) //đánh dấu đã hoàn thành
+                    notifyItemRemoved(position)
+                    notifyItemRangeChanged(position,AppController.ongoingOrders.size-position)
+                    holder.itemView.visibility= View.GONE
+                    Toast.makeText(
+                        activity,
+                        "Đã đánh dấu đơn hàng hoàn thành",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                }
+
+            }
+        )
     }
 }

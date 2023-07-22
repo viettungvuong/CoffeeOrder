@@ -19,7 +19,8 @@ class OngoingFragment : Fragment() {
         val ordersRecycler = view.findViewById<RecyclerView>(R.id.ongoingRecycler)
         ordersRecycler.layoutManager=
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
-        ordersRecycler.adapter=OrderAdapter(requireActivity(), AppController.orders)
+        AppController.ongoingAdapter = OrderAdapter(requireActivity(), AppController.ongoingOrders, this)
+        ordersRecycler.adapter=AppController.ongoingAdapter
 
         return view
     }

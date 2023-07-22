@@ -29,8 +29,11 @@ class AppController{
     companion object{
         @JvmStatic
         val user= User() //user của session hiện tại
-        val orders=LinkedList<Order>() //danh sách các order
+        val ongoingOrders=LinkedList<Order>() //danh sách các order onging
+        val historyOrders=LinkedList<Order>() //danh sách các order history
         val rewardsPoint=LinkedList<Reward>() //danh sách điểm thưởng
+        lateinit var ongoingAdapter: OrderAdapter
+        lateinit var historyAdapter: OrderAdapter //để 2 adapter này ở đây vì hai adapter này có sự liên thông với nhau rất nhiều
 
         @JvmStatic
         fun checkInCart(coffeeInCart: CoffeeInCart): Int{
