@@ -20,6 +20,10 @@ class Rewards: Fragment() {
 
         requireActivity().supportFragmentManager.beginTransaction().replace(R.id.rewards_section,RewardSection()).commit()
 
+        val rewardsRecycler=view.findViewById<RecyclerView>(R.id.rewards_recycler)
+        rewardsRecycler.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+        rewardsRecycler.adapter=RewardsPointAdapter(requireActivity(),AppController.rewardsPoint)
+
         return view
     }
 }

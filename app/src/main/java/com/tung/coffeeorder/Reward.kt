@@ -1,13 +1,17 @@
 package com.tung.coffeeorder
 
-class Reward(coffeeInCart: CoffeeInCart) {
-    private var coffeeInCart=coffeeInCart
+class Reward(order: Order) {
+    private var order=order
 
-    fun getCoffeeInCart(): CoffeeInCart{
-        return coffeeInCart
+    fun getOrder(): Order{
+        return order
     }
 
     fun calculateBonusPoint(): Int{
-        return (coffeeInCart.getPrice()/1000) as Int
+        var res=0
+        for (coffeeInCart in order.getCart()){
+            res+=(coffeeInCart.getPrice()/1000) as Int
+        }
+        return res
     }
 }

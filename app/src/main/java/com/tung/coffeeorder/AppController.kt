@@ -27,9 +27,10 @@ class Cart private constructor(){ //private constructor để không cho gọi c
 
 class AppController{
     companion object{
-        @JvmField
+        @JvmStatic
         val user= User() //user của session hiện tại
         val orders=LinkedList<Order>() //danh sách các order
+        val rewardsPoint=LinkedList<Reward>() //danh sách điểm thưởng
 
         @JvmStatic
         fun checkInCart(coffeeInCart: CoffeeInCart): Int{
