@@ -28,6 +28,8 @@ class RewardsPointAdapter(activity: Activity, rewards: LinkedList<Reward>): Recy
             for (coffeeInCart in reward.getOrder().getCart()){
                 val coffeeText = LayoutInflater.from(activity).inflate(R.layout.coffee_in_cart_linear,null) as TextView
                 coffeeText.text=coffeeInCart.getName()
+
+                coffeesInCart.addView(coffeeText)
             }
 
             val dateFormat = "dd-MM-yyyy HH:mm" //format ngày tháng
