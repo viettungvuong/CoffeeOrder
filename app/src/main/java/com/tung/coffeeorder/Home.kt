@@ -51,6 +51,14 @@ class Home: Fragment() {
             }
         )
 
+        val userBtn = view.findViewById<ImageButton>(R.id.userBtn)
+        userBtn.setOnClickListener(
+            View.OnClickListener {
+                val intent= Intent(requireActivity(),UserEdit::class.java)
+                startActivity(intent) //mở cart lên
+            }
+        )
+
         return view
     }
 
