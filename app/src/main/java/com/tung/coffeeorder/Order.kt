@@ -1,6 +1,7 @@
 package com.tung.coffeeorder
 
 import android.location.Address
+import com.google.rpc.Help.Link
 import com.google.type.DateTime
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -38,9 +39,10 @@ class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String)
     }
 
     //đánh dấu là đã xong
-    fun setDone(ongoing: LinkedList<Order>, history: LinkedList<Order>){
+    fun setDone(ongoing: LinkedList<Order>, history: LinkedList<Order>, rewards: LinkedList<Reward>){
         ongoing.remove(this) //xoá khỏi danh sách History
         history.add(this) //thêm vào danh sách History
+        rewards.add(Reward(this)) //thêm vào reward khi đơn hàng đã xong
         done=true
     }
 }

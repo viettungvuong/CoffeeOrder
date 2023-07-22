@@ -14,4 +14,9 @@ class Reward(order: Order) {
         }
         return res
     }
+
+    //up lên firebase
+    fun updateReward(){
+
+    }
 }
