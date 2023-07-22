@@ -63,6 +63,8 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="Vương Quang Việt Tùng"
+                   android:enabled="false"
+                   android:textColor="@color/black"
                    android:background="#00000000"
                    android:textSize="15dp"/>
 
@@ -122,6 +124,8 @@
                     android:id="@+id/userPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:textColor="@color/black"
                     android:text="0123456789"
                     android:background="#00000000"
                     android:textSize="15dp"/>
@@ -182,6 +186,8 @@
                     android:id="@+id/userEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:textColor="@color/black"
                     android:text="viettungvuong@gmail.com"
                     android:background="#00000000"
                     android:textSize="15dp"/>
@@ -242,6 +248,8 @@
                     android:id="@+id/userAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:textColor="@color/black"
                     android:text="18 đường số 7, phường Tân Hưng, quận 7, TP. HCM"
                     android:background="#00000000"
                     android:textSize="15dp"/>
