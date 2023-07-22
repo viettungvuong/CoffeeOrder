@@ -39,6 +39,18 @@
                 android:text="Hello Tùng"/>
 
             <ImageButton
+                android:id="@+id/cartBtn"
+                app:layout_constraintRight_toRightOf="@id/userBtn"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginRight="50dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/cart_black"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:paddingVertical="10dp"/>
+
+            <ImageButton
+                android:id="@+id/userBtn"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_gravity="left"
