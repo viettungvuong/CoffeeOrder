@@ -8,6 +8,7 @@ class AppController{
         @JvmField
         val user= User() //user của session hiện tại
         val cartList=ArrayList<CoffeeInCart>() //giỏ hàng
+        val orders=LinkedList<Order>() //danh sách các order
 
 
         @JvmStatic

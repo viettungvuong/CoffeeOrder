@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.cartList
+import com.tung.coffeeorder.AppController.Companion.orders
+import com.tung.coffeeorder.AppController.Companion.user
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
+import java.time.LocalDateTime
 
 class Cart: AppCompatActivity() {
     var totalPrice=0L
@@ -38,8 +41,8 @@ class Cart: AppCompatActivity() {
         checkoutBtn.setOnClickListener(
             View.OnClickListener {
                 //thêm vào một order
-                //temp=cartList
-                //orders.add(temp)
+                val temp=cartList
+                orders.add(Order(temp, LocalDateTime.now(), user.getaddress())) //thêm vào orders
 
                 //xoá hết giỏ hàng khi đã checkout
                 cartList.clear()

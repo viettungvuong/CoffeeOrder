@@ -1,10 +1,12 @@
 package com.tung.coffeeorder
 
+import android.location.Address
+
 class User() {
-    lateinit var fullName: String
-    lateinit var phoneNumber: String
-    lateinit var email: String
-    lateinit var address: String
+    private lateinit var fullName: String
+    private lateinit var phoneNumber: String
+    private lateinit var email: String
+    private lateinit var address: Address
 
     inner class Reward(){
         private var currentPoints=-0
@@ -39,7 +41,7 @@ class User() {
         this.email=newEmail
     }
 
-    fun editAddress(newAddress: String){
+    fun editAddress(newAddress: Address){
         this.address=newAddress
     }
 
@@ -55,7 +57,7 @@ class User() {
         return email
     }
 
-    fun getaddress(): String{
+    fun getaddress(): Address{
         return address
     }
 }

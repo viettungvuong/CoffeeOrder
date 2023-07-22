@@ -6,9 +6,9 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
-class Order(cart: LinkedList<CoffeeInCart>, time: LocalDateTime, address: Address)
+class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: Address)
 {
-    private var cart: LinkedList<CoffeeInCart>
+    private var cart: ArrayList<CoffeeInCart>
     private var time: LocalDateTime
     private var address: Address
 
@@ -23,7 +23,7 @@ class Order(cart: LinkedList<CoffeeInCart>, time: LocalDateTime, address: Addres
 
     }
 
-    fun getCart(): LinkedList<CoffeeInCart>{
+    fun getCart(): ArrayList<CoffeeInCart>{
         return cart
     }
 
