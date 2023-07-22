@@ -54,7 +54,7 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>): RecyclerView.
         }
 
         fun bind(order: Order){
-            val dateFormat = "dd-MM-yy HH:mm" //format ngày tháng
+            val dateFormat = "dd-MM-yyyy HH:mm" //format ngày tháng
             timeText.text=order.gettime().format(DateTimeFormatter.ofPattern(dateFormat)).toString()
 
             addressText.text=order.getaddress().toString()
