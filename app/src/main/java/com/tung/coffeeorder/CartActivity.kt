@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -18,6 +19,7 @@ import java.util.*
 
 class CartActivity: AppCompatActivity() {
     var totalPrice=0L
+    lateinit var cartAdapter: CartAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +27,14 @@ class CartActivity: AppCompatActivity() {
         setContentView(R.layout.cart_activity)
         val cartRecyclerView = findViewById<RecyclerView>(R.id.cartRecyclerView)
         cartRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false) //đặt recyclerView là chiều ngang
-        cartRecyclerView.adapter=CartAdapter(this,Cart.singleton.getList())
+        cartAdapter=CartAdapter(this,Cart.singleton.getList())
+        cartRecyclerView.adapter=cartAdapter
+
+        //xử lý vuốt thì sẽ xoá
+        val swipeHelperCallback =
+            SwipeRecyclerHandler(cartAdapter, this) //cái này là callback của itemTouchHelper
+        val itemTouchHelper = ItemTouchHelper(swipeHelperCallback)
+        itemTouchHelper.attachToRecyclerView((cartRecyclerView))
 
         val backBtn = findViewById<ImageButton>(R.id.back_button)
         backBtn.setOnClickListener(
@@ -53,6 +62,9 @@ class CartActivity: AppCompatActivity() {
                 startActivity(intent) //mở order success
             }
         )
+
+
+
     }
 
     //mỗi lần mở đi mở lại cái activity này thì sẽ cập nhật giá

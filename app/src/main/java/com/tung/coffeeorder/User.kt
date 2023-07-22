@@ -25,6 +25,10 @@ class User() {
                 loyaltyCardCount=0
             }
         }
+
+        fun addPoints(amount: Int){
+            currentPoints+=amount //cộng điểm cho người dùng
+        }
     }
 
     val loyalty=LoyaltyPoint()
