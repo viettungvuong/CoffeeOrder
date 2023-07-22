@@ -3,10 +3,10 @@ package com.tung.coffeeorder
 import android.location.Address
 
 class User() {
-    private lateinit var fullName: String
-    private lateinit var phoneNumber: String
-    private lateinit var email: String
-    private lateinit var address: String
+    private var fullName=""
+    private var phoneNumber=""
+    private var email=""
+    private var address=""
 
     inner class Reward(){
         private var currentPoints=-0
