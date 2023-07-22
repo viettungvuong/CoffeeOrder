@@ -59,6 +59,7 @@
                    android:textSize="15dp"/>
 
                <EditText
+                   android:id="@+id/userName"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="Vương Quang Việt Tùng"
@@ -97,6 +98,7 @@
                     android:textSize="15dp"/>
 
                 <EditText
+                    android:id="@+id/userPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0123456789"
@@ -135,6 +137,7 @@
                     android:textSize="15dp"/>
 
                 <EditText
+                    android:id="@+id/userEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="viettungvuong@gmail.com"
@@ -173,6 +176,7 @@
                     android:textSize="15dp"/>
 
                 <EditText
+                    android:id="@+id/userAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="18 đường số 7, phường Tân Hưng, quận 7, TP. HCM"
