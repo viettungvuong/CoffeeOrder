@@ -66,18 +66,18 @@ class UserEdit : AppCompatActivity() {
     }
 
     fun changeName(){
-
+        userName.isEnabled=true
     }
 
     fun changeEmail(){
-
+        userEmail.isEnabled=true
     }
 
     fun changePhone(){
-
+        userPhone.isEnabled=true
     }
 
     fun changeAddress(){
-
+        userAddress.isEnabled=true
     }
 }
