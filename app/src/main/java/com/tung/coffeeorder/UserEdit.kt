@@ -1,6 +1,7 @@
 package com.tung.coffeeorder
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
@@ -62,7 +63,10 @@ class UserEdit : AppCompatActivity() {
 
     fun changeName(view: View) {
         val cancelButton = findViewById<ImageButton>(R.id.secondaryProfileBtn)
+        val temp = userName.text.toString()
+
         if (!editMode){
+            cancelButton.setVisibility(View.VISIBLE) //hiện nút
             editMode = true
             userName.isEnabled = true
             userEmail.isEnabled = false
@@ -70,13 +74,15 @@ class UserEdit : AppCompatActivity() {
             userAddress.isEnabled = false
 
 
+
             cancelButton.setImageResource(R.drawable.cancel)
             cancelButton.setOnClickListener { v ->
                 cancelEdit(v,view as ImageButton)
+                userName.text= Editable.Factory.getInstance().newEditable(temp)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
-
+            
             userName.requestFocus()
             val imm: InputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -90,7 +96,10 @@ class UserEdit : AppCompatActivity() {
 
     fun changeEmail(view: View) {
         val cancelButton = findViewById<ImageButton>(R.id.secondaryEmailBtn)
+        val temp = userEmail.text.toString()
+
         if (!editMode) {
+            cancelButton.setVisibility(View.VISIBLE) //hiện nút
             editMode = true
             userEmail.isEnabled = true
             userName.isEnabled = false
@@ -101,6 +110,7 @@ class UserEdit : AppCompatActivity() {
             cancelButton.setImageResource(R.drawable.cancel)
             cancelButton.setOnClickListener { v ->
                 cancelEdit(v,view as ImageButton)
+                userEmail.text= Editable.Factory.getInstance().newEditable(temp)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
@@ -118,7 +128,10 @@ class UserEdit : AppCompatActivity() {
 
     fun changePhone(view: View) {
         val cancelButton = findViewById<ImageButton>(R.id.secondaryPhoneBtn)
+        val temp = userPhone.text.toString()
+
         if (!editMode) {
+            cancelButton.setVisibility(View.VISIBLE) //hiện nút
             editMode = true
             userPhone.isEnabled = true
             userName.isEnabled = false
@@ -129,9 +142,11 @@ class UserEdit : AppCompatActivity() {
             cancelButton.setImageResource(R.drawable.cancel)
             cancelButton.setOnClickListener { v ->
                 cancelEdit(v,view as ImageButton)
+                userPhone.text= Editable.Factory.getInstance().newEditable(temp)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
+
 
             userPhone.requestFocus()
             val imm: InputMethodManager =
@@ -146,7 +161,10 @@ class UserEdit : AppCompatActivity() {
 
     fun changeAddress(view: View) {
         val cancelButton = findViewById<ImageButton>(R.id.secondaryAddressBtn)
+        val temp = userAddress.text.toString()
+
         if (!editMode) {
+            cancelButton.setVisibility(View.VISIBLE) //hiện nút
             editMode = true
             userAddress.isEnabled = true
             userName.isEnabled = false
@@ -157,9 +175,11 @@ class UserEdit : AppCompatActivity() {
             cancelButton.setImageResource(R.drawable.cancel)
             cancelButton.setOnClickListener { v ->
                 cancelEdit(v,view as ImageButton)
+                userAddress.text= Editable.Factory.getInstance().newEditable(temp)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
+
 
             userAddress.requestFocus()
             val imm: InputMethodManager =

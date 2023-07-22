@@ -32,6 +32,9 @@ class MainActivity : AppCompatActivity() {
         initCoffeeList(listCoffee)
 
         //dummy address để test
+        user.editName("Vương Quang Việt Tùng")
+        user.editEmail("viettungvuong@gmail.com")
+        user.editPhoneNumber("0785841999")
         user.editAddress("18 đường số 7, phường Tân Hưng, quận 7")
 
         AppController.ongoingAdapter = OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())
