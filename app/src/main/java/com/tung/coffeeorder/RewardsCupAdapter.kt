@@ -1,17 +1,13 @@
 package com.tung.coffeeorder
 
 import android.app.Activity
-import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.tung.coffeeorder.Functions.Companion.imageFromCoffee
-import java.util.LinkedList
 
-class RewardsAdapter(activity: Activity, user: User): RecyclerView.Adapter<RewardsAdapter.rewardViewHolder>() {
+class RewardsCupAdapter(activity: Activity, user: User): RecyclerView.Adapter<RewardsCupAdapter.rewardViewHolder>() {
     val activity=activity
     val user=user
 
