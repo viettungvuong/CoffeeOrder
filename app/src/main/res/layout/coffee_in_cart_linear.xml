@@ -4,4 +4,5 @@
     android:layout_height="wrap_content"
     android:text="Americano"
     android:textStyle="bold"
+    android:layout_marginVertical="15dp"
     android:textSize="18dp"/>
