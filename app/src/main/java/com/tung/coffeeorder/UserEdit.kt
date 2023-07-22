@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import com.tung.coffeeorder.AppController.Companion.user
@@ -41,49 +42,45 @@ class UserEdit : AppCompatActivity() {
         val phoneBtn = findViewById<ImageButton>(R.id.mainPhoneBtn)
         val addressBtn = findViewById<ImageButton>(R.id.mainAddressBtn)
 
-        nameBtn.setOnClickListener(
-            View.OnClickListener {
-                changeName()
-            }
-        )
+        nameBtn.setOnClickListener{
+            view->changeName(view)
+        }
 
-        emailBtn.setOnClickListener(
-            View.OnClickListener {
-                changeEmail()
-            }
-        )
+        emailBtn.setOnClickListener{
+            view->changeEmail(view)
+        }
 
-        phoneBtn.setOnClickListener(
-            View.OnClickListener {
-                changePhone()
-            }
-        )
+        phoneBtn.setOnClickListener{
+            view->changePhone(view)
+        }
 
-        addressBtn.setOnClickListener(
-            View.OnClickListener {
-                changeAddress()
-            }
-        )
+        addressBtn.setOnClickListener{
+            view->changeAddress(view)
+        }
 
     }
 
     fun changeName(view: View){
-        editMode=true
-        userName.isEnabled=true
-        userEmail.isEnabled=false
-        userPhone.isEnabled=false
-        userAddress.isEnabled=false
+            editMode=true
+            userName.isEnabled=true
+            userEmail.isEnabled=false
+            userPhone.isEnabled=false
+            userAddress.isEnabled=false
+
     }
 
     fun changeEmail(view: View){
+
         editMode=true
         userEmail.isEnabled=true
         userName.isEnabled=false
         userPhone.isEnabled=false
         userAddress.isEnabled=false
+
     }
 
     fun changePhone(view: View){
+
         editMode=true
         userPhone.isEnabled=true
         userName.isEnabled=false
@@ -92,6 +89,7 @@ class UserEdit : AppCompatActivity() {
     }
 
     fun changeAddress(view: View){
+
         editMode=true
         userAddress.isEnabled=true
         userName.isEnabled=false
@@ -100,10 +98,11 @@ class UserEdit : AppCompatActivity() {
     }
 
     fun cancelEdit(view: View){
+
         editMode=false
         userAddress.isEnabled=false
         userName.isEnabled=false
         userPhone.isEnabled=false
-        userEmail.isEnabled=false
-    }
+        userEmail.isEnabled=false}
+
 }
