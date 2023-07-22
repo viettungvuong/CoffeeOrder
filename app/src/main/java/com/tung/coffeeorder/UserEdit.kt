@@ -62,71 +62,87 @@ class UserEdit : AppCompatActivity() {
     }
 
     fun changeName(view: View) {
-        editMode = true
-        userName.isEnabled = true
-        userEmail.isEnabled = false
-        userPhone.isEnabled = false
-        userAddress.isEnabled = false
+        if (!editMode){
+            editMode = true
+            userName.isEnabled = true
+            userEmail.isEnabled = false
+            userPhone.isEnabled = false
+            userAddress.isEnabled = false
 
-        val cancelButton = findViewById<ImageButton>(R.id.secondaryProfileBtn)
-        cancelButton.setImageResource(R.drawable.cancel)
-        cancelButton.setOnClickListener{
-            view->cancelEdit(view)
+            val cancelButton = findViewById<ImageButton>(R.id.secondaryProfileBtn)
+            cancelButton.setImageResource(R.drawable.cancel)
+            cancelButton.setOnClickListener{
+                    view->cancelEdit(view)
+            }
+
+            (view as ImageButton).setImageResource(R.drawable.save_change)
         }
-
-        (view as ImageButton).setImageResource(R.drawable.save_change)
+        else{
+            AppController.user.editName(userName.text.toString())
+        }
     }
 
     fun changeEmail(view: View) {
+        if (!editMode) {
+            editMode = true
+            userEmail.isEnabled = true
+            userName.isEnabled = false
+            userPhone.isEnabled = false
+            userAddress.isEnabled = false
 
-        editMode = true
-        userEmail.isEnabled = true
-        userName.isEnabled = false
-        userPhone.isEnabled = false
-        userAddress.isEnabled = false
+            val cancelButton = findViewById<ImageButton>(R.id.secondaryEmailBtn)
+            cancelButton.setImageResource(R.drawable.cancel)
+            cancelButton.setOnClickListener { view ->
+                cancelEdit(view)
+            }
 
-        val cancelButton = findViewById<ImageButton>(R.id.secondaryEmailBtn)
-        cancelButton.setImageResource(R.drawable.cancel)
-        cancelButton.setOnClickListener{
-                view->cancelEdit(view)
+            (view as ImageButton).setImageResource(R.drawable.save_change)
         }
-
-        (view as ImageButton).setImageResource(R.drawable.save_change)
-
+        else{
+            AppController.user.editEmail(userEmail.text.toString())
+        }
     }
 
     fun changePhone(view: View) {
+        if (!editMode) {
+            editMode = true
+            userPhone.isEnabled = true
+            userName.isEnabled = false
+            userEmail.isEnabled = false
+            userAddress.isEnabled = false
 
-        editMode = true
-        userPhone.isEnabled = true
-        userName.isEnabled = false
-        userEmail.isEnabled = false
-        userAddress.isEnabled = false
+            val cancelButton = findViewById<ImageButton>(R.id.secondaryPhoneBtn)
+            cancelButton.setImageResource(R.drawable.cancel)
+            cancelButton.setOnClickListener { view ->
+                cancelEdit(view)
+            }
 
-        val cancelButton = findViewById<ImageButton>(R.id.secondaryPhoneBtn)
-        cancelButton.setImageResource(R.drawable.cancel)
-        cancelButton.setOnClickListener{
-                view->cancelEdit(view)
+            (view as ImageButton).setImageResource(R.drawable.save_change)
         }
-
-        (view as ImageButton).setImageResource(R.drawable.save_change)
+        else{
+            AppController.user.editPhoneNumber(userPhone.text.toString())
+        }
     }
 
     fun changeAddress(view: View) {
+        if (!editMode) {
+            editMode = true
+            userAddress.isEnabled = true
+            userName.isEnabled = false
+            userPhone.isEnabled = false
+            userEmail.isEnabled = false
 
-        editMode = true
-        userAddress.isEnabled = true
-        userName.isEnabled = false
-        userPhone.isEnabled = false
-        userEmail.isEnabled = false
+            val cancelButton = findViewById<ImageButton>(R.id.secondaryAddressBtn)
+            cancelButton.setImageResource(R.drawable.cancel)
+            cancelButton.setOnClickListener { view ->
+                cancelEdit(view)
+            }
 
-        val cancelButton = findViewById<ImageButton>(R.id.secondaryAddressBtn)
-        cancelButton.setImageResource(R.drawable.cancel)
-        cancelButton.setOnClickListener{
-                view->cancelEdit(view)
+            (view as ImageButton).setImageResource(R.drawable.save_change)
         }
-
-        (view as ImageButton).setImageResource(R.drawable.save_change)
+        else{
+            AppController.user.editAddress(userAddress.text.toString())
+        }
     }
 
     fun cancelEdit(view: View) {
