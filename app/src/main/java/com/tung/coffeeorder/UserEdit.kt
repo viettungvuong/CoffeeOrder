@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.widget.EditText
+import android.widget.ImageButton
 import com.tung.coffeeorder.AppController.Companion.user
 
 class UserEdit : AppCompatActivity() {
@@ -25,5 +26,21 @@ class UserEdit : AppCompatActivity() {
         userEmail.text= Editable.Factory.getInstance().newEditable(user.getemail())
         userPhone.text= Editable.Factory.getInstance().newEditable(user.getphoneNumber())
         userAddress.text= Editable.Factory.getInstance().newEditable(user.getaddress())
+    }
+
+    fun changeName(){
+
+    }
+
+    fun changeEmail(){
+
+    }
+
+    fun changePhone(){
+
+    }
+
+    fun changeAddress(){
+
     }
 }

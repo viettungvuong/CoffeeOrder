@@ -68,7 +68,28 @@
 
            </LinearLayout>
 
-            <include layout="@layout/edit_button" android:id="@+id/edit_profile"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/secondaryProfileBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                <ImageButton
+                    android:id="@+id/mainProfileBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/edit"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -107,7 +128,28 @@
 
             </LinearLayout>
 
-            <include layout="@layout/edit_button" android:id="@+id/edit_phone"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/secondaryPhoneBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                <ImageButton
+                    android:id="@+id/mainPhoneBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/edit"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -146,7 +188,28 @@
 
             </LinearLayout>
 
-            <include layout="@layout/edit_button" android:id="@+id/edit_email"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/secondaryEmailBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                <ImageButton
+                    android:id="@+id/mainEmailBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/edit"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -185,7 +248,28 @@
 
             </LinearLayout>
 
-            <include layout="@layout/edit_button"  android:id="@+id/edit_address"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/secondaryAddressBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                <ImageButton
+                    android:id="@+id/mainAddressBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/edit"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

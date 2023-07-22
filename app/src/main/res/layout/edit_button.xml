@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="0dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_weight="0.2"
     android:layout_height="30dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintLeft_toLeftOf="parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    tools:context=".UserEdit">
 
     <ImageButton
+        android:id="@+id/secondaryBtn"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
     <ImageButton
+        android:id="@+id/mainBtn"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/edit"
