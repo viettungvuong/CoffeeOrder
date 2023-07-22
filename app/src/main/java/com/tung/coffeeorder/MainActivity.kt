@@ -9,7 +9,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import com.tung.coffeeorder.AppController.Companion.orders
 import com.tung.coffeeorder.AppController.Companion.user
 import com.tung.coffeeorder.Functions.Companion.db
 import com.tung.coffeeorder.Functions.Companion.dbCoffeeImageField

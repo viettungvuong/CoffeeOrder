@@ -85,8 +85,8 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
             View.OnClickListener {
                 if (fragment is OngoingFragment){ //chỉ nhận onclick của OngoingFragment
                     orders[position].setDone(AppController.ongoingOrders,AppController.historyOrders,AppController.rewardsPoint) //đánh dấu đã hoàn thành
-                    notifyItemRemoved(position)
-                    notifyItemRangeChanged(position,AppController.ongoingOrders.size-position)
+                    AppController.ongoingAdapter.notifyItemRemoved(position)
+                    AppController.historyAdapter.notifyItemInserted(AppController.historyOrders.size-1)
                     holder.itemView.visibility= View.GONE
                     Toast.makeText(
                         activity,
