@@ -16,6 +16,8 @@ class UserEdit : AppCompatActivity() {
     lateinit var userEmail: EditText
     lateinit var userPhone: EditText
     lateinit var userAddress: EditText
+
+    var editMode=false
     override fun onStart() {
         super.onStart()
         this.currentuser=user
@@ -65,19 +67,43 @@ class UserEdit : AppCompatActivity() {
 
     }
 
-    fun changeName(){
+    fun changeName(view: View){
+        editMode=true
         userName.isEnabled=true
+        userEmail.isEnabled=false
+        userPhone.isEnabled=false
+        userAddress.isEnabled=false
     }
 
-    fun changeEmail(){
+    fun changeEmail(view: View){
+        editMode=true
         userEmail.isEnabled=true
+        userName.isEnabled=false
+        userPhone.isEnabled=false
+        userAddress.isEnabled=false
     }
 
-    fun changePhone(){
+    fun changePhone(view: View){
+        editMode=true
         userPhone.isEnabled=true
+        userName.isEnabled=false
+        userEmail.isEnabled=false
+        userAddress.isEnabled=false
     }
 
-    fun changeAddress(){
+    fun changeAddress(view: View){
+        editMode=true
         userAddress.isEnabled=true
+        userName.isEnabled=false
+        userPhone.isEnabled=false
+        userEmail.isEnabled=false
+    }
+
+    fun cancelEdit(view: View){
+        editMode=false
+        userAddress.isEnabled=false
+        userName.isEnabled=false
+        userPhone.isEnabled=false
+        userEmail.isEnabled=false
     }
 }
