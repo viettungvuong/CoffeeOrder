@@ -4,12 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.widget.EditText
+import com.tung.coffeeorder.AppController.Companion.user
 
 class UserEdit : AppCompatActivity() {
-    lateinit var user: User
+    lateinit var currentuser: User
     override fun onStart() {
         super.onStart()
-        this.user=user
+        this.currentuser=user
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
