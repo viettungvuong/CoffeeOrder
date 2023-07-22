@@ -20,7 +20,7 @@ class HistoryFragment : Fragment() {
         val view = inflater.inflate(R.layout.history_fragment, container, false)
         val ordersRecycler = view.findViewById<RecyclerView>(R.id.historyRecycler)
         ordersRecycler.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-        AppController.historyAdapter = OrderAdapter(requireActivity(), AppController.ongoingOrders, this)
+
         ordersRecycler.adapter=AppController.historyAdapter
 
         return view
