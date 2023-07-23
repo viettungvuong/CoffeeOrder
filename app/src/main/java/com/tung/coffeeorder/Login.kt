@@ -104,6 +104,12 @@ class Login : AppCompatActivity() {
             false
         })
 
+        val anonymousUse = findViewById<MaterialButton>(R.id.anonymous)
+        anonymousUse.setOnClickListener{
+            sharedPreferences.edit().putBoolean("online_acc",false) //đặt là không dùng tài khoản online
+            User.singleton.loadLocal() //đọc thông tin local
+        }
+
     }
 
     fun startLogin(userInput: TextInputEditText, passwordInput: TextInputEditText){
