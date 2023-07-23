@@ -34,11 +34,9 @@ class Login : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         initCoffeeList(AppController.listCoffee)
 
-        initRedeem()
-
-
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
 
+        initRedeem() //lấy danh sách các redeem
 
         //nếu như đang dùng tài khoản online
         if (sharedPreferences.getBoolean("online_acc",false)){

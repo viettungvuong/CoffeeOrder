@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.listCoffee
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
@@ -21,13 +22,13 @@ import com.tung.coffeeorder.Functions.Companion.getCurrentNoOfCarts
 import java.io.*
 import java.util.LinkedList
 
-class Cart private constructor(){ //private constructor để không cho gọi constructor để singleton
+class Cart {
     companion object{
         @JvmStatic
         var singleton= Cart() //singleton
     }
 
-    private val cartList=ArrayList<CoffeeInCart>() //giỏ hàng
+    private val cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
 
     private fun getDescList(): LinkedList<String>{ //mảng chứa mô tả các sản phẩm trong cart
         val tempList = LinkedList<String>()
@@ -39,7 +40,6 @@ class Cart private constructor(){ //private constructor để không cho gọi c
 
         return tempList
     }
-
 
 
     fun addToCart(coffeeInCart: CoffeeInCart){
@@ -78,8 +78,8 @@ class Cart private constructor(){ //private constructor để không cho gọi c
         )
         //lấy collection favorite từ database
         //để add vào sau này
-        val getCart = db.collection("cart")
-            .document(Firebase.auth.currentUser!!.uid+getCurrentNoOfCarts().toString())
+        val getCart = db.collection("cart" + Firebase.auth.currentUser!!.uid)
+            .document(getCurrentNoOfCarts().toString())
 
         getCart.update(deleteUpdates) //xoá hết giá trị trong cart
 
@@ -93,7 +93,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
     }
 
     private fun updateLocally(tempList: LinkedList<String>){
-        val file = File("cart"+ getCurrentNoOfCarts().toString())
+        val file = File("cart")
         if (!file.exists()) {
             try {
                 file.createNewFile()
@@ -104,12 +104,14 @@ class Cart private constructor(){ //private constructor để không cho gọi c
         }
 
         try {
-            val writer = BufferedWriter(FileWriter(file, false)) //true là append vào file
+            val writer = BufferedWriter(FileWriter(file, true)) //true là append vào file
 
             for (temp in tempList){
                 writer.write(temp)
                 writer.newLine()
             }
+
+            writer.write("")
 
             writer.close()
         } catch (e: Exception) {
@@ -118,72 +120,14 @@ class Cart private constructor(){ //private constructor để không cho gọi c
         }
     }
 
-    //cái này giống như resume lại cart dang dở trước đó
-    private fun fetchFromFirebase(){
-        //lấy từ collection Favorites
-        val getCart = db.collection("cart")
-            .document(Firebase.auth.currentUser!!.uid+ getCurrentNoOfCarts().toString())
 
-        getCart.get()
-            .addOnSuccessListener {
-                    documentSnapshot->
-                val cart = documentSnapshot.get("cart") as ArrayList<String>
-                for (cartDesc in cart){
-                    val split = cartDesc.split(',') //tách từ theo dấu phẩy
-                    val temp= listCoffee
-                    temp.sortedBy { it.getName() }
-                    val tempCoffee = temp[listCoffee.binarySearch(split[0],{ obj1, obj2 ->
-                        (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
-                    })] //tìm object cà phê tương ứng
-                    val coffeeInCart = CoffeeInCart(tempCoffee)
-                    coffeeInCart.changeQuantity(split[2].toInt())
-                    coffeeInCart.changeSize(split[1].toInt())
-                    cartList.add(coffeeInCart)
-                }
-            }
-    }
+    //resume cart
+    fun resume(){
+        cartList.clear() //xoá toàn bộ giỏ hàng
 
-    private fun fetchLocally(){
-        val file = File("cart"+ getCurrentNoOfCarts().toString())
-        if (!file.exists()) {
-            Log.d("Error", "Không có file")
-            return
-        }
-
-        val stringBuilder = StringBuilder()
-        try {
-            val reader = BufferedReader(FileReader(file))
-
-            var line: String
-            while (reader.readLine().also { line = it } != null) {
-                val cartDesc = line //với từng dòng
-                val split = cartDesc.split(',') //tách từ theo dấu phẩy
-                val temp= listCoffee
-                temp.sortedBy { it.getName() }
-                val tempCoffee = temp[listCoffee.binarySearch(split[0],{ obj1, obj2 ->
-                    (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
-                })] //tìm object cà phê tương ứng
-                val coffeeInCart = CoffeeInCart(tempCoffee)
-                coffeeInCart.changeQuantity(split[2].toInt())
-                coffeeInCart.changeSize(split[1].toInt())
-                cartList.add(coffeeInCart)
-            }
-
-            reader.close()
-        } catch (e: Exception) {
-            Log.d("Error", "Không thể đọc file file")
-            return
-        }
-    }
-
-    //đọc cart đã lưu (tức là chưa checkout)
-    fun fetch(){
-        //nếu có tài khoản online
-        if (sharedPreferences.getBoolean("online_acc",false)){
-            fetchFromFirebase()
-        }
-        else{
-            fetchLocally()
+        val resumeCart = carts[getCurrentNoOfCarts()].cartList
+        for (item in resumeCart){
+            addToCart(item)
         }
     }
 }
@@ -202,6 +146,7 @@ class AppController{
         var listCoffee= LinkedList<Coffee>() //danh sách các coffee
         lateinit var redeemCoffees: LinkedList<RedeemCoffee>
         lateinit var sharedPreferences: SharedPreferences //shared preferences
+        lateinit var carts: ArrayList<Cart> //danh sách các cart
 //        val dbCoffeeList="coffee"
 //        val dbCoffeeNameField="name"
 //        val dbCoffeeImageField="imageName"

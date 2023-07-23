@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.ktx.Firebase
 import com.google.rpc.Help.Link
 import com.google.type.DateTime
+import com.tung.coffeeorder.AppController.Companion.ongoingOrders
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -97,7 +98,7 @@ class Order
         val createField = mapOf(
             "time" to time,
             "address" to address,
-            "done" to done
+            "done" to done.toString()
         )
 
         getOrder//lấy document trên firebase
@@ -144,7 +145,24 @@ class Order
     }
 
     private fun fetchFromFirebase(){
+        val getOrder = AppController.db.collection("orders"+Firebase.auth.currentUser!!.uid)
+            .document(Functions.getCurrentNoOfCarts().toString())
 
+        getOrder.get()
+            .addOnSuccessListener {
+                    documentSnapshot->
+                val time = documentSnapshot.getDate("time")
+                val address = documentSnapshot.getString("address")
+                var done = true
+                done = documentSnapshot.getString("done")=="true"
+
+                if (done){
+
+                }
+                else{
+
+                }
+            }
     }
 
     private fun fetchLocally(){
