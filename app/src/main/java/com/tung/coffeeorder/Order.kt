@@ -50,11 +50,6 @@ class Order
         this.idCount=idCount
     }
 
-    //up order này lên firebase
-    fun updateOrder(){
-
-    }
-
     fun getCart(): ArrayList<CoffeeInCart>{
         return cart
     }

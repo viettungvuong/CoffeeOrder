@@ -171,18 +171,20 @@ class CartActivity: AppCompatActivity() {
     //rảnh thì đổi Cart qua Map (key là tên cà phê cùng với size) để tối ưu vụ updateCartPrice
 
     fun checkOut(){
-        val temp = Cart.singleton
-        val order = Order(temp.getList(), LocalDateTime.now(), User.singleton.getaddress(), getCurrentNoOfCarts())
+        val temp = ArrayList(Cart.singleton.getList()) //copy constructor để nó kh reference
+        val order = Order(temp, LocalDateTime.now(), User.singleton.getaddress(), getCurrentNoOfCarts())
+        Log.d("order cart size 1",order.getCart().size.toString())
         addToOngoing(order) //thêm vào orders
 
         //xoá hết giỏ hàng khi đã checkout
         Cart.singleton.getList().clear()
-
+        Log.d("order cart size 3",order.getCart().size.toString())
     }
 
     fun addToOngoing(order: Order){
-        order.update() //lúc này chưa increaseCart
         AppController.ongoingOrders.add(order) //thêm vào orders
+        Log.d("order cart size 1",order.getCart().size.toString())
+        order.update() //lúc này chưa increaseCart
 
         increaseCart() //tăng số cart lên
     }
