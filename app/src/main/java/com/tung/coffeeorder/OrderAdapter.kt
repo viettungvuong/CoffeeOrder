@@ -65,7 +65,6 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
                 drinksList.addView(drinkView(drink)) //với từng cà phê trong order này thì thêm vào view
             }
 
-            Log.d("order cart size 4",order.getCart().size.toString())
             totalPriceText.text= reformatNumber(order.totalPrice())+" VNĐ"
         }
     }

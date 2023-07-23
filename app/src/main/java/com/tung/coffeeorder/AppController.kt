@@ -19,6 +19,7 @@ import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.listCoffee
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import com.tung.coffeeorder.Functions.Companion.getCurrentNoOfCarts
+import com.tung.coffeeorder.Functions.Companion.increaseCarts
 import java.io.*
 import java.util.LinkedList
 
@@ -43,11 +44,11 @@ class Cart {
 
 
     fun addToCart(coffeeInCart: CoffeeInCart){
-        cartList.add(coffeeInCart)
-        if (cartList.size==1){
+        if (cartList.isEmpty()){ //chứng tỏ là cart mới
+            increaseCarts() //thêm số cart
             carts.add(this) //báo là mới thêm cart mới
         }
-
+        cartList.add(coffeeInCart)
         update()
     }
 
@@ -76,18 +77,15 @@ class Cart {
             "cart" to tempList //tạo field cho cart (array field)
         )
 
+
         val getCart = db.collection("cart" + Firebase.auth.currentUser!!.uid)
            .document(getCurrentNoOfCarts().toString())
 
-//        val deleteUpdates = mapOf(
-//            "cart" to FieldValue.delete()
-//        )
-//
-//        //lấy collection favorite từ database
-//        //để add vào sau này
-//
-//
-//        getCart.update(deleteUpdates) //xoá hết giá trị trong cart
+        val deleteField = mapOf(
+            "cart" to FieldValue.delete()
+        )
+
+        getCart.update(deleteField)
 
         getCart
             .get()

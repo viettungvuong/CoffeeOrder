@@ -111,8 +111,18 @@ class Functions {
         }
 
         //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
-        fun increaseCart(){
+        fun increaseCarts(){
             sharedPreferences.edit().putInt("number-of-carts",getCurrentNoOfCarts()+1).apply() //tăng số lượng cart lên
+
+        }
+
+        fun getCurrentNoOfOrders(): Int{
+            return sharedPreferences.getInt("number-of-orders",0) //trả về số lượng giỏ hàng cho tới hiện tại
+        }
+
+        //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
+        fun increaseOrders(){
+            sharedPreferences.edit().putInt("number-of-orders",getCurrentNoOfOrders()+1).apply() //tăng số lượng cart lên
 
         }
 
@@ -290,9 +300,9 @@ class Functions {
         }
 
         fun needToResume(): Boolean{
-            Log.d("cart size", carts.size.toString())
-            Log.d("orders size",sharedPreferences.getInt("number-of-carts",0).toString())
-            return carts.size > sharedPreferences.getInt("number-of-carts",0)
+            Log.d("cart size", getCurrentNoOfCarts().toString())
+            Log.d("orders size",getCurrentNoOfOrders().toString())
+            return getCurrentNoOfCarts() > getCurrentNoOfOrders()
         }
 
     }

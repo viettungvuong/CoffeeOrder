@@ -33,10 +33,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initCarts() //lấy danh sách các cart
+
         AppController.ongoingAdapter = OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())
         AppController.historyAdapter = OrderAdapter(this, AppController.historyOrders, HistoryFragment())
 
-        initCarts() //lấy danh sách các cart
 
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottom_navigation)
 

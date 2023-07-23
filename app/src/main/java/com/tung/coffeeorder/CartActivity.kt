@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.Functions.Companion.getCurrentNoOfCarts
-import com.tung.coffeeorder.Functions.Companion.increaseCart
+import com.tung.coffeeorder.Functions.Companion.increaseOrders
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
 import java.time.LocalDateTime
 import java.util.*
@@ -171,9 +171,16 @@ class CartActivity: AppCompatActivity() {
     //rảnh thì đổi Cart qua Map (key là tên cà phê cùng với size) để tối ưu vụ updateCartPrice
 
     fun checkOut(){
+        if (Cart.singleton.getList().isEmpty()){
+            Toast.makeText(
+                this,
+                "Không có gì để đặt",
+                Toast.LENGTH_SHORT,
+            ).show()
+            return
+        }
         val temp = ArrayList(Cart.singleton.getList()) //copy constructor để nó kh reference
         val order = Order(temp, LocalDateTime.now(), User.singleton.getaddress(), getCurrentNoOfCarts())
-        Log.d("order cart size 1",order.getCart().size.toString())
         addToOngoing(order) //thêm vào orders
 
         //xoá hết giỏ hàng khi đã checkout
@@ -183,10 +190,9 @@ class CartActivity: AppCompatActivity() {
 
     fun addToOngoing(order: Order){
         AppController.ongoingOrders.add(order) //thêm vào orders
-        Log.d("order cart size 1",order.getCart().size.toString())
         order.update() //lúc này chưa increaseCart
 
-        increaseCart() //tăng số cart lên
+        increaseOrders() //tăng số order lên
     }
 }
 
