@@ -184,16 +184,15 @@ class AccountFunctions {
             Firebase.auth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(activity) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in User.singleton's information
-                        //Log.d(TAG, "signInWithEmail:success")
+
                         Toast.makeText(
                             context,
                             "Đã đăng nhập thành công",
                             Toast.LENGTH_SHORT,
                         ).show()
 
-                        AppController.sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
-                        AppController.sharedPreferences.edit().apply()
+                        sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
+                        sharedPreferences.edit().apply()
 
 
                         val email = task.result?.user?.email.toString()
@@ -209,7 +208,6 @@ class AccountFunctions {
 
 
                     } else {
-                        // If sign in fails, display a message t@o the User.singleton.
                         Log.w(ContentValues.TAG, "signInWithEmail:failure", task.exception)
                         Toast.makeText(
                             context,
@@ -231,8 +229,8 @@ class AccountFunctions {
                             Toast.LENGTH_SHORT,
                         ).show()
 
-                        AppController.sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
-                        AppController.sharedPreferences.edit().apply()
+                        sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
+                        sharedPreferences.edit().apply()
 
                         //đặt vào người dùng hiện tại
                         User.singleton.edit(Firebase.auth.currentUser!!.uid,name,username,phoneNumber,address,true)

@@ -42,6 +42,7 @@ class Login : AppCompatActivity() {
         if (sharedPreferences.getBoolean("online_acc",false)){
             //đã có đăng nhập rồi
             if (Firebase.auth.currentUser != null) {
+                Log.d("Already signed in",Firebase.auth.currentUser!!.uid)
                 sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
                 sharedPreferences.edit().apply()
 
@@ -107,6 +108,7 @@ class Login : AppCompatActivity() {
         val anonymousUse = findViewById<MaterialButton>(R.id.anonymous)
         anonymousUse.setOnClickListener{
             sharedPreferences.edit().putBoolean("online_acc",false) //đặt là không dùng tài khoản online
+            sharedPreferences.edit().apply()
             User.singleton.loadLocal() //đọc thông tin local
         }
 
