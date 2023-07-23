@@ -200,7 +200,8 @@ class AccountFunctions {
 
                         getInfoFromFirebase(User.singleton
                         ) { id,name,phoneNumber,address ->
-                            User.singleton.initialize(id,name, email, phoneNumber, address)
+                            Log.d("Accountid2",id)
+                            User.singleton.initialize(Firebase.auth.currentUser!!.uid,name, email, phoneNumber, address)
 
                             val intent =
                                 Intent(context, MainActivity::class.java)
@@ -288,6 +289,7 @@ class AccountFunctions {
                     documentSnapshot->
                     if (documentSnapshot.exists()){
                         val id =documentSnapshot.id
+                        Log.d("Accountid",id)
                         val address=documentSnapshot.getString("address").toString()
                         val name =documentSnapshot.getString("name").toString() //để tìm hiểu cách chỉnh display name cho nó đúng
                         val phoneNumber=documentSnapshot.getString("phone-number").toString()

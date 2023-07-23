@@ -43,7 +43,6 @@ class Login : AppCompatActivity() {
         if (Firebase.auth.currentUser != null) {
             sharedPreferences.edit()
                 .putBoolean("online_acc", true).apply() //ghi nhận là dùng tài khoản online cho app
-            Log.d("online-acc", sharedPreferences.getBoolean("online_acc",false).toString())
 
             Toast.makeText(
                 this,
@@ -56,16 +55,14 @@ class Login : AppCompatActivity() {
             AccountFunctions.getInfoFromFirebase(
                 User.singleton
             ) { id, name, phoneNumber, address ->
-                User.singleton.initialize(name, email, phoneNumber, address, id)
+                Log.d("Accountid2", id)
+                User.singleton.initialize(Firebase.auth.currentUser!!.uid, name, email, phoneNumber, address)
+
                 val intent =
                     Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
-            //đã đăng nhập rồi vào luôn
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
             //vào luôn main activity
         }
 

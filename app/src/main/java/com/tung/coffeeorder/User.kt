@@ -1,6 +1,7 @@
 package com.tung.coffeeorder
 
 import android.location.Address
+import android.util.Log
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 
@@ -45,28 +46,32 @@ class User private constructor(){
 
     val loyalty=LoyaltyPoint()
 
-    fun editName(newFullName: String){
+    fun editName(newFullName: String, initialize: Boolean=true){
         this.fullName=newFullName
 
+        if (!initialize)
         update()
     }
 
-    fun editPhoneNumber(newPhoneNumber: String){
+    fun editPhoneNumber(newPhoneNumber: String, initialize: Boolean=true){
         this.phoneNumber=newPhoneNumber
 
-        update()
+        if (!initialize)
+            update()
     }
 
-    fun editEmail(newEmail: String){
+    fun editEmail(newEmail: String, initialize: Boolean=true){
         this.email=newEmail
 
-        update()
+        if (!initialize)
+            update()
     }
 
-    fun editAddress(newAddress: String){
+    fun editAddress(newAddress: String, initialize: Boolean=true){
         this.address=newAddress
 
-        update()
+        if (!initialize)
+            update()
     }
 
     fun getname(): String{
@@ -113,6 +118,7 @@ class User private constructor(){
         editAddress(address)
 
         this.id=id
+
     }
 
     //cập nhật thay đổi
@@ -120,11 +126,15 @@ class User private constructor(){
         //nếu dùng tài khoản online thì up lên firebase
         if (sharedPreferences.getBoolean("online_acc",false)){
             //update lên firebase
+            val userData = mapOf(
+                "email" to email,
+                "name" to fullName,
+                "phone-number" to phoneNumber,
+                "address" to address
+            )
+
             //cập nhật lên firebase thay đổi mới
-            db.collection("users").document(id).update("email",email,
-            "name",fullName,
-            "phone-number",phoneNumber,
-            "address",address)
+            db.collection("users").document(this.id).update(userData)
 
         } //dành cho những người không dùng firebase
         else{
