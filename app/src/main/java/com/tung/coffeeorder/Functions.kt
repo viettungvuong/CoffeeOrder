@@ -8,6 +8,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import com.tung.coffeeorder.AppController.Companion.db
+import com.tung.coffeeorder.AppController.Companion.redeemCoffees
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 import kotlin.coroutines.suspendCoroutine
 
@@ -66,6 +70,24 @@ class Functions {
             return context.resources.getIdentifier(coffee.getImageFilename(),
             "drawable",
             context.packageName)
+        }
+
+        fun initRedeem() {
+            db.collection("redeem").get().addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val coffeeName = document.id
+                    val temp = AppController.listCoffee
+                    temp.sortedBy { it.getName() }
+                    val tempCoffee =
+                        temp[AppController.listCoffee.binarySearch(coffeeName, { obj1, obj2 ->
+                            (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
+                        })] //tìm object cà phê tương ứng
+                    val date = LocalDateTime.ofInstant(document.getDate("valid-date")?.toInstant(), ZoneId.systemDefault())
+                    val size = document.getLong("size")?.toInt()
+                    val redeemCoffee=RedeemCoffee(tempCoffee,date,size!!)
+                    redeemCoffees.add(redeemCoffee)
+                }
+            }
         }
     }
 

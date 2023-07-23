@@ -54,7 +54,7 @@ open class CoffeeInCart(coffee: Coffee): Coffee(
     }
 }
 
-class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime, private var restrictedSize: Int, private var maxQuantity: Int): CoffeeInCart(
+class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime, private var restrictedSize: Int): CoffeeInCart(
     coffee
 ){
 
@@ -71,11 +71,11 @@ class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime, private
     }
 
     override fun calculatePrice(): Long{
-        if (quantity<maxQuantity){
+        if (quantity<=1){
             return 0
         }
         else{
-            return singlePrice*(quantity-maxQuantity)
+            return singlePrice*(quantity-1)
         }
     }
 }

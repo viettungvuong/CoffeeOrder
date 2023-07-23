@@ -202,6 +202,7 @@ class AppController{
         var db= Firebase.firestore
         val storage = Firebase.storage.reference
         var listCoffee= LinkedList<Coffee>() //danh sách các coffee
+        lateinit var redeemCoffees: LinkedList<RedeemCoffee>
         lateinit var sharedPreferences: SharedPreferences //shared preferences
 //        val dbCoffeeList="coffee"
 //        val dbCoffeeNameField="name"
@@ -217,8 +218,6 @@ class AppController{
             var i=0
             while (i<temp.size&&coffeeInCart.getName()<=temp[i].getName()){
                 if (coffeeInCart.getName()==temp[i].getName()&&coffeeInCart.getSize()==temp[i].getSize()){
-                        Log.d("Coffee size",coffeeInCart.getSize().toString())
-                        Log.d("Cart size",temp[i].getSize().toString())
                         return i //cà phê này đã có trong giỏ hàng (trùng tên và kích thước)
                         //nếu có trả về index
                 }

@@ -22,6 +22,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.AccountFunctions.Companion.signIn
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
+import com.tung.coffeeorder.Functions.Companion.initCoffeeList
+import com.tung.coffeeorder.Functions.Companion.initRedeem
 import java.util.concurrent.TimeUnit
 
 class Login : AppCompatActivity() {
@@ -30,7 +32,9 @@ class Login : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         FirebaseApp.initializeApp(this)
-        Functions.initCoffeeList(AppController.listCoffee)
+        initCoffeeList(AppController.listCoffee)
+
+        initRedeem()
 
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
