@@ -11,7 +11,10 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.db
+import com.tung.coffeeorder.AppController.Companion.historyOrders
+import com.tung.coffeeorder.AppController.Companion.ongoingOrders
 import com.tung.coffeeorder.AppController.Companion.redeemCoffees
+import com.tung.coffeeorder.AppController.Companion.rewardsPoint
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import java.io.BufferedReader
 import java.io.File
@@ -105,6 +108,7 @@ class Functions {
             return sharedPreferences.getInt("number-of-carts",0) //trả về số lượng giỏ hàng cho tới hiện tại
         }
 
+        //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
         fun increaseCart(){
             sharedPreferences.edit().putInt("number-of-carts",getCurrentNoOfCarts()+1) //tăng số lượng cart lên
         }
@@ -233,7 +237,7 @@ class Functions {
             }
 
             val lines = file.readLines()
-            
+
             var index = 0
             try {
                 for (line in lines) {
@@ -246,13 +250,12 @@ class Functions {
                     done = lineSplit[2]=="true"
 
                     val currentOrder=Order(carts[index].getList(),time,address!!)
+                    ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
                     if (done){
-                        AppController.historyOrders.add(currentOrder)
+                        currentOrder.setDone(ongoingOrders, historyOrders, rewardsPoint)
                     }
-                    else{
-                        AppController.ongoingOrders.add(currentOrder)
-                    }
+
                     index++
                 }
             } catch (e: Exception) {
