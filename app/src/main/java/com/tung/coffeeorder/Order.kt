@@ -44,7 +44,7 @@ class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String)
         history.add(this) //thêm vào danh sách History
         val reward=Reward(this)
         rewards.add(reward) //thêm vào reward khi đơn hàng đã xong
-        AppController.user.loyalty.addPoints(reward.calculateBonusPoint())
+        User.singleton.loyalty.addPoints(reward.calculateBonusPoint())
         done=true
     }
 

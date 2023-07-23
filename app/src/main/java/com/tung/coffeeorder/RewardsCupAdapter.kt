@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RewardsCupAdapter(activity: Activity, user: User): RecyclerView.Adapter<RewardsCupAdapter.rewardViewHolder>() {
     val activity=activity
-    val user=user
+    val user = user
 
     inner class rewardViewHolder(view: View): RecyclerView.ViewHolder(view){
         val view=view
@@ -17,7 +17,7 @@ class RewardsCupAdapter(activity: Activity, user: User): RecyclerView.Adapter<Re
 
         fun bind(position: Int){
 
-            if (user.loyalty.getLoyaltyCardCount()<position+1){
+            if (User.singleton.loyalty.getLoyaltyCardCount()<position+1){
                 drawable.alpha=155 //làm mờ hình ảnh cái ly nếu như vị trí ly hơn số điểm đã tích được
             }
             else{

@@ -11,9 +11,9 @@ class RewardSectionHandler(activity: Activity, rewardSection: View) {
         val cupsRecycler=rewardSection.findViewById<RecyclerView>(R.id.cupsRewards)
         cupsRecycler.layoutManager=
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL,false)
-        cupsRecycler.adapter=RewardsCupAdapter(activity,AppController.user)
+        cupsRecycler.adapter=RewardsCupAdapter(activity,User.singleton)
 
         val currentPoint: TextView =rewardSection.findViewById(R.id.currentPoints)
-        currentPoint.text=AppController.user.loyalty.getCurrentPoints().toString()+"/8"
+        currentPoint.text=User.singleton.loyalty.getCurrentPoints().toString()+"/8"
     }
 }

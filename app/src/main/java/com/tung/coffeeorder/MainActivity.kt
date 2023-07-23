@@ -9,7 +9,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import com.tung.coffeeorder.AppController.Companion.user
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.dbCoffeeImageField
 import com.tung.coffeeorder.AppController.Companion.dbCoffeeList
@@ -31,10 +30,10 @@ class MainActivity : AppCompatActivity() {
 
 
         //dummy address để test
-        user.editName("Vương Quang Việt Tùng")
-        user.editEmail("viettungvuong@gmail.com")
-        user.editPhoneNumber("0785841999")
-        user.editAddress("18 đường số 7, phường Tân Hưng, quận 7")
+        User.singleton.editName("Vương Quang Việt Tùng")
+        User.singleton.editEmail("viettungvuong@gmail.com")
+        User.singleton.editPhoneNumber("0785841999")
+        User.singleton.editAddress("18 đường số 7, phường Tân Hưng, quận 7")
 
         AppController.ongoingAdapter = OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())
         AppController.historyAdapter = OrderAdapter(this, AppController.historyOrders, HistoryFragment())

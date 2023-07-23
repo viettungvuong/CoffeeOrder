@@ -81,7 +81,7 @@ class AccountFunctions {
             Firebase.auth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(activity) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
+                        // Sign in success, update UI with the signed-in User.singleton's information
                         //Log.d(TAG, "signInWithEmail:success")
                         Toast.makeText(
                             context,
@@ -89,8 +89,8 @@ class AccountFunctions {
                             Toast.LENGTH_SHORT,
                         ).show()
                         val email = task.result?.user?.email.toString()
-                        val name = task.result?.user?.displayName.toString()
-                        val phoneNumber = task.result?.user?.phoneNumber.toString()
+                        val name =  task.result?.user?.displayName.toString()
+                        val phoneNumber =  task.result?.user?.phoneNumber.toString()
                         getAddressFromFirebase(User.singleton,
                             {address->
                                 User.singleton.edit(name,email,phoneNumber,address)}
@@ -101,7 +101,7 @@ class AccountFunctions {
                         activity.finish()
 
                     } else {
-                        // If sign in fails, display a message t@o the user.
+                        // If sign in fails, display a message t@o the User.singleton.
                         Log.w(ContentValues.TAG, "signInWithEmail:failure", task.exception)
                         Toast.makeText(
                             context,
@@ -117,7 +117,7 @@ class AccountFunctions {
             Firebase.auth.createUserWithEmailAndPassword(username, password)
                 .addOnCompleteListener(activity) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
+                        // Sign in success, update UI with the signed-in User.singleton's information
                         //Log.d(TAG, "createUserWithEmail:success")
                         Toast.makeText(
                             context,
@@ -139,7 +139,7 @@ class AccountFunctions {
                             Intent(context,MainActivity::class.java)
                         activity.startActivity(intent)
                     } else {
-                        // If sign in fails, display a message to the user.
+                        // If sign in fails, display a message to the User.singleton.
                         Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
                         Toast.makeText(
                             context,
@@ -179,7 +179,7 @@ class AccountFunctions {
                 }
         }
 
-        //lấy địa chỉ của user từ firebase
+        //lấy địa chỉ của User.singleton từ firebase
         @JvmStatic
         fun getAddressFromFirebase(user: User, callback: (String)->Unit){
             db.collection("users").document(Firebase.auth.uid.toString()).get()

@@ -9,7 +9,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import com.tung.coffeeorder.AppController.Companion.user
 
 class UserEdit : AppCompatActivity() {
 
@@ -33,10 +32,10 @@ class UserEdit : AppCompatActivity() {
         userPhone = findViewById<EditText>(R.id.userPhone)
         userAddress = findViewById<EditText>(R.id.userAddress)
 
-        userName.text = Editable.Factory.getInstance().newEditable(user.getname())
-        userEmail.text = Editable.Factory.getInstance().newEditable(user.getemail())
-        userPhone.text = Editable.Factory.getInstance().newEditable(user.getphoneNumber())
-        userAddress.text = Editable.Factory.getInstance().newEditable(user.getaddress())
+        userName.text = Editable.Factory.getInstance().newEditable(User.singleton.getname())
+        userEmail.text = Editable.Factory.getInstance().newEditable(User.singleton.getemail())
+        userPhone.text = Editable.Factory.getInstance().newEditable(User.singleton.getphoneNumber())
+        userAddress.text = Editable.Factory.getInstance().newEditable(User.singleton.getaddress())
 
         val nameBtn = findViewById<ImageButton>(R.id.mainProfileBtn)
         val emailBtn = findViewById<ImageButton>(R.id.mainEmailBtn)
@@ -89,7 +88,7 @@ class UserEdit : AppCompatActivity() {
             imm.showSoftInput(userName, InputMethodManager.SHOW_IMPLICIT)
         }
         else{
-            AppController.user.editName(userName.text.toString())
+            User.singleton.editName(userName.text.toString())
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
@@ -121,7 +120,7 @@ class UserEdit : AppCompatActivity() {
             imm.showSoftInput(userEmail, InputMethodManager.SHOW_IMPLICIT)
         }
         else{
-            AppController.user.editEmail(userEmail.text.toString())
+            User.singleton.editEmail(userEmail.text.toString())
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
@@ -154,7 +153,7 @@ class UserEdit : AppCompatActivity() {
             imm.showSoftInput(userPhone, InputMethodManager.SHOW_IMPLICIT)
         }
         else{
-            AppController.user.editPhoneNumber(userPhone.text.toString())
+            User.singleton.editPhoneNumber(userPhone.text.toString())
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
@@ -187,7 +186,7 @@ class UserEdit : AppCompatActivity() {
             imm.showSoftInput(userAddress, InputMethodManager.SHOW_IMPLICIT)
         }
         else{
-            AppController.user.editAddress(userAddress.text.toString())
+            User.singleton.editAddress(userAddress.text.toString())
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
