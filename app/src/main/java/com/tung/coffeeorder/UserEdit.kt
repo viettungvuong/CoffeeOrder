@@ -100,8 +100,6 @@ class UserEdit : AppCompatActivity() {
             userPhone.isEnabled = false
             userAddress.isEnabled = false
 
-
-
             cancelButton.setImageResource(R.drawable.cancel)
             cancelButton.setOnClickListener { v ->
                 cancelEdit(v,view as ImageButton)
@@ -115,9 +113,12 @@ class UserEdit : AppCompatActivity() {
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(userName, InputMethodManager.SHOW_IMPLICIT)
         }
-        else{
+        else{ //lúc này nút là nút Accept, bấm là lưu thay đổi
             User.singleton.editName(userName.text.toString())
-            cancelEdit(cancelButton,view as ImageButton)
+            if (AppController.sharedPreferences.getBoolean("online_acc",false)){ //nếu đang không xài tài khoản online thì không up lên firebase làmg ì
+                User.singleton.updateFirebase()
+            }
+            cancelEdit(cancelButton,view as ImageButton) 
         }
     }
 
@@ -149,6 +150,9 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             User.singleton.editEmail(userEmail.text.toString())
+            if (AppController.sharedPreferences.getBoolean("online_acc",false)){ //nếu đang không xài tài khoản online thì không up lên firebase làmg ì
+                User.singleton.updateFirebase()
+            }
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
@@ -182,6 +186,9 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             User.singleton.editPhoneNumber(userPhone.text.toString())
+            if (AppController.sharedPreferences.getBoolean("online_acc",false)){ //nếu đang không xài tài khoản online thì không up lên firebase làmg ì
+                User.singleton.updateFirebase()
+            }
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
@@ -215,6 +222,9 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             User.singleton.editAddress(userAddress.text.toString())
+            if (AppController.sharedPreferences.getBoolean("online_acc",false)){ //nếu đang không xài tài khoản online thì không up lên firebase làmg ì
+                User.singleton.updateFirebase()
+            }
             cancelEdit(cancelButton,view as ImageButton)
         }
     }

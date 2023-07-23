@@ -21,6 +21,7 @@ import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.AccountFunctions.Companion.signIn
+import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import java.util.concurrent.TimeUnit
 
 class Login : AppCompatActivity() {
@@ -31,10 +32,17 @@ class Login : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         Functions.initCoffeeList(AppController.listCoffee)
 
-        val currentUser = Firebase.auth.currentUser
+
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
+        sharedPreferences.edit().putBoolean("online_acc",false) //mặc định là false, chỉ khi nào đăng nhập hoặc đăng ký thì mới là true
+        sharedPreferences.edit().apply()
+
+
 
         //đã có đăng nhập rồi
-        if (currentUser != null) {
+        if (Firebase.auth.currentUser != null) {
+            sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
+            sharedPreferences.edit().apply()
 
             Toast.makeText(
                 this,
@@ -46,14 +54,13 @@ class Login : AppCompatActivity() {
 
             AccountFunctions.getInfoFromFirebase(
                 User.singleton
-            ) { name, phoneNumber, address ->
-                User.singleton.edit(name, email, phoneNumber, address)
+            ) { id,name, phoneNumber, address ->
+                User.singleton.edit(name, email, phoneNumber, address,id)
                 val intent =
                     Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
-
             //đã đăng nhập rồi vào luôn
             val intent=Intent(this,MainActivity::class.java)
             startActivity(intent)

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.location.Address
 import android.util.Log
 import android.widget.Toast
@@ -38,18 +39,20 @@ class Cart private constructor(){ //private constructor để không cho gọi c
 class AppController{
     companion object{
         @JvmStatic
-        var db= Firebase.firestore
-        val storage = Firebase.storage.reference
-        var listCoffee= LinkedList<Coffee>() //danh sách các coffee
-        val dbCoffeeList="coffee"
-        val dbCoffeeNameField="name"
-        val dbCoffeeImageField="imageName"
-        val dbCoffeePriceField="price"
         val ongoingOrders=LinkedList<Order>() //danh sách các order onging
         val historyOrders=LinkedList<Order>() //danh sách các order history
         val rewardsPoint=LinkedList<Reward>() //danh sách điểm thưởng
         lateinit var ongoingAdapter: OrderAdapter
         lateinit var historyAdapter: OrderAdapter //để 2 adapter này ở đây vì hai adapter này có sự liên thông với nhau rất nhiều
+        var db= Firebase.firestore
+        val storage = Firebase.storage.reference
+        var listCoffee= LinkedList<Coffee>() //danh sách các coffee
+        lateinit var sharedPreferences: SharedPreferences //shared preferences
+//        val dbCoffeeList="coffee"
+//        val dbCoffeeNameField="name"
+//        val dbCoffeeImageField="imageName"
+//        val dbCoffeePriceField="price"
+
 
 
         @JvmStatic
@@ -88,10 +91,16 @@ class AccountFunctions {
                             "Đã đăng nhập thành công",
                             Toast.LENGTH_SHORT,
                         ).show()
+
+                        AppController.sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
+                        AppController.sharedPreferences.edit().apply()
+
+
                         val email = task.result?.user?.email.toString()
+
                         getInfoFromFirebase(User.singleton
-                        ) { name,phoneNumber,address ->
-                            User.singleton.edit(name, email, phoneNumber, address)
+                        ) { id,name,phoneNumber,address ->
+                            User.singleton.edit(name, email, phoneNumber, address,id)
                             val intent =
                                 Intent(context, MainActivity::class.java)
                             activity.startActivity(intent)
@@ -124,6 +133,9 @@ class AccountFunctions {
                             Toast.LENGTH_SHORT,
                         ).show()
 
+                        AppController.sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
+                        AppController.sharedPreferences.edit().apply()
+
 
                         //update lên firebase
                         val userData = hashMapOf(
@@ -132,14 +144,15 @@ class AccountFunctions {
                             "phone-number" to phoneNumber,
                             "address" to address
                         )
-                        //up lên firebase
+
+                        //set dữ liệu trên firebase
                         db.collection("users").document(Firebase.auth.currentUser!!.uid).set(userData)
 
                         val intent =
                             Intent(context,MainActivity::class.java)
                         activity.startActivity(intent)
+
                     } else {
-                        // If sign in fails, display a message to the User.singleton.
                         Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
                         Toast.makeText(
                             context,
@@ -181,15 +194,16 @@ class AccountFunctions {
 
         //lấy địa chỉ của User.singleton từ firebase
         @JvmStatic
-        fun getInfoFromFirebase(user: User, callback: (String,String,String)->Unit){
+        fun getInfoFromFirebase(user: User, callback: (String,String,String,String)->Unit){
             db.collection("users").document(Firebase.auth.uid.toString()).get()
                 .addOnSuccessListener {
                     documentSnapshot->
                     if (documentSnapshot.exists()){
+                        val id =documentSnapshot.id
                         val address=documentSnapshot.getString("address").toString()
                         val name =documentSnapshot.getString("name").toString() //để tìm hiểu cách chỉnh display name cho nó đúng
                         val phoneNumber=documentSnapshot.getString("phone-number").toString()
-                        callback(name,phoneNumber,address)
+                        callback(id,name,phoneNumber,address)
                     }
                 }
         }

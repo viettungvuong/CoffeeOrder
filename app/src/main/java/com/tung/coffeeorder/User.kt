@@ -1,8 +1,11 @@
 package com.tung.coffeeorder
 
 import android.location.Address
+import com.tung.coffeeorder.AppController.Companion.db
+import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 
 class User private constructor(){
+    private var id=""
     private var fullName=""
     private var phoneNumber=""
     private var email=""
@@ -70,10 +73,26 @@ class User private constructor(){
         return address
     }
 
-    fun edit(name: String, email: String, phoneNumber: String, address: String){
+    fun edit(id: String, name: String, email: String, phoneNumber: String, address: String){
         editEmail(email)
         editName(name)
         editPhoneNumber(phoneNumber)
         editAddress(address)
+
+        this.id=id
+    }
+
+    fun updateFirebase(){
+
+        //update lên firebase
+        val userData = mapOf(
+            "email" to email,
+            "name" to fullName,
+            "phone-number" to phoneNumber,
+            "address" to address
+        )
+
+        //cập nhật lên firebase thay đổi mới
+        db.collection("users").document(id).update(userData)
     }
 }
