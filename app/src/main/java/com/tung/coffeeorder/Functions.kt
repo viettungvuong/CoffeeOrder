@@ -12,6 +12,7 @@ import com.google.firebase.storage.ktx.storage
 import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.historyOrders
+import com.tung.coffeeorder.AppController.Companion.listCoffee
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
 import com.tung.coffeeorder.AppController.Companion.redeemCoffees
 import com.tung.coffeeorder.AppController.Companion.rewardsPoint
@@ -92,13 +93,12 @@ class Functions {
                     val coffeeName = document.id
                     val temp = AppController.listCoffee
                     temp.sortedBy { it.getName() }
-                    val tempCoffee =
-                        temp[AppController.listCoffee.binarySearch(coffeeName, { obj1, obj2 ->
-                            (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
-                        })] //tìm object cà phê tương ứng
+                    val tempCoffee = listCoffee.find { coffee ->
+                        coffee.getName() == coffeeName
+                    }//tìm object cà phê tương ứng
                     val size = document.getLong("size")?.toInt()
                     val points = document.getLong("points")?.toInt()
-                    val redeemCoffee=RedeemCoffee(tempCoffee,date,size!!,points!!)
+                    val redeemCoffee=RedeemCoffee(tempCoffee!!,date,size!!,points!!)
                     redeemCoffees.add(redeemCoffee)
                 }
             }
@@ -136,13 +136,12 @@ class Functions {
                             val split = cartDesc.split(',') //tách từ theo dấu phẩy
 
                             //tìm cà phê
-                            val temp = AppController.listCoffee
+                            val temp = listCoffee
                             temp.sortedBy { it.getName() }
-                            val tempCoffee =
-                                temp[AppController.listCoffee.binarySearch(split[0], { obj1, obj2 ->
-                                    (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
-                                })] //tìm object cà phê tương ứng
-                            val coffeeInCart = CoffeeInCart(tempCoffee)
+                            val tempCoffee = listCoffee.find { coffee ->
+                                coffee.getName() == split[0]
+                            }//tìm object cà phê tương ứng
+                            val coffeeInCart = CoffeeInCart(tempCoffee!!)
                             coffeeInCart.changeQuantity(split[2].toInt())
                             coffeeInCart.changeSize(split[1].toInt())
                             currentCart.addToCart(coffeeInCart)
@@ -172,11 +171,10 @@ class Functions {
                         //tìm cà phê
                         val temp = AppController.listCoffee
                         temp.sortedBy { it.getName() }
-                        val tempCoffee =
-                            temp[AppController.listCoffee.binarySearch(split[0], { obj1, obj2 ->
-                                (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
-                            })] //tìm object cà phê tương ứng
-                        val coffeeInCart = CoffeeInCart(tempCoffee)
+                        val tempCoffee = listCoffee.find { coffee ->
+                            coffee.getName() == split[0]
+                        }//tìm object cà phê tương ứng //tìm object cà phê tương ứng
+                        val coffeeInCart = CoffeeInCart(tempCoffee!!)
                         coffeeInCart.changeQuantity(split[2].toInt())
                         coffeeInCart.changeSize(split[1].toInt())
                         currentCart.addToCart(coffeeInCart)
