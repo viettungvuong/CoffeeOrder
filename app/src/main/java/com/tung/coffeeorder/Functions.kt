@@ -75,6 +75,10 @@ class Functions {
         fun initRedeem() {
             db.collection("redeem").get().addOnSuccessListener { documents ->
                 for (document in documents) {
+                    val date = LocalDateTime.ofInstant(document.getDate("valid-date")?.toInstant(), ZoneId.systemDefault())
+                    if (date>LocalDateTime.now()){
+                        continue //đã quá invalid date nên không thêm nữa
+                    }
                     val coffeeName = document.id
                     val temp = AppController.listCoffee
                     temp.sortedBy { it.getName() }
@@ -82,7 +86,6 @@ class Functions {
                         temp[AppController.listCoffee.binarySearch(coffeeName, { obj1, obj2 ->
                             (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
                         })] //tìm object cà phê tương ứng
-                    val date = LocalDateTime.ofInstant(document.getDate("valid-date")?.toInstant(), ZoneId.systemDefault())
                     val size = document.getLong("size")?.toInt()
                     val points = document.getLong("points")?.toInt()
                     val redeemCoffee=RedeemCoffee(tempCoffee,date,size!!,points!!)
