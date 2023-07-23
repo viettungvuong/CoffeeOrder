@@ -40,14 +40,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
         return tempList
     }
 
-    fun update(){
-        if (sharedPreferences.getBoolean("online_acc",false)){
-            updateToFirebase(getDescList()) //up lên firebase
-        }
-        else{
-            updateLocally(getDescList()) //xuất ra file
-        }
-    }
+
 
     fun addToCart(coffeeInCart: CoffeeInCart){
         cartList.add(coffeeInCart)
@@ -61,6 +54,15 @@ class Cart private constructor(){ //private constructor để không cho gọi c
 
     fun getList(): ArrayList<CoffeeInCart>{
         return this.cartList
+    }
+
+    fun update(){
+        if (sharedPreferences.getBoolean("online_acc",false)){
+            updateToFirebase(getDescList()) //up lên firebase
+        }
+        else{
+            updateLocally(getDescList()) //xuất ra file
+        }
     }
 
     private fun updateToFirebase(tempList: LinkedList<String>){
@@ -81,8 +83,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
 
         getCart.update(deleteUpdates) //xoá hết giá trị trong cart
 
-        getCart.collection("cart")
-            .document(Firebase.auth.currentUser!!.uid) //lấy document trên firebase
+        getCart
             .get()
             .addOnCompleteListener(OnCompleteListener {
                     task->if (task.isSuccessful()) {
@@ -117,6 +118,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
         }
     }
 
+    //cái này giống như resume lại cart dang dở trước đó
     private fun fetchFromFirebase(){
         //lấy từ collection Favorites
         val getCart = db.collection("cart")
@@ -174,7 +176,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
         }
     }
 
-    //đọc cart đã lưu
+    //đọc cart đã lưu (tức là chưa checkout)
     fun fetch(){
         //nếu có tài khoản online
         if (sharedPreferences.getBoolean("online_acc",false)){

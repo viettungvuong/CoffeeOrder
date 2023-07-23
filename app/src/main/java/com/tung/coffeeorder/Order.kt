@@ -1,6 +1,10 @@
 package com.tung.coffeeorder
 
 import android.location.Address
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.ktx.Firebase
 import com.google.rpc.Help.Link
 import com.google.type.DateTime
 import java.time.LocalDate
@@ -10,7 +14,6 @@ import kotlin.collections.ArrayList
 
 class Order
 {
-
 
     private var cart: ArrayList<CoffeeInCart>
     private var time: LocalDateTime
@@ -71,5 +74,47 @@ class Order
 
     fun getWhetherRedeem(): Boolean{
         return redeem
+    }
+
+    fun update(){
+        if (AppController.sharedPreferences.getBoolean("online_acc",false)){
+            updateToFirebase() //up lên firebase
+        }
+        else{
+            updateLocally() //xuất ra file
+        }
+    }
+
+    private fun updateToFirebase(){
+        val getOrder = AppController.db.collection("order")
+            .document(Firebase.auth.currentUser!!.uid+ Functions.getCurrentNoOfCarts().toString())
+
+        val createField = mapOf(
+            "cartNo" to Functions.getCurrentNoOfCarts().toString()
+        )
+
+        getOrder//lấy document trên firebase
+            .get()
+            .addOnCompleteListener(OnCompleteListener {
+                    task->if (task.isSuccessful()) {
+                getOrder.set(createField) //thêm cart
+            }
+            })
+    }
+
+    private fun updateLocally(){
+
+    }
+
+    fun fetch(){
+
+    }
+
+    private fun fetchFromFirebase(){
+
+    }
+
+    private fun fetchLocally(){
+
     }
 }
