@@ -219,17 +219,18 @@ class Functions {
                         val time = LocalDateTime.parse(document.getString("time"), DateTimeFormatter.ofPattern(
                             AppController.dateFormat
                         ))
+                        val id = document.id
                         val address = document.getString("address")
                         var done = true
                         done = document.getString("done")=="true"
 
-                        val currentOrder=Order(carts[document.id.toInt()].getList(),time,address!!)
+                        val currentOrder=Order(carts[document.id.toInt()].getList(),time,address!!,id.toInt())
 
                         if (done){
-                            AppController.historyOrders.add(currentOrder)
+                            historyOrders.add(currentOrder)
                         }
                         else{
-                            AppController.ongoingOrders.add(currentOrder)
+                            ongoingOrders.add(currentOrder)
                         }
                     }
 
@@ -249,14 +250,15 @@ class Functions {
             try {
                 for (line in lines) {
                     val lineSplit = line.split(',')
-                    val time = LocalDateTime.parse(lineSplit[0], DateTimeFormatter.ofPattern(
+                    val id = lineSplit[0]
+                    val time = LocalDateTime.parse(lineSplit[1], DateTimeFormatter.ofPattern(
                         AppController.dateFormat
                     ))
-                    val address = lineSplit[1]
+                    val address = lineSplit[2]
                     var done = true
-                    done = lineSplit[2]=="true"
+                    done = lineSplit[3]=="true"
 
-                    val currentOrder=Order(carts[index].getList(),time,address!!)
+                    val currentOrder=Order(carts[index].getList(),time,address!!,id.toInt())
                     ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
                     if (done){

@@ -12,6 +12,7 @@ import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.dateFormat
 import com.tung.coffeeorder.AppController.Companion.historyOrders
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
+import com.tung.coffeeorder.Functions.Companion.getCurrentNoOfCarts
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -24,7 +25,7 @@ import kotlin.collections.ArrayList
 
 class Order
 {
-
+    private var idCount=0
     private var cart: ArrayList<CoffeeInCart>
     private var time: LocalDateTime
     private var address: String
@@ -32,11 +33,12 @@ class Order
 
     private var done=false //false là ongoing, true là history
 
-    constructor(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String, redeem: Boolean=false){
+    constructor(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String, idCount: Int, redeem: Boolean=false){
         this.cart = cart
         this.time=time
         this.address=address
         this.redeem=redeem
+        this.idCount=idCount
     }
 
     constructor(redeemCoffee: RedeemCoffee, time: LocalDateTime, address: String){
@@ -45,6 +47,7 @@ class Order
         this.time=time
         this.address=address
         this.redeem=true
+        this.idCount=idCount
     }
 
     //up order này lên firebase
@@ -98,7 +101,7 @@ class Order
 
     private fun updateToFirebase(){
         val getOrder = AppController.db.collection("orders"+Firebase.auth.currentUser!!.uid)
-            .document(Functions.getCurrentNoOfCarts().toString())
+            .document(idCount.toString())
 
         val createField = mapOf(
             "time" to time.format(DateTimeFormatter.ofPattern(dateFormat)),
@@ -129,7 +132,7 @@ class Order
         try {
             val writer = BufferedWriter(FileWriter(file, true)) //true là append vào file
 
-            val temp = "$time,$address,$done"
+            val temp = "$idCount,$time,$address,$done"
             writer.write(temp)
             writer.newLine()
 
