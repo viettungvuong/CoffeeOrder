@@ -4,6 +4,7 @@ import android.media.Image
 import android.os.Parcel
 import android.os.Parcelable
 import java.io.Serializable
+import java.time.LocalDateTime
 
 open class Coffee(private val coffeeName: String, private val imageFilename: String, private val price: Long):
     Serializable {
@@ -43,4 +44,19 @@ class CoffeeInCart(coffee: Coffee): Coffee(
         return singlePrice*quantity
     }
 
+}
+
+class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime): Coffee(
+    coffee.getName(),
+    coffee.getImageFilename(),
+    coffee.getPrice()
+){
+
+    fun setValidDate(newDate: LocalDateTime){
+        validDate =newDate
+    }
+
+    fun getValidDate(): LocalDateTime{
+        return validDate
+    }
 }
