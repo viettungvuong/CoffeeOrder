@@ -135,7 +135,12 @@ class Order
     }
 
     fun fetch(){
-
+        if (AppController.sharedPreferences.getBoolean("online_acc",false)){
+            fetchFromFirebase() //lấy từ firebase
+        }
+        else{
+            fetchLocally() //đọc từ file
+        }
     }
 
     private fun fetchFromFirebase(){

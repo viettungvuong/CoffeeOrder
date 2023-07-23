@@ -57,6 +57,9 @@ open class CoffeeInCart(coffee: Coffee): Coffee(
 class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime, private var restrictedSize: Int, private var points: Int): CoffeeInCart(
     coffee
 ){
+    init {
+        quantity=1
+    }
 
     fun setValidDate(newDate: LocalDateTime){
         validDate =newDate
@@ -75,11 +78,6 @@ class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime, private
     }
 
     override fun calculatePrice(): Long{
-        if (quantity<=1){
-            return 0
-        }
-        else{
-            return singlePrice*(quantity-1)
-        }
+        return 0
     }
 }
