@@ -82,17 +82,28 @@ class User private constructor(){
         this.id=id
     }
 
-    fun updateFirebase(){
+    fun update(){
+        //nếu dùng tài khoản online thì up lên firebase
+        if (sharedPreferences.getBoolean("online_acc",false)){
+            //update lên firebase
+            val userData = mapOf(
+                "email" to email,
+                "name" to fullName,
+                "phone-number" to phoneNumber,
+                "address" to address
+            )
 
-        //update lên firebase
-        val userData = mapOf(
-            "email" to email,
-            "name" to fullName,
-            "phone-number" to phoneNumber,
-            "address" to address
-        )
-
-        //cập nhật lên firebase thay đổi mới
-        db.collection("users").document(id).update(userData)
+            //cập nhật lên firebase thay đổi mới
+            db.collection("users").document(id).update(userData)
+        } //dành cho những người không dùng firebase
+        else{
+            val editor = sharedPreferences.edit()
+            editor.putString("email",email)
+            editor.putString("name",fullName)
+            editor.putString("phone-number",phoneNumber)
+            editor.putString("address",address)
+            editor.apply()
+        }
     }
+
 }

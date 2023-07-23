@@ -173,6 +173,8 @@ class AccountFunctions {
                 Toast.LENGTH_SHORT,
             ).show()
 
+            AppController.sharedPreferences.edit().putBoolean("online_acc",false)
+            AppController.sharedPreferences.edit().apply()
 
         }
 

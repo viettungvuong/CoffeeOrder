@@ -34,38 +34,38 @@ class Login : AppCompatActivity() {
 
 
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
-        sharedPreferences.edit().putBoolean("online_acc",false) //mặc định là false, chỉ khi nào đăng nhập hoặc đăng ký thì mới là true
-        sharedPreferences.edit().apply()
 
 
+        //nếu như đang dùng tài khoản online
+        if (sharedPreferences.getBoolean("online_acc",false)){
+            //đã có đăng nhập rồi
+            if (Firebase.auth.currentUser != null) {
+                sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
+                sharedPreferences.edit().apply()
 
-        //đã có đăng nhập rồi
-        if (Firebase.auth.currentUser != null) {
-            sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
-            sharedPreferences.edit().apply()
+                Toast.makeText(
+                    this,
+                    "Đã đăng nhập thành công",
+                    Toast.LENGTH_SHORT,
+                ).show()
 
-            Toast.makeText(
-                this,
-                "Đã đăng nhập thành công",
-                Toast.LENGTH_SHORT,
-            ).show()
+                val email = Firebase.auth.currentUser!!.email.toString()
 
-            val email = Firebase.auth.currentUser!!.email.toString()
-
-            AccountFunctions.getInfoFromFirebase(
-                User.singleton
-            ) { id,name, phoneNumber, address ->
-                User.singleton.edit(name, email, phoneNumber, address,id)
-                val intent =
-                    Intent(this, MainActivity::class.java)
+                AccountFunctions.getInfoFromFirebase(
+                    User.singleton
+                ) { id,name, phoneNumber, address ->
+                    User.singleton.edit(name, email, phoneNumber, address,id)
+                    val intent =
+                        Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                //đã đăng nhập rồi vào luôn
+                val intent=Intent(this,MainActivity::class.java)
                 startActivity(intent)
                 finish()
+                //vào luôn main activity
             }
-            //đã đăng nhập rồi vào luôn
-            val intent=Intent(this,MainActivity::class.java)
-            startActivity(intent)
-            finish()
-            //vào luôn main activity
         }
 
     }

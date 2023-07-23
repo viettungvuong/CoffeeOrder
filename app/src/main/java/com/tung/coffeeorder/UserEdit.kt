@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.tung.coffeeorder.AccountFunctions.Companion.signOut
 
 class UserEdit : AppCompatActivity() {
 
@@ -73,13 +74,8 @@ class UserEdit : AppCompatActivity() {
         val signOutBtn = findViewById<MaterialButton>(R.id.signOutBtn)
         signOutBtn.setOnClickListener(
             View.OnClickListener {
-                Firebase.auth.signOut()
-                Toast.makeText(
-                    this,
-                    "Đã đăng xuất thành công",
-                    Toast.LENGTH_SHORT,
-                ).show()
-                val intent= Intent(this,Login::class.java)
+                signOut(this)
+                val intent = Intent(this,Login::class.java)
                 startActivity(intent)
                 finish()
 
@@ -115,10 +111,8 @@ class UserEdit : AppCompatActivity() {
         }
         else{ //lúc này nút là nút Accept, bấm là lưu thay đổi
             User.singleton.editName(userName.text.toString())
-            if (AppController.sharedPreferences.getBoolean("online_acc",false)){ //nếu đang không xài tài khoản online thì không up lên firebase làmg ì
-                User.singleton.updateFirebase()
-            }
-            cancelEdit(cancelButton,view as ImageButton) 
+            User.singleton.update()
+            cancelEdit(cancelButton,view as ImageButton)
         }
     }
 
@@ -150,9 +144,7 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             User.singleton.editEmail(userEmail.text.toString())
-            if (AppController.sharedPreferences.getBoolean("online_acc",false)){ //nếu đang không xài tài khoản online thì không up lên firebase làmg ì
-                User.singleton.updateFirebase()
-            }
+            User.singleton.update()
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
@@ -186,9 +178,7 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             User.singleton.editPhoneNumber(userPhone.text.toString())
-            if (AppController.sharedPreferences.getBoolean("online_acc",false)){ //nếu đang không xài tài khoản online thì không up lên firebase làmg ì
-                User.singleton.updateFirebase()
-            }
+            User.singleton.update()
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
@@ -222,9 +212,7 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             User.singleton.editAddress(userAddress.text.toString())
-            if (AppController.sharedPreferences.getBoolean("online_acc",false)){ //nếu đang không xài tài khoản online thì không up lên firebase làmg ì
-                User.singleton.updateFirebase()
-            }
+            User.singleton.update()
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
