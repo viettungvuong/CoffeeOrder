@@ -16,6 +16,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
 import java.util.LinkedList
 
 class Cart private constructor(){ //private constructor để không cho gọi constructor để singleton
@@ -39,7 +43,10 @@ class Cart private constructor(){ //private constructor để không cho gọi c
         //update cart
         //nếu đang dùng tài khoản onl
         if (sharedPreferences.getBoolean("online_acc",false)){
-            updateToFirebase(tempList)
+            updateToFirebase(tempList) //up lên firebase
+        }
+        else{
+            updateLocally(tempList) //xuất ra file
         }
     }
 
@@ -88,6 +95,32 @@ class Cart private constructor(){ //private constructor để không cho gọi c
                 }
             }
             })
+    }
+
+    private fun updateLocally(tempList: LinkedList<String>){
+        val file = File("cart")
+        if (!file.exists()) {
+            try {
+                file.createNewFile()
+            } catch (e: IOException) {
+                Log.d("Error","Không thể xuất ra file")
+                return
+            }
+        }
+
+        try {
+            val writer = BufferedWriter(FileWriter(file, true)) //true là append vào file
+
+            for (temp in tempList){
+                writer.write(temp)
+                writer.newLine()
+            }
+
+            writer.close()
+        } catch (e: Exception) {
+            Log.d("Error","Không thể xuất ra file")
+            return
+        }
     }
 }
 
