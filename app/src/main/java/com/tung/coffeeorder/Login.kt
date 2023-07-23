@@ -36,6 +36,8 @@ class Login : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
 
+//        sharedPreferences.edit().putInt("number-of-carts", 0).apply() //tăng số lượng cart lên
+
         initRedeem() //lấy danh sách các redeem
 
         //nếu như đang dùng tài khoản online

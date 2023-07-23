@@ -72,6 +72,7 @@ class Order
         rewards.add(reward) //thêm vào reward khi đơn hàng đã xong
         User.singleton.loyalty.addPoints(reward.calculateBonusPoint())
         done=true
+        update()
     }
 
     fun totalPrice(): Long{

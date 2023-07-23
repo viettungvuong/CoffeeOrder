@@ -196,7 +196,7 @@ class Functions {
         }
 
         fun fetchOrders(){
-            if (AppController.sharedPreferences.getBoolean("online_acc",false)){
+            if (sharedPreferences.getBoolean("online_acc",false)){
                 fetchFromFirebase() //lấy từ firebase
             }
             else{

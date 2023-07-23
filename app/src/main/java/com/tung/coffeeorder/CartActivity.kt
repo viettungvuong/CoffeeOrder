@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.Functions.Companion.increaseCart
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
 import java.time.LocalDateTime
