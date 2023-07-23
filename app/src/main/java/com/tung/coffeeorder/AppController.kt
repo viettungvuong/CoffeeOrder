@@ -196,12 +196,12 @@ class AccountFunctions {
                         sharedPreferences.edit().putBoolean("online_acc",true).apply() //ghi nhận là dùng tài khoản online cho app
 
 
-
                         val email = task.result?.user?.email.toString()
 
                         getInfoFromFirebase(User.singleton
                         ) { id,name,phoneNumber,address ->
-                            User.singleton.edit(id,name, email, phoneNumber, address)
+                            User.singleton.initialize(id,name, email, phoneNumber, address)
+
                             val intent =
                                 Intent(context, MainActivity::class.java)
                             activity.startActivity(intent)

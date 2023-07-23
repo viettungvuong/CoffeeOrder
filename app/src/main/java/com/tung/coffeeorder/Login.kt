@@ -56,7 +56,7 @@ class Login : AppCompatActivity() {
             AccountFunctions.getInfoFromFirebase(
                 User.singleton
             ) { id, name, phoneNumber, address ->
-                User.singleton.edit(name, email, phoneNumber, address, id)
+                User.singleton.initialize(name, email, phoneNumber, address, id)
                 val intent =
                     Intent(this, MainActivity::class.java)
                 startActivity(intent)

@@ -86,12 +86,7 @@ class User private constructor(){
     }
 
     fun edit(id: String, name: String, email: String, phoneNumber: String, address: String, create: Boolean=false){
-        editEmail(email)
-        editName(name)
-        editPhoneNumber(phoneNumber)
-        editAddress(address)
-
-        this.id=id
+        initialize(id,name,email,phoneNumber, address)
 
         if (!create) {
             update() //cập nhật thay đổi
@@ -111,20 +106,25 @@ class User private constructor(){
         }
     }
 
+    fun initialize(id: String, name: String, email: String, phoneNumber: String, address: String){
+        editEmail(email)
+        editName(name)
+        editPhoneNumber(phoneNumber)
+        editAddress(address)
+
+        this.id=id
+    }
+
     //cập nhật thay đổi
     fun update(){
         //nếu dùng tài khoản online thì up lên firebase
         if (sharedPreferences.getBoolean("online_acc",false)){
             //update lên firebase
-            val userData = mapOf(
-                "email" to email,
-                "name" to fullName,
-                "phone-number" to phoneNumber,
-                "address" to address
-            )
-
             //cập nhật lên firebase thay đổi mới
-            db.collection("users").document(id).update(userData)
+            db.collection("users").document(id).update("email",email,
+            "name",fullName,
+            "phone-number",phoneNumber,
+            "address",address)
 
         } //dành cho những người không dùng firebase
         else{
