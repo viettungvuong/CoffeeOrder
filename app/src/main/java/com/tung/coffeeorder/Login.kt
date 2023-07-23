@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit
 
 class Login : AppCompatActivity() {
 
+
     override fun onStart() {
         super.onStart()
         FirebaseApp.initializeApp(this)
@@ -53,11 +54,15 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
 
-        val userInput = findViewById<TextInputEditText>(R.id.username).text.toString()
-        val passwordInput = findViewById<TextInputEditText>(R.id.password).text.toString()
+        val userInput = findViewById<TextInputEditText>(R.id.username)
+        val passwordInput = findViewById<TextInputEditText>(R.id.password)
 
         val loginBtn = findViewById<MaterialButton>(R.id.signInBtn)
-        loginBtn.setOnClickListener{signIn(this,this,userInput, passwordInput)}
+        loginBtn.setOnClickListener{
+            startLogin(userInput,passwordInput) //ta không thể truyền thẳng string vào được
+            //vì nó sẽ luôn là null (do lúc onCreate string vốn đâu có)
+            //ta truyền view để nó lấy đúng text tại thời điểm
+        }
 
         val signUpBtn = findViewById<MaterialButton>(R.id.signUpBtn)
         signUpBtn.setOnClickListener{
@@ -78,6 +83,10 @@ class Login : AppCompatActivity() {
             false
         })
 
+    }
+
+    fun startLogin(userInput: TextInputEditText, passwordInput: TextInputEditText){
+        signIn(this,this,userInput.text.toString(), passwordInput.text.toString())
     }
 
 

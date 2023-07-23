@@ -16,17 +16,16 @@ class Signup : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.signup_activity)
 
-        val email = findViewById<TextInputEditText>(R.id.username).text.toString()
-        val password = findViewById<TextInputEditText>(R.id.password).text.toString()
-        val name = findViewById<TextInputEditText>(R.id.name).text.toString()
-        val phoneNumber = findViewById<TextInputEditText>(R.id.phoneNumber).text.toString()
-        val address=findViewById<TextInputEditText>(R.id.address).text.toString()
+        val email = findViewById<TextInputEditText>(R.id.username)
+        val password = findViewById<TextInputEditText>(R.id.password)
+        val name = findViewById<TextInputEditText>(R.id.name)
+        val phoneNumber = findViewById<TextInputEditText>(R.id.phoneNumber)
+        val address=findViewById<TextInputEditText>(R.id.address)
 
-        Log.d("email",email)
-        Log.d("password",password)
+
         val signUpBtn = findViewById<MaterialButton>(R.id.signUpBtn)
         signUpBtn.setOnClickListener{
-            AccountFunctions.signUp(this,this,email,password,name,phoneNumber, address)
+            startSignup(email,password,name, phoneNumber, address)
         }
 
         findViewById<TextInputEditText>(R.id.address).setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
@@ -39,5 +38,18 @@ class Signup : AppCompatActivity() {
             }
             false
         })
+    }
+
+    fun startSignup(user: TextInputEditText, password: TextInputEditText, name: TextInputEditText,
+    phoneNumber: TextInputEditText, address: TextInputEditText){
+        AccountFunctions.signUp(
+            this,
+            this,
+            user.text.toString(),
+            password.text.toString(),
+            name.text.toString(),
+            phoneNumber.text.toString(),
+            address.text.toString()
+        )
     }
 }

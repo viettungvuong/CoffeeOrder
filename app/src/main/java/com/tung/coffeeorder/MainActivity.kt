@@ -26,15 +26,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-
-
-
-        //dummy address để test
-        User.singleton.editName("Vương Quang Việt Tùng")
-        User.singleton.editEmail("viettungvuong@gmail.com")
-        User.singleton.editPhoneNumber("0785841999")
-        User.singleton.editAddress("18 đường số 7, phường Tân Hưng, quận 7")
-
         AppController.ongoingAdapter = OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())
         AppController.historyAdapter = OrderAdapter(this, AppController.historyOrders, HistoryFragment())
     }
