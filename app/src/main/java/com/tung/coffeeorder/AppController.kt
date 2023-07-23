@@ -57,40 +57,29 @@ class Cart private constructor(){ //private constructor để không cho gọi c
     }
 
     private fun updateToFirebase(tempList: LinkedList<String>){
-        val data = arrayListOf(
-            tempList,
-        )
+
         val createField = hashMapOf(
-            "cart" to data //tạo field cho cart (array field)
+            "cart" to arrayListOf(
+                tempList,
+            ) //tạo field cho cart (array field)
         )
 
+        val deleteUpdates = mapOf(
+            "cart" to FieldValue.delete()
+        )
         //lấy collection favorite từ database
         //để add vào sau này
-        val getFavorites =  db.collection("cart")
+        val getCart = db.collection("cart")
             .document(Firebase.auth.currentUser!!.uid)
 
-        getFavorites //lấy document trên firebase
+        getCart.update(deleteUpdates) //xoá hết giá trị trong cart
+
+        getCart.collection("cart")
+            .document(Firebase.auth.currentUser!!.uid) //lấy document trên firebase
             .get()
             .addOnCompleteListener(OnCompleteListener {
                     task->if (task.isSuccessful()) {
-                val document=task.result
-                if (document!=null){ //có document
-                    if (document.exists()){
-                        //nếu có field products rồi
-                        if (document.contains("cart")){
-                            //nếu có field Products
-                            getFavorites.update("cart", FieldValue.arrayUnion(tempList))
-                        }
-                        else{
-                            getFavorites.set(createField)
-                            //nếu không có field cart
-                        }
-                    }
-                    else{
-                        getFavorites.set(createField)
-                        //nếu không có document
-                    }
-                }
+                getCart.set(createField) //thêm cart
             }
             })
     }
@@ -107,7 +96,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
         }
 
         try {
-            val writer = BufferedWriter(FileWriter(file, true)) //true là append vào file
+            val writer = BufferedWriter(FileWriter(file, false)) //true là append vào file
 
             for (temp in tempList){
                 writer.write(temp)
