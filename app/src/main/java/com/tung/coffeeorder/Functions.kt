@@ -268,6 +268,9 @@ class Functions {
 
         //resume cart
         fun resumeCart(){
+            if (!needToResume()){
+                return
+            }
             if (carts.isEmpty()){
                 return
             }
@@ -275,6 +278,15 @@ class Functions {
             val resumeCart = carts[getCurrentNoOfCarts()].getList()
             for (item in resumeCart){
                 Cart.singleton.addToCart(item)
+            }
+        }
+
+        fun needToResume(): Boolean{
+            if (carts.size<= ongoingOrders.size+ historyOrders.size){
+                return false
+            }
+            else{
+                return true
             }
         }
 

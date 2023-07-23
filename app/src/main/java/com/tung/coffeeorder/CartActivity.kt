@@ -170,8 +170,7 @@ class CartActivity: AppCompatActivity() {
     //rảnh thì đổi Cart qua Map (key là tên cà phê cùng với size) để tối ưu vụ updateCartPrice
 
     fun checkOut(){
-        val temp= Cart.singleton
-        carts.add(temp)
+        val temp = Cart.singleton
         val order = Order(temp.getList(), LocalDateTime.now(), User.singleton.getaddress())
         addToOngoing(order) //thêm vào orders
 

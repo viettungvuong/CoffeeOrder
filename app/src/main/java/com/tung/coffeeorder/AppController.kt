@@ -44,6 +44,9 @@ class Cart {
 
     fun addToCart(coffeeInCart: CoffeeInCart){
         cartList.add(coffeeInCart)
+        if (cartList.size==1){
+            carts.add(this) //báo là mới thêm cart mới
+        }
 
         update()
     }
