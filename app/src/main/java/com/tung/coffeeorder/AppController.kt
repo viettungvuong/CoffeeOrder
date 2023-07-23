@@ -193,6 +193,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
 class AppController{
     companion object{
         @JvmStatic
+        val dateFormat = "dd-MM-yyyy HH:mm" //format ngày tháng
         val ongoingOrders=LinkedList<Order>() //danh sách các order onging
         val historyOrders=LinkedList<Order>() //danh sách các order history
         val rewardsPoint=LinkedList<Reward>() //danh sách điểm thưởng

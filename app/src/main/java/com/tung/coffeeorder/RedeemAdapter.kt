@@ -3,9 +3,14 @@ package com.tung.coffeeorder
 import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>):
@@ -16,8 +21,28 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
 
     inner class redeemViewHolder(view: View): RecyclerView.ViewHolder(view){
 
-        fun bind(redeemCoffee: RedeemCoffee){
+        val coffeeName = view.findViewById<TextView>(R.id.coffeeTitle)
+        val validDate = view.findViewById<TextView>(R.id.validdate)
+        val imageView = view.findViewById<ImageView>(R.id.coffeeImage)
 
+        val redeemBtn = view.findViewById<MaterialButton>(R.id.redeem_btn)
+
+        fun redeem(redeemCoffee: RedeemCoffee){
+
+        }
+
+        fun bind(redeemCoffee: RedeemCoffee){
+            coffeeName.text=redeemCoffee.getName()
+            validDate.text=redeemCoffee.getValidDate().format(
+                DateTimeFormatter.ofPattern(
+                    AppController.dateFormat
+                )).toString()
+
+            imageView.setImageResource(Functions.imageFromCoffee(activity, redeemCoffee))
+
+            redeemBtn.setOnClickListener{
+                redeem(redeemCoffee)
+            }
         }
     }
 
