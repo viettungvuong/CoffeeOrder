@@ -70,20 +70,21 @@ class Cart {
     private fun updateToFirebase(tempList: LinkedList<String>){
 
         val createField = hashMapOf(
-            "cart" to arrayListOf(
-                tempList,
-            ) //tạo field cho cart (array field)
+            "cart" to tempList //tạo field cho cart (array field)
         )
 
-        val deleteUpdates = mapOf(
-            "cart" to FieldValue.delete()
-        )
-        //lấy collection favorite từ database
-        //để add vào sau này
         val getCart = db.collection("cart" + Firebase.auth.currentUser!!.uid)
-            .document(getCurrentNoOfCarts().toString())
+           .document(getCurrentNoOfCarts().toString())
 
-        getCart.update(deleteUpdates) //xoá hết giá trị trong cart
+//        val deleteUpdates = mapOf(
+//            "cart" to FieldValue.delete()
+//        )
+//
+//        //lấy collection favorite từ database
+//        //để add vào sau này
+//
+//
+//        getCart.update(deleteUpdates) //xoá hết giá trị trong cart
 
         getCart
             .get()
