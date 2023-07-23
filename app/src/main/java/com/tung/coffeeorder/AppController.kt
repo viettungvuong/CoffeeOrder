@@ -45,7 +45,6 @@ class AppController{
         val dbCoffeeNameField="name"
         val dbCoffeeImageField="imageName"
         val dbCoffeePriceField="price"
-        var user= User() //user của session hiện tại
         val ongoingOrders=LinkedList<Order>() //danh sách các order onging
         val historyOrders=LinkedList<Order>() //danh sách các order history
         val rewardsPoint=LinkedList<Reward>() //danh sách điểm thưởng
@@ -89,13 +88,13 @@ class AccountFunctions {
                             "Đã đăng nhập thành công",
                             Toast.LENGTH_SHORT,
                         ).show()
-                        val email = task.result?.user?.email
-                        val name = task.result?.user?.displayName
-                        val phoneNumber = task.result?.user?.phoneNumber
-                        //val address
-                        AppController.user.editPhoneNumber(phoneNumber)
-                        AppController.user.editEmail(email)
-                        AppController.user.
+                        val email = task.result?.user?.email.toString()
+                        val name = task.result?.user?.displayName.toString()
+                        val phoneNumber = task.result?.user?.phoneNumber.toString()
+                        getAddressFromFirebase(User.singleton,
+                            {address->
+                                User.singleton.edit(name,email,phoneNumber,address)}
+                        )
                         val intent =
                             Intent(context,MainActivity::class.java)
                         activity.startActivity(intent)
@@ -114,7 +113,7 @@ class AccountFunctions {
         }
 
         @JvmStatic
-        fun signUp(activity: Activity, context: Context, username: String, password: String){
+        fun signUp(activity: Activity, context: Context, username: String, password: String, name: String, phoneNumber: String, address: String){
             Firebase.auth.createUserWithEmailAndPassword(username, password)
                 .addOnCompleteListener(activity) { task ->
                     if (task.isSuccessful) {
@@ -128,9 +127,13 @@ class AccountFunctions {
 
                         //update lên firebase
                         val userData = hashMapOf(
-                            "email" to username
+                            "email" to username,
+                            "name" to name,
+                            "phone-number" to phoneNumber,
+                            "address" to address
                         )
-                        val accountFirebase = db.collection("users").document(Firebase.auth.currentUser!!.uid).set(userData)
+                        //up lên firebase
+                        db.collection("users").document(Firebase.auth.currentUser!!.uid).set(userData)
 
                         val intent =
                             Intent(context,MainActivity::class.java)
@@ -172,6 +175,19 @@ class AccountFunctions {
                             "Đã đổi mật khẩu thành công",
                             Toast.LENGTH_SHORT,
                         ).show()
+                    }
+                }
+        }
+
+        //lấy địa chỉ của user từ firebase
+        @JvmStatic
+        fun getAddressFromFirebase(user: User, callback: (String)->Unit){
+            db.collection("users").document(Firebase.auth.uid.toString()).get()
+                .addOnSuccessListener {
+                    documentSnapshot->
+                    if (documentSnapshot.exists()){
+                        val address=documentSnapshot.getString("address").toString()
+                        callback(address)
                     }
                 }
         }
