@@ -161,7 +161,7 @@ class Functions {
                             val coffeeInCart = CoffeeInCart(tempCoffee!!)
                             coffeeInCart.changeQuantity(split[2].toInt())
                             coffeeInCart.changeSize(split[1].toInt())
-                            currentCart.addToCart(coffeeInCart)
+                            currentCart.getList().add(coffeeInCart)
                         }
                         carts.add(currentCart) //thêm vào danh sách các cart
                     }
@@ -293,9 +293,9 @@ class Functions {
                 return
             }
 
-            val resumeCart = carts[getCurrentNoOfCarts()].getList()
+            val resumeCart = carts[getCurrentNoOfCarts()-1].getList()
             for (item in resumeCart){
-                Cart.singleton.addToCart(item)
+                Cart.singleton.getList().add(item) //dùng addToCart sẽ làm tăng số number-of-carts, dẫn đến kết quả sai
             }
         }
 

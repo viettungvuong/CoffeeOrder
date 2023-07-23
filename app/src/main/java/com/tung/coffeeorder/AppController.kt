@@ -45,6 +45,7 @@ class Cart {
 
     fun addToCart(coffeeInCart: CoffeeInCart){
         if (cartList.isEmpty()){ //chứng tỏ là cart mới
+            Log.d("Added!!","added to firebase")
             increaseCarts() //thêm số cart
             carts.add(this) //báo là mới thêm cart mới
         }
@@ -72,6 +73,8 @@ class Cart {
     }
 
     private fun updateToFirebase(tempList: LinkedList<String>){
+
+        Log.d("Added!!","added to firebase")
 
         val createField = hashMapOf(
             "cart" to tempList //tạo field cho cart (array field)
