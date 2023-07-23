@@ -21,6 +21,8 @@ class Login : AppCompatActivity() {
     lateinit var storedVerificationId: String
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
 
+    var signInMode = true //true là nhập số điện thoại, false là nhập otp
+
     override fun onStart() {
         super.onStart()
         FirebaseApp.initializeApp(this)
@@ -53,20 +55,50 @@ class Login : AppCompatActivity() {
             }
         }
 
-        val signInBtn = findViewById<MaterialButton>(R.id.signInBtn)
-        signInBtn.setOnClickListener(
-            View.OnClickListener {
-                sendVerificationCode(findViewById<TextInputEditText>(R.id.username).text.toString()) //gửi mã xác nhận
-            }
-        )
+        val currentUser = Firebase.auth.currentUser
+
+        //đã có đăng nhập rồi
+        if (currentUser != null) {
+            Toast.makeText(
+                this,
+                "Đã đăng nhập thành công",
+                Toast.LENGTH_SHORT,
+            ).show()
+
+            //đã đăng nhập rồi
+            val intent=Intent(this,MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            //vào luôn main activity
+        }
+
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
 
+        val signInBtn = findViewById<MaterialButton>(R.id.signInBtn)
+        signInBtn.setOnClickListener {
+           view->
+            if (signInMode){
+                sendVerificationCode(
+                    view,
+                    findViewById<TextInputEditText>(R.id.username).text.toString()
+                ) //gửi mã xác nhận
+            }
+            else{
+                verifyPhoneNumberWithCode(findViewById<TextInputEditText>(R.id.username).text.toString())
+                //xác nhận mã otp
+            }
+        }
     }
 
-    fun sendVerificationCode(phoneNumber: String){
+    private fun verifyPhoneNumberWithCode(code: String) {
+        val credential = PhoneAuthProvider.getCredential(storedVerificationId, code)
+        signInWithPhoneAuthCredential(credential)
+    }
+
+    fun sendVerificationCode(view: View, phoneNumber: String){
         val options = PhoneAuthOptions.newBuilder(Firebase.auth)
             .setPhoneNumber(phoneNumber) // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
@@ -74,7 +106,8 @@ class Login : AppCompatActivity() {
             .setCallbacks(callbacks) // OnVerificationStateChangedCallbacks
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
-
+        signInMode=false
+        (view as MaterialButton).text="Xác nhận mã"
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
