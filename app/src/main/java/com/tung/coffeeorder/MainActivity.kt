@@ -37,8 +37,6 @@ class MainActivity : AppCompatActivity() {
         AppController.historyAdapter = OrderAdapter(this, AppController.historyOrders, HistoryFragment())
 
         initCarts() //lấy danh sách các cart
-        fetchOrders() //lấy tất cả order (phải có cart thì mới lấy order được)
-
 
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottom_navigation)
 

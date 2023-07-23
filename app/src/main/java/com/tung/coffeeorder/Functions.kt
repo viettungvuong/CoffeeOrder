@@ -118,11 +118,14 @@ class Functions {
 
         fun initCarts(){
             if (sharedPreferences.getBoolean("online_acc",false)){
-                initCartsFromFirebase{ resumeCart() }
+                initCartsFromFirebase{ resumeCart()
+                fetchOrders()
+                }
             }
             else{
                 initCartsLocally()
                 resumeCart()
+                fetchOrders() //lấy tất cả order (phải có cart thì mới lấy order được)
             }
         }
 
