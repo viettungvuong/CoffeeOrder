@@ -94,9 +94,10 @@ class User private constructor(){
         this.id=id
 
         if (!create) {
-            update() //update
+            update() //cập nhật thay đổi
         }
         else{
+            //create là để biết gọi từ hàm signUp
             //tạo trên firebase
             val userData = mapOf(
                 "email" to email,
@@ -110,6 +111,7 @@ class User private constructor(){
         }
     }
 
+    //cập nhật thay đổi
     fun update(){
         //nếu dùng tài khoản online thì up lên firebase
         if (sharedPreferences.getBoolean("online_acc",false)){
@@ -133,6 +135,15 @@ class User private constructor(){
             editor.putString("address",address)
             editor.apply()
         }
+    }
+
+    //dành cho người không dùng acc onl
+    fun loadLocal(){
+        val email = sharedPreferences.getString("email","")!!
+        val name = sharedPreferences.getString("name","")!!
+        val phoneNumber = sharedPreferences.getString("phone-number","")!!
+        val address = sharedPreferences.getString("address","")!!
+        edit("",name,email,phoneNumber,address)
     }
 
 }
