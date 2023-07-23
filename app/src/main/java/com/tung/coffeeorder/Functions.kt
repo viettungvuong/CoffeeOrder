@@ -234,7 +234,7 @@ class Functions {
                         var done = true
                         done = document.getString("done")=="true"
 
-                        val currentOrder=Order(carts[document.id.toInt()].getList(),time,address!!,id.toInt())
+                        val currentOrder=Order(carts[document.id.toInt()-1].getList(),time,address!!,id.toInt())
 
                         if (done){
                             historyOrders.add(currentOrder)

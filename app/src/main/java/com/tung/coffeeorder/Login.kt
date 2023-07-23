@@ -43,33 +43,7 @@ class Login : AppCompatActivity() {
 
         initRedeem() //lấy danh sách các redeem
 
-        //nếu như đang dùng tài khoản online
-
-        if (Firebase.auth.currentUser != null) {
-            sharedPreferences.edit()
-                .putBoolean("online_acc", true).apply() //ghi nhận là dùng tài khoản online cho app
-
-            Toast.makeText(
-                this,
-                "Đã đăng nhập thành công",
-                Toast.LENGTH_SHORT,
-            ).show()
-
-            val email = Firebase.auth.currentUser!!.email.toString()
-
-            AccountFunctions.getInfoFromFirebase(
-                User.singleton
-            ) { id, name, phoneNumber, address ->
-                Log.d("Accountid2", id)
-                User.singleton.initialize(Firebase.auth.currentUser!!.uid, name, email, phoneNumber, address)
-
-                val intent =
-                    Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-            //vào luôn main activity
-        }
+        autoLogin() //tự động đăng nhập
 
         val userInput = findViewById<TextInputEditText>(R.id.username)
         val passwordInput = findViewById<TextInputEditText>(R.id.password)
@@ -113,5 +87,32 @@ class Login : AppCompatActivity() {
         signIn(this,this,userInput.text.toString(), passwordInput.text.toString())
     }
 
+    fun autoLogin(){
+        if (Firebase.auth.currentUser != null) {
+            val intent =
+                Intent(this, MainActivity::class.java)
+
+            startActivity(intent)
+
+            sharedPreferences.edit()
+                .putBoolean("online_acc", true).apply() //ghi nhận là dùng tài khoản online cho app
+
+            Toast.makeText(
+                this,
+                "Đã đăng nhập thành công",
+                Toast.LENGTH_SHORT,
+            ).show()
+
+            val email = Firebase.auth.currentUser!!.email.toString()
+
+            AccountFunctions.getInfoFromFirebase(
+                User.singleton
+            ) { id, name, phoneNumber, address ->
+                Log.d("Accountid2", id)
+                User.singleton.initialize(Firebase.auth.currentUser!!.uid, name, email, phoneNumber, address)
+                finish()
+            }
+        }
+    }
 
 }
