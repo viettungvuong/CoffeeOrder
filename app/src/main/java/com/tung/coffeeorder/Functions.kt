@@ -130,6 +130,7 @@ class Functions {
             getCart.get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
+                        Log.d("cart name",document.id)
                         val cart = document.get("cart") as ArrayList<String> //array field cart
                         var currentCart=Cart()
                         for (cartDesc in cart) {
@@ -260,6 +261,18 @@ class Functions {
             } catch (e: Exception) {
                 Log.d("Error", "Không thể đọc file")
                 return
+            }
+        }
+
+        //resume cart
+        fun resumeCart(){
+            if (carts.isEmpty()){
+                return
+            }
+
+            val resumeCart = carts[getCurrentNoOfCarts()].getList()
+            for (item in resumeCart){
+                Cart.singleton.addToCart(item)
             }
         }
 

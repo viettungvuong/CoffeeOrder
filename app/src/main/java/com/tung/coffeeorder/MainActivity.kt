@@ -14,6 +14,7 @@ import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.listCoffee
 import com.tung.coffeeorder.Functions.Companion.fetchOrders
 import com.tung.coffeeorder.Functions.Companion.initCarts
+import com.tung.coffeeorder.Functions.Companion.resumeCart
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         AppController.historyAdapter = OrderAdapter(this, AppController.historyOrders, HistoryFragment())
 
         initCarts() //lấy danh sách các cart
-        Cart.singleton.resume() //đọc cart còn dang dở
+        resumeCart() //đọc cart còn dang dở
 
         fetchOrders() //lấy tất cả order (phải có cart thì mới lấy order được)
     }

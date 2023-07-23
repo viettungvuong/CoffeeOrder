@@ -124,18 +124,7 @@ class Cart {
     }
 
 
-    //resume cart
-    fun resume(){
-        if (carts.isEmpty()){
-            return
-        }
-        cartList.clear() //xoá toàn bộ giỏ hàng
 
-        val resumeCart = carts[getCurrentNoOfCarts()].cartList
-        for (item in resumeCart){
-            addToCart(item)
-        }
-    }
 }
 
 class AppController{
