@@ -8,11 +8,14 @@ import android.content.SharedPreferences
 import android.location.Address
 import android.util.Log
 import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.tung.coffeeorder.AppController.Companion.db
+import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import java.util.LinkedList
 
 class Cart private constructor(){ //private constructor để không cho gọi constructor để singleton
@@ -25,6 +28,19 @@ class Cart private constructor(){ //private constructor để không cho gọi c
 
     fun addToCart(coffeeInCart: CoffeeInCart){
         cartList.add(coffeeInCart)
+
+        val tempList = LinkedList<String>()
+
+        for (coffeeInCart in cartList){
+            val desc=coffeeInCart.getName()+","+coffeeInCart.currentSize.toString()+","+coffeeInCart.quantity.toString()
+            tempList.add(desc)
+        }
+
+        //update cart
+        //nếu đang dùng tài khoản onl
+        if (sharedPreferences.getBoolean("online_acc",false)){
+            updateToFirebase(tempList)
+        }
     }
 
     fun removeFromCart(index: Int){
@@ -33,6 +49,45 @@ class Cart private constructor(){ //private constructor để không cho gọi c
 
     fun getList(): ArrayList<CoffeeInCart>{
         return this.cartList
+    }
+
+    private fun updateToFirebase(tempList: LinkedList<String>){
+        val data = arrayListOf(
+            tempList,
+        )
+        val createField = hashMapOf(
+            "cart" to data //tạo field cho cart (array field)
+        )
+
+        //lấy collection favorite từ database
+        //để add vào sau này
+        val getFavorites =  db.collection("cart")
+            .document(Firebase.auth.currentUser!!.uid)
+
+        getFavorites //lấy document trên firebase
+            .get()
+            .addOnCompleteListener(OnCompleteListener {
+                    task->if (task.isSuccessful()) {
+                val document=task.result
+                if (document!=null){ //có document
+                    if (document.exists()){
+                        //nếu có field products rồi
+                        if (document.contains("cart")){
+                            //nếu có field Products
+                            getFavorites.update("cart", FieldValue.arrayUnion(tempList))
+                        }
+                        else{
+                            getFavorites.set(createField)
+                            //nếu không có field cart
+                        }
+                    }
+                    else{
+                        getFavorites.set(createField)
+                        //nếu không có document
+                    }
+                }
+            }
+            })
     }
 }
 
@@ -142,7 +197,6 @@ class AccountFunctions {
                         activity.startActivity(intent)
 
                     } else {
-                        Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
                         Toast.makeText(
                             context,
                             "Không thể tạo tài khoản",
