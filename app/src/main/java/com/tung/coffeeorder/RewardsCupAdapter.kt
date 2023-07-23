@@ -13,7 +13,7 @@ class RewardsCupAdapter(activity: Activity, user: User): RecyclerView.Adapter<Re
 
     inner class rewardViewHolder(view: View): RecyclerView.ViewHolder(view){
         val view=view
-        var drawable=activity.getDrawable(R.drawable.coffee_logo)!!
+        var drawable=activity.getDrawable(R.drawable.coffee_cup)!!
 
         fun bind(position: Int){
 
