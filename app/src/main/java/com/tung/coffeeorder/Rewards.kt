@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.AppController.Companion.listCoffee
 
-class Rewards: Fragment() {
+class Rewards: Fragment(R.layout.rewards_fragment) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,4 +30,10 @@ class Rewards: Fragment() {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val totalPoint = requireView().findViewById<TextView>(R.id.total_points)
+        totalPoint.text=User.singleton.loyalty.getCurrentPoints().toString()
+    }
 }

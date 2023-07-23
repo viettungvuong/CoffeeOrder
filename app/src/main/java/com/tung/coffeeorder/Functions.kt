@@ -84,7 +84,8 @@ class Functions {
                         })] //tìm object cà phê tương ứng
                     val date = LocalDateTime.ofInstant(document.getDate("valid-date")?.toInstant(), ZoneId.systemDefault())
                     val size = document.getLong("size")?.toInt()
-                    val redeemCoffee=RedeemCoffee(tempCoffee,date,size!!)
+                    val points = document.getLong("points")?.toInt()
+                    val redeemCoffee=RedeemCoffee(tempCoffee,date,size!!,points!!)
                     redeemCoffees.add(redeemCoffee)
                 }
             }

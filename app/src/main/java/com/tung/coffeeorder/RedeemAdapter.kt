@@ -11,6 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.tung.coffeeorder.AppController.Companion.ongoingOrders
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -26,18 +28,32 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
         val validDate = view.findViewById<TextView>(R.id.validdate)
         val imageView = view.findViewById<ImageView>(R.id.coffeeImage)
         val sizeText = view.findViewById<TextView>(R.id.size)
+        val pointText = view.findViewById<TextView>(R.id.points)
 
         val redeemBtn = view.findViewById<MaterialButton>(R.id.redeem_btn)
 
         fun redeem(redeemCoffee: RedeemCoffee){
             //add vào cart một ly cà phê 0đ
             //mở cart
-            Cart.singleton.addToCart(redeemCoffee)
-            Toast.makeText(
-                activity,
-                "Đã thêm nước vào giỏ hàng thành công",
-                Toast.LENGTH_SHORT,
-            ).show()
+            //nếu đủ điểm
+            if (redeemCoffee.getPoints()<=User.singleton.loyalty.getCurrentPoints()){
+                Cart.singleton.addToCart(redeemCoffee)
+                Toast.makeText(
+                    activity,
+                    "Đã thêm nước vào giỏ hàng thành công",
+                    Toast.LENGTH_SHORT,
+                ).show()
+                User.singleton.loyalty.removePoints(redeemCoffee.getPoints()) //trừ điểm
+                ongoingOrders.add(Order(redeemCoffee, LocalDateTime.now(), User.singleton.getaddress())) //thêm vào ongoing orders
+            }
+            else{
+                Toast.makeText(
+                    activity,
+                    "Bạn chưa đủ điểm để đổi",
+                    Toast.LENGTH_LONG,
+                ).show()
+            }
+
         }
 
         fun bind(redeemCoffee: RedeemCoffee){
@@ -52,6 +68,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                     sizeText.text="Size L"
                 } //hiện ra size của ly cà phê
             }
+            pointText.text=redeemCoffee.getPoints().toString()+ "điểm"
             coffeeName.text=redeemCoffee.getName()
             validDate.text=redeemCoffee.getValidDate().format(
                 DateTimeFormatter.ofPattern(

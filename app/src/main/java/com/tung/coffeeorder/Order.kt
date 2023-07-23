@@ -6,19 +6,32 @@ import com.google.type.DateTime
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
+import kotlin.collections.ArrayList
 
-class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String)
+class Order
 {
+
+
     private var cart: ArrayList<CoffeeInCart>
     private var time: LocalDateTime
     private var address: String
+    private var redeem = false //kiểm tra xem order này có phải li nước được redeem không
 
     private var done=false //false là ongoing, true là history
 
-    init{
+    constructor(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String, redeem: Boolean=false){
         this.cart = cart
         this.time=time
         this.address=address
+        this.redeem=redeem
+    }
+
+    constructor(redeemCoffee: RedeemCoffee, time: LocalDateTime, address: String){
+        this.cart= ArrayList()
+        this.cart.add(redeemCoffee) //thêm redeem coffee
+        this.time=time
+        this.address=address
+        this.redeem=true
     }
 
     //up order này lên firebase
@@ -54,5 +67,9 @@ class Order(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String)
             res+=coffeeInCart.calculatePrice()
         }
         return res
+    }
+
+    fun getWhetherRedeem(): Boolean{
+        return redeem
     }
 }

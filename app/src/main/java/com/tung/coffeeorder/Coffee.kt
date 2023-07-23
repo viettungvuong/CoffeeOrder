@@ -54,7 +54,7 @@ open class CoffeeInCart(coffee: Coffee): Coffee(
     }
 }
 
-class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime, private var restrictedSize: Int): CoffeeInCart(
+class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime, private var restrictedSize: Int, private var points: Int): CoffeeInCart(
     coffee
 ){
 
@@ -68,6 +68,10 @@ class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime, private
 
     fun setSize(size: Int){
         this.currentSize=restrictedSize //size giới hạn cho redeem coffee này
+    }
+
+    fun getPoints(): Int{
+        return points //điểm số để có thể redeem
     }
 
     override fun calculatePrice(): Long{

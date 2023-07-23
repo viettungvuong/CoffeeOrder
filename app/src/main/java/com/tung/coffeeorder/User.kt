@@ -37,6 +37,10 @@ class User private constructor(){
         fun addPoints(amount: Int){
             currentPoints+=amount //cộng điểm cho người dùng
         }
+
+        fun removePoints(amount: Int){
+            currentPoints-=amount
+        }
     }
 
     val loyalty=LoyaltyPoint()
