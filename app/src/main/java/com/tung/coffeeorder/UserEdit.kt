@@ -82,7 +82,7 @@ class UserEdit : AppCompatActivity() {
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
-            
+
             userName.requestFocus()
             val imm: InputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
