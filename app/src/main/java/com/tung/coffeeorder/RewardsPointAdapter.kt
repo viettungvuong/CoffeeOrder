@@ -1,6 +1,7 @@
 package com.tung.coffeeorder
 
 import android.app.Activity
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,17 @@ class RewardsPointAdapter(activity: Activity, rewards: LinkedList<Reward>): Recy
             val dateFormat = "dd-MM-yyyy HH:mm" //format ngày tháng
             view.findViewById<TextView>(R.id.drinkContent).text=reward.getOrder().gettime().format(DateTimeFormatter.ofPattern(dateFormat)).toString()
 
-            view.findViewById<TextView>(R.id.pointAdded).text="+"+reward.calculateBonusPoint().toString()+" điểm"
+            val pointAdded = view.findViewById<TextView>(R.id.pointAdded)
+            val redeem=reward.getOrder().getWhetherRedeem()
+            if (!redeem){
+                pointAdded.text="+"+reward.calculateBonusPoint().toString()+" điểm"
+                pointAdded.setTextColor(Color.GREEN)
+            }
+            else{
+                pointAdded.text="-"+reward.calculateBonusPoint().toString()+" điểm"
+                pointAdded.setTextColor(Color.RED)
+            }
+
         }
     }
 
