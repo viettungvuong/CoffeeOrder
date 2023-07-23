@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.android.material.button.MaterialButton
@@ -39,13 +40,22 @@ class Login : AppCompatActivity() {
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
-                //xác nhận thất bại
-                Toast.makeText(
-                    applicationContext,
-                    "Đăng nhập thất bại",
-                    Toast.LENGTH_LONG,
-                ).show()
-
+                Log.d("Error",e.message.toString())
+                if (e is FirebaseAuthInvalidCredentialsException){
+                    Toast.makeText(
+                        applicationContext,
+                        "Sai định dạng số điện thoại",
+                        Toast.LENGTH_LONG,
+                    ).show()
+                }
+                else {
+                    //gửi mã xác nhận thất bại
+                    Toast.makeText(
+                        applicationContext,
+                        "Gửi mã xác nhận thất bại",
+                        Toast.LENGTH_LONG,
+                    ).show()
+                }
             }
 
             override fun onCodeSent(
@@ -55,6 +65,11 @@ class Login : AppCompatActivity() {
                 //đã gửi mã ôtp
                 storedVerificationId = verificationId
                 resendToken = token
+
+                signInMode=false
+                textInput.text= Editable.Factory.getInstance().newEditable("")
+                textInput.hint="Mã xác nhận"
+                findViewById<MaterialButton>(R.id.signInBtn).text="Xác nhận mã"
             }
         }
 
@@ -62,6 +77,7 @@ class Login : AppCompatActivity() {
 
         //đã có đăng nhập rồi
         if (currentUser != null) {
+
             Toast.makeText(
                 this,
                 "Đã đăng nhập thành công",
@@ -98,7 +114,6 @@ class Login : AppCompatActivity() {
             if (signInMode){
                 cancelBtn.setVisibility(View.VISIBLE) //hiện nút chuyển qua tài khoản khác
                 sendVerificationCode(
-                    view,
                     findViewById<TextInputEditText>(R.id.username).text.toString()
                 ) //gửi mã xác nhận
             }
@@ -116,18 +131,17 @@ class Login : AppCompatActivity() {
         signInWithPhoneAuthCredential(credential)
     }
 
-    fun sendVerificationCode(view: View, phoneNumber: String){
+    fun sendVerificationCode(phoneNumber: String){
+        //xử lý country code (+84)
+        var phoneNumberWithCountryCode="+84"+phoneNumber.substring(1)
         val options = PhoneAuthOptions.newBuilder(Firebase.auth)
-            .setPhoneNumber(phoneNumber) // Phone number to verify
+            .setPhoneNumber(phoneNumberWithCountryCode) // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
             .setActivity(this) // Activity (for callback binding)
             .setCallbacks(callbacks) // OnVerificationStateChangedCallbacks
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
-        signInMode=false
-        textInput.text= Editable.Factory.getInstance().newEditable("")
-        textInput.hint="Mã xác nhận"
-        (view as MaterialButton).text="Xác nhận mã"
+
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
