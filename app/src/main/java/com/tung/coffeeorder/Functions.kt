@@ -110,8 +110,8 @@ class Functions {
 
         //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
         fun increaseCart(){
-            sharedPreferences.edit().putInt("number-of-carts",getCurrentNoOfCarts()+1) //tăng số lượng cart lên
-            sharedPreferences.edit().apply()
+            sharedPreferences.edit().putInt("number-of-carts",getCurrentNoOfCarts()+1).apply() //tăng số lượng cart lên
+
         }
 
         fun initCarts(){

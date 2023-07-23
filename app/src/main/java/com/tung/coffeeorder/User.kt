@@ -129,11 +129,11 @@ class User private constructor(){
         } //dành cho những người không dùng firebase
         else{
             val editor = sharedPreferences.edit()
-            editor.putString("email",email)
-            editor.putString("name",fullName)
-            editor.putString("phone-number",phoneNumber)
-            editor.putString("address",address)
-            editor.apply()
+            editor.putString("email",email).apply()
+            editor.putString("name",fullName).apply()
+            editor.putString("phone-number",phoneNumber).apply()
+            editor.putString("address",address).apply()
+
         }
     }
 

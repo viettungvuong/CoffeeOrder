@@ -193,8 +193,8 @@ class AccountFunctions {
                             Toast.LENGTH_SHORT,
                         ).show()
 
-                        sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
-                        sharedPreferences.edit().apply()
+                        sharedPreferences.edit().putBoolean("online_acc",true).apply() //ghi nhận là dùng tài khoản online cho app
+
 
 
                         val email = task.result?.user?.email.toString()
@@ -231,8 +231,7 @@ class AccountFunctions {
                             Toast.LENGTH_SHORT,
                         ).show()
 
-                        sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
-                        sharedPreferences.edit().apply()
+                        sharedPreferences.edit().putBoolean("online_acc",true).apply() //ghi nhận là dùng tài khoản online cho app
 
                         //đặt vào người dùng hiện tại
                         User.singleton.edit(Firebase.auth.currentUser!!.uid,name,username,phoneNumber,address,true)
@@ -261,8 +260,7 @@ class AccountFunctions {
                 Toast.LENGTH_SHORT,
             ).show()
 
-            sharedPreferences.edit().putBoolean("online_acc",false)
-            sharedPreferences.edit().apply()
+            sharedPreferences.edit().putBoolean("online_acc",false).apply()
 
         }
 

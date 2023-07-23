@@ -42,8 +42,8 @@ class Login : AppCompatActivity() {
 
         if (Firebase.auth.currentUser != null) {
             sharedPreferences.edit()
-                .putBoolean("online_acc", true) //ghi nhận là dùng tài khoản online cho app
-            sharedPreferences.edit().apply()
+                .putBoolean("online_acc", true).apply() //ghi nhận là dùng tài khoản online cho app
+            Log.d("online-acc", sharedPreferences.getBoolean("online_acc",false).toString())
 
             Toast.makeText(
                 this,
@@ -105,8 +105,8 @@ class Login : AppCompatActivity() {
 
         val anonymousUse = findViewById<MaterialButton>(R.id.anonymous)
         anonymousUse.setOnClickListener{
-            sharedPreferences.edit().putBoolean("online_acc",false) //đặt là không dùng tài khoản online
-            sharedPreferences.edit().apply()
+            sharedPreferences.edit().putBoolean("online_acc",false).apply() //đặt là không dùng tài khoản online
+
             User.singleton.loadLocal() //đọc thông tin local
         }
 
