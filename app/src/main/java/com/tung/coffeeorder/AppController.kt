@@ -123,6 +123,9 @@ class Cart {
 
     //resume cart
     fun resume(){
+        if (carts.isEmpty()){
+            return
+        }
         cartList.clear() //xoá toàn bộ giỏ hàng
 
         val resumeCart = carts[getCurrentNoOfCarts()].cartList
@@ -146,7 +149,7 @@ class AppController{
         var listCoffee= LinkedList<Coffee>() //danh sách các coffee
         lateinit var redeemCoffees: LinkedList<RedeemCoffee>
         lateinit var sharedPreferences: SharedPreferences //shared preferences
-        lateinit var carts: ArrayList<Cart> //danh sách các cart
+        var carts= ArrayList<Cart>() //danh sách các cart
 //        val dbCoffeeList="coffee"
 //        val dbCoffeeNameField="name"
 //        val dbCoffeeImageField="imageName"
