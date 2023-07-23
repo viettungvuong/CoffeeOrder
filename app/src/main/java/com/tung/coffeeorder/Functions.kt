@@ -10,6 +10,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.redeemCoffees
+import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
@@ -92,6 +93,14 @@ class Functions {
                     redeemCoffees.add(redeemCoffee)
                 }
             }
+        }
+
+        fun getCurrentNoOfCarts(): Int{
+            return sharedPreferences.getInt("number-of-carts",0) //trả về số lượng giỏ hàng cho tới hiện tại
+        }
+
+        fun increaseCart(){
+            sharedPreferences.edit().putInt("number-of-carts",getCurrentNoOfCarts()+1) //tăng số lượng cart lên
         }
     }
 

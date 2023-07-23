@@ -17,6 +17,7 @@ import com.google.firebase.storage.ktx.storage
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.listCoffee
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
+import com.tung.coffeeorder.Functions.Companion.getCurrentNoOfCarts
 import java.io.*
 import java.util.LinkedList
 
@@ -76,7 +77,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
         //lấy collection favorite từ database
         //để add vào sau này
         val getCart = db.collection("cart")
-            .document(Firebase.auth.currentUser!!.uid)
+            .document(Firebase.auth.currentUser!!.uid+getCurrentNoOfCarts().toString())
 
         getCart.update(deleteUpdates) //xoá hết giá trị trong cart
 
@@ -91,7 +92,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
     }
 
     private fun updateLocally(tempList: LinkedList<String>){
-        val file = File("cart")
+        val file = File("cart"+ getCurrentNoOfCarts().toString())
         if (!file.exists()) {
             try {
                 file.createNewFile()
@@ -118,10 +119,10 @@ class Cart private constructor(){ //private constructor để không cho gọi c
 
     private fun fetchFromFirebase(){
         //lấy từ collection Favorites
-        val getFavorites = db.collection("cart")
-            .document(Firebase.auth.currentUser!!.uid)
+        val getCart = db.collection("cart")
+            .document(Firebase.auth.currentUser!!.uid+ getCurrentNoOfCarts().toString())
 
-        getFavorites.get()
+        getCart.get()
             .addOnSuccessListener {
                     documentSnapshot->
                 val cart = documentSnapshot.get("cart") as ArrayList<String>
@@ -141,7 +142,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
     }
 
     private fun fetchLocally(){
-        val file = File("cart")
+        val file = File("cart"+ getCurrentNoOfCarts().toString())
         if (!file.exists()) {
             Log.d("Error", "Không có file")
             return
@@ -310,8 +311,8 @@ class AccountFunctions {
                 Toast.LENGTH_SHORT,
             ).show()
 
-            AppController.sharedPreferences.edit().putBoolean("online_acc",false)
-            AppController.sharedPreferences.edit().apply()
+            sharedPreferences.edit().putBoolean("online_acc",false)
+            sharedPreferences.edit().apply()
 
         }
 
