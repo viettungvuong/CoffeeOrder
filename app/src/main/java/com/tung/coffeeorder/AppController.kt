@@ -34,7 +34,7 @@ class Cart {
         val tempList = LinkedList<String>()
 
         for (coffeeInCart in cartList){
-            val desc=coffeeInCart.getName()+","+coffeeInCart.getSize().toString()+","+coffeeInCart.getQuantity().toString()
+            val desc=coffeeInCart.getName()+","+coffeeInCart.getSize().toString()+","+coffeeInCart.getquantity().toString()
             tempList.add(desc)
         }
 

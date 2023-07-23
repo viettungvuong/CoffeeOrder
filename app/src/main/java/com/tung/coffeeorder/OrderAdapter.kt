@@ -47,7 +47,7 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
                 2->sizeString="(size M)"
                 3->sizeString="(size L)"
             }
-            drinkContent.text=coffeeInCart.getName()+" "+sizeString+" x"+coffeeInCart.getQuantity().toString()
+            drinkContent.text=coffeeInCart.getName()+" "+sizeString+" x"+coffeeInCart.getquantity().toString()
 
             priceText.text=reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
 

@@ -41,7 +41,7 @@ open class CoffeeInCart(coffee: Coffee): Coffee(
         this.currentSize=newSize
     }
 
-    fun getQuantity(): Int{
+    fun getquantity(): Int{
         return quantity
     }
 

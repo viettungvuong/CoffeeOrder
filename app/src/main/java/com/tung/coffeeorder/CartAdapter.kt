@@ -32,7 +32,7 @@ class CartAdapter(activity: Activity, cartList: ArrayList<CoffeeInCart>): Recycl
         fun bind(coffeeInCart: CoffeeInCart){
             coffeeName.text=coffeeInCart.getName()
             coffeePriceText.text=reformatNumber(coffeeInCart.calculatePrice())
-            coffeeQuantity.text="Số lượng: "+coffeeInCart.getQuantity().toString()
+            coffeeQuantity.text="Số lượng: "+coffeeInCart.getquantity().toString()
             when (coffeeInCart.getSize()){
                 1->{
                     coffeeSize.text="Size S"
