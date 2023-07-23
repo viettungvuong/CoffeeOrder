@@ -2,11 +2,16 @@ package com.tung.coffeeorder
 
 import android.location.Address
 
-class User() {
+class User private constructor(){
     private var fullName=""
     private var phoneNumber=""
     private var email=""
     private var address=""
+
+    companion object{
+        @JvmStatic
+        var singleton=User() //singleton
+    }
 
     inner class LoyaltyPoint(){
         private var currentPoints=-0
@@ -63,5 +68,12 @@ class User() {
 
     fun getaddress(): String{
         return address
+    }
+
+    fun edit(name: String, email: String, phoneNumber: String, address: String){
+        editEmail(email)
+        editName(name)
+        editPhoneNumber(phoneNumber)
+        editAddress(address)
     }
 }

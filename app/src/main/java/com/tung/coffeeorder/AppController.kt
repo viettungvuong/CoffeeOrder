@@ -89,9 +89,17 @@ class AccountFunctions {
                             "Đã đăng nhập thành công",
                             Toast.LENGTH_SHORT,
                         ).show()
+                        val email = task.result?.user?.email
+                        val name = task.result?.user?.displayName
+                        val phoneNumber = task.result?.user?.phoneNumber
+                        //val address
+                        AppController.user.editPhoneNumber(phoneNumber)
+                        AppController.user.editEmail(email)
+                        AppController.user.
                         val intent =
                             Intent(context,MainActivity::class.java)
                         activity.startActivity(intent)
+                        activity.finish()
 
                     } else {
                         // If sign in fails, display a message t@o the user.
@@ -120,7 +128,7 @@ class AccountFunctions {
 
                         //update lên firebase
                         val userData = hashMapOf(
-                            "name" to "A"
+                            "email" to username
                         )
                         val accountFirebase = db.collection("users").document(Firebase.auth.currentUser!!.uid).set(userData)
 
