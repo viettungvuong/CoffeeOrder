@@ -17,10 +17,7 @@ import com.google.firebase.storage.ktx.storage
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.listCoffee
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
-import java.io.IOException
+import java.io.*
 import java.util.LinkedList
 
 class Cart private constructor(){ //private constructor để không cho gọi constructor để singleton
@@ -124,7 +121,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
         }
     }
 
-    fun fetchFromFirebase(){
+    private fun fetchFromFirebase(){
         //lấy từ collection Favorites
         val getFavorites = db.collection("cart")
             .document(Firebase.auth.currentUser!!.uid)
@@ -146,6 +143,50 @@ class Cart private constructor(){ //private constructor để không cho gọi c
                     cartList.add(coffeeInCart)
                 }
             }
+    }
+
+    private fun fetchLocally(){
+        val file = File("cart")
+        if (!file.exists()) {
+            Log.d("Error", "Không có file")
+            return
+        }
+
+        val stringBuilder = StringBuilder()
+        try {
+            val reader = BufferedReader(FileReader(file))
+
+            var line: String
+            while (reader.readLine().also { line = it } != null) {
+                val cartDesc = line //với từng dòng
+                val split = cartDesc.split(',') //tách từ theo dấu phẩy
+                val temp= listCoffee
+                temp.sortedBy { it.getName() }
+                val tempCoffee = temp[listCoffee.binarySearch(split[0],{ obj1, obj2 ->
+                    (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
+                })] //tìm object cà phê tương ứng
+                val coffeeInCart = CoffeeInCart(tempCoffee)
+                coffeeInCart.quantity=split[2].toInt()
+                coffeeInCart.changeSize(split[1].toInt())
+                cartList.add(coffeeInCart)
+            }
+
+            reader.close()
+        } catch (e: Exception) {
+            Log.d("Error", "Không thể đọc file file")
+            return
+        }
+    }
+
+    //đọc cart đã lưu
+    fun fetch(){
+        //nếu có tài khoản online
+        if (sharedPreferences.getBoolean("online_acc",false)){
+            fetchFromFirebase()
+        }
+        else{
+            fetchLocally()
+        }
     }
 }
 

@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
         AppController.ongoingAdapter = OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())
         AppController.historyAdapter = OrderAdapter(this, AppController.historyOrders, HistoryFragment())
+
+        Cart.singleton.fetch() //đọc cart
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
