@@ -118,15 +118,16 @@ class Functions {
 
         fun initCarts(){
             if (sharedPreferences.getBoolean("online_acc",false)){
-                initCartsFromFirebase()
+                initCartsFromFirebase{ resumeCart() }
             }
             else{
                 initCartsLocally()
+                resumeCart()
             }
         }
 
         //load tất cả các cart
-        private fun initCartsFromFirebase(){
+        private fun initCartsFromFirebase(callback: ()->Unit){
             val getCart = db.collection("cart" + Firebase.auth.currentUser!!.uid)
 
             getCart.get()
@@ -151,8 +152,9 @@ class Functions {
                         }
                         carts.add(currentCart) //thêm vào danh sách các cart
                     }
-
+                    callback()
                 }
+
         }
 
         private fun initCartsLocally() {
@@ -269,6 +271,7 @@ class Functions {
         //resume cart
         fun resumeCart(){
             if (!needToResume()){
+                Log.d("needtoresume", needToResume().toString())
                 return
             }
             if (carts.isEmpty()){
@@ -282,12 +285,9 @@ class Functions {
         }
 
         fun needToResume(): Boolean{
-            if (carts.size<= ongoingOrders.size+ historyOrders.size){
-                return false
-            }
-            else{
-                return true
-            }
+            Log.d("cart size", carts.size.toString())
+            Log.d("orders size",sharedPreferences.getInt("number-of-carts",0).toString())
+            return carts.size > sharedPreferences.getInt("number-of-carts",0)
         }
 
     }

@@ -39,8 +39,6 @@ class MainActivity : AppCompatActivity() {
         initCarts() //lấy danh sách các cart
         fetchOrders() //lấy tất cả order (phải có cart thì mới lấy order được)
 
-        resumeCart() //đọc cart còn dang dở
-
 
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
