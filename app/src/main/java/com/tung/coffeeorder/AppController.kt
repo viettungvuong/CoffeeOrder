@@ -15,6 +15,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.tung.coffeeorder.AppController.Companion.db
+import com.tung.coffeeorder.AppController.Companion.listCoffee
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import java.io.BufferedWriter
 import java.io.File
@@ -121,6 +122,30 @@ class Cart private constructor(){ //private constructor để không cho gọi c
             Log.d("Error","Không thể xuất ra file")
             return
         }
+    }
+
+    fun fetchFromFirebase(){
+        //lấy từ collection Favorites
+        val getFavorites = db.collection("cart")
+            .document(Firebase.auth.currentUser!!.uid)
+
+        getFavorites.get()
+            .addOnSuccessListener {
+                    documentSnapshot->
+                val cart = documentSnapshot.get("cart") as ArrayList<String>
+                for (cartDesc in cart){
+                    val split = cartDesc.split(',') //tách từ theo dấu phẩy
+                    val temp= listCoffee
+                    temp.sortedBy { it.getName() }
+                    val tempCoffee = temp[listCoffee.binarySearch(split[0],{ obj1, obj2 ->
+                        (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
+                    })] //tìm object cà phê tương ứng
+                    val coffeeInCart = CoffeeInCart(tempCoffee)
+                    coffeeInCart.quantity=split[2].toInt()
+                    coffeeInCart.changeSize(split[1].toInt())
+                    cartList.add(coffeeInCart)
+                }
+            }
     }
 }
 
