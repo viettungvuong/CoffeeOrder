@@ -76,6 +76,15 @@
             android:backgroundTint="#8a7641"
             android:text="Đăng nhập"/>
 
+        <com.google.android.material.button.MaterialButton
+            android:visibility="invisible"
+            android:id="@+id/cancelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#a11b29"
+            android:text="Đăng nhập tài khoản khác"/>
+
     </LinearLayout>
 
 

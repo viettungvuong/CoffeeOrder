@@ -78,9 +78,19 @@ class Login : AppCompatActivity() {
         setContentView(R.layout.login_activity)
 
         val signInBtn = findViewById<MaterialButton>(R.id.signInBtn)
+        val cancelBtn = findViewById<MaterialButton>(R.id.cancelBtn)
+
+        cancelBtn.setOnClickListener { view ->
+            signInMode=true
+            view.setVisibility(View.INVISIBLE) //ẩn nút
+            signInBtn.text="Đăng nhập"
+            findViewById<TextInputEditText>(R.id.username).hint="Số điện thoại"
+        }
+
         signInBtn.setOnClickListener {
            view->
             if (signInMode){
+                cancelBtn.setVisibility(View.VISIBLE) //hiện nút chuyển qua tài khoản khác
                 sendVerificationCode(
                     view,
                     findViewById<TextInputEditText>(R.id.username).text.toString()
@@ -91,6 +101,8 @@ class Login : AppCompatActivity() {
                 //xác nhận mã otp
             }
         }
+
+
     }
 
     private fun verifyPhoneNumberWithCode(code: String) {
@@ -107,6 +119,7 @@ class Login : AppCompatActivity() {
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
         signInMode=false
+        findViewById<TextInputEditText>(R.id.username).hint="Mã xác nhận"
         (view as MaterialButton).text="Xác nhận mã"
     }
 
