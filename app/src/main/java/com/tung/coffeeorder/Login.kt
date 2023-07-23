@@ -1,12 +1,16 @@
 package com.tung.coffeeorder
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -49,8 +53,8 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
 
-        val userInput = findViewById<TextInputEditText>(R.id.username).toString()
-        val passwordInput = findViewById<TextInputEditText>(R.id.password).toString()
+        val userInput = findViewById<TextInputEditText>(R.id.username).text.toString()
+        val passwordInput = findViewById<TextInputEditText>(R.id.password).text.toString()
 
         val loginBtn = findViewById<MaterialButton>(R.id.signInBtn)
         loginBtn.setOnClickListener{signIn(this,this,userInput, passwordInput)}
@@ -61,6 +65,18 @@ class Login : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        //báo hiệu input cuối cùng để có thể bấm enter là vào
+        findViewById<TextInputEditText>(R.id.password).setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // do something, e.g. set your TextView here via .setText()
+                val imm: InputMethodManager =
+                    v.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+                return@OnEditorActionListener true
+            }
+            false
+        })
 
     }
 

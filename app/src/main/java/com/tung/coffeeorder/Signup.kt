@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
@@ -26,5 +28,16 @@ class Signup : AppCompatActivity() {
         signUpBtn.setOnClickListener{
             AccountFunctions.signUp(this,this,email,password,name,phoneNumber, address)
         }
+
+        findViewById<TextInputEditText>(R.id.address).setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // do something, e.g. set your TextView here via .setText()
+                val imm: InputMethodManager =
+                    v.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+                return@OnEditorActionListener true
+            }
+            false
+        })
     }
 }
