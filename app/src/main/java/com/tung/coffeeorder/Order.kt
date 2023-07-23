@@ -100,7 +100,7 @@ class Order
             .document(Functions.getCurrentNoOfCarts().toString())
 
         val createField = mapOf(
-            "time" to time,
+            "time" to time.format(DateTimeFormatter.ofPattern(dateFormat)),
             "address" to address,
             "done" to done.toString()
         )

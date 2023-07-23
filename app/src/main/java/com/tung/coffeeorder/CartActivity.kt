@@ -27,11 +27,6 @@ class CartActivity: AppCompatActivity() {
     var totalPrice=0L
     lateinit var cartAdapter: CartAdapter
 
-    override fun onStart() {
-        super.onStart()
-        Functions.resumeCart() //đọc cart còn dang dở
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

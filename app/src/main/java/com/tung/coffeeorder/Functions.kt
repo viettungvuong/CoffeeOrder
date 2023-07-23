@@ -86,7 +86,9 @@ class Functions {
         fun initRedeem() {
             db.collection("redeem").get().addOnSuccessListener { documents ->
                 for (document in documents) {
-                    val date = LocalDateTime.ofInstant(document.getDate("valid-date")?.toInstant(), ZoneId.systemDefault())
+                    val date = LocalDateTime.parse(document.getString("valid-date"), DateTimeFormatter.ofPattern(
+                        AppController.dateFormat
+                    ))
                     if (date>LocalDateTime.now()){
                         continue //đã quá invalid date nên không thêm nữa
                     }
@@ -209,7 +211,7 @@ class Functions {
                 .addOnSuccessListener {
                         documents->
                     for (document in documents){
-                        val time = LocalDateTime.parse(document.getDate("time").toString(), DateTimeFormatter.ofPattern(
+                        val time = LocalDateTime.parse(document.getString("time"), DateTimeFormatter.ofPattern(
                             AppController.dateFormat
                         ))
                         val address = document.getString("address")
