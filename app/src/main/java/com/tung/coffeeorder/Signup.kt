@@ -4,9 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -38,6 +40,13 @@ class Signup : AppCompatActivity() {
             }
             false
         })
+
+        val backBtn = findViewById<ImageButton>(R.id.back_button)
+        backBtn.setOnClickListener(
+            View.OnClickListener {
+                finish() //quay về activity trước
+            }
+        )
     }
 
     fun startSignup(user: TextInputEditText, password: TextInputEditText, name: TextInputEditText,
