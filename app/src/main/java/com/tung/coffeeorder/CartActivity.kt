@@ -176,12 +176,13 @@ class CartActivity: AppCompatActivity() {
         //xoá hết giỏ hàng khi đã checkout
         Cart.singleton.getList().clear()
 
-        increaseCart() //tăng số cart lên
     }
 
     fun addToOngoing(order: Order){
-        order.update()
+        order.update() //lúc này chưa increaseCart
         AppController.ongoingOrders.add(order) //thêm vào orders
+        
+        increaseCart() //tăng số cart lên
     }
 }
 
