@@ -199,7 +199,7 @@ class AccountFunctions {
 
                         getInfoFromFirebase(User.singleton
                         ) { id,name,phoneNumber,address ->
-                            User.singleton.edit(name, email, phoneNumber, address,id)
+                            User.singleton.edit(id,name, email, phoneNumber, address)
                             val intent =
                                 Intent(context, MainActivity::class.java)
                             activity.startActivity(intent)
