@@ -65,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:hint="Email"
+                android:inputType="textEmailAddress"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -105,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:hint="Tên"
+                android:inputType="text"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -144,6 +146,8 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:hint="Địa chỉ"
+                android:imeOptions="actionDone"
+                android:inputType="text"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
