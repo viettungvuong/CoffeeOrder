@@ -30,7 +30,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
 class AppController{
     companion object{
         @JvmStatic
-        val user= User() //user của session hiện tại
+        var user= User() //user của session hiện tại
         val ongoingOrders=LinkedList<Order>() //danh sách các order onging
         val historyOrders=LinkedList<Order>() //danh sách các order history
         val rewardsPoint=LinkedList<Reward>() //danh sách điểm thưởng

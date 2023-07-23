@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             app:boxBackgroundColor="@color/white"
-            app:startIconDrawable="@drawable/account"
+            app:startIconDrawable="@drawable/phone_number"
             app:startIconContentDescription="Tên tài khoản">
             >
 
@@ -67,43 +67,14 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField2"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:boxBackgroundColor="@color/white"
-            app:startIconDrawable="@drawable/password"
-            app:startIconContentDescription="Tên tài khoản">
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="Mật khẩu"
-                android:maxLines="1"
-                android:imeOptions="actionDone"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signInBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="70dp"
-            android:backgroundTint="#5373a6"
+            android:backgroundTint="#8a7641"
             android:text="Đăng nhập"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/signUpBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="#5373a6"
-            android:text="Đăng ký"/>
 
     </LinearLayout>
 
