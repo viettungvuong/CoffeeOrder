@@ -65,7 +65,11 @@ class CartActivity: AppCompatActivity() {
             }
         )
 
-
+        if (Cart.singleton.getList().isEmpty()){ //chứng tỏ là cart mới
+            Log.d("Added!!","added to firebase")
+            Functions.increaseCarts() //thêm số cart
+            carts.add(Cart.singleton) //báo là mới thêm cart mới
+        }
 
     }
 

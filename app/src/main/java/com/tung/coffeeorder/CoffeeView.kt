@@ -78,6 +78,7 @@ class CoffeeView() : AppCompatActivity() {
             View.OnClickListener {
                 val intent= Intent(this,CartActivity::class.java)
                 startActivity(intent) //mở cart lên
+
             }
         )
     }

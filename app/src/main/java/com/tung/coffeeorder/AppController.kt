@@ -44,11 +44,6 @@ class Cart {
 
 
     fun addToCart(coffeeInCart: CoffeeInCart){
-        if (cartList.isEmpty()){ //chứng tỏ là cart mới
-            Log.d("Added!!","added to firebase")
-            increaseCarts() //thêm số cart
-            carts.add(this) //báo là mới thêm cart mới
-        }
         cartList.add(coffeeInCart)
         update()
     }
