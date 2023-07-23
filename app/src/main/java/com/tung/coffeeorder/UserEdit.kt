@@ -1,6 +1,7 @@
 package com.tung.coffeeorder
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
@@ -8,7 +9,11 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class UserEdit : AppCompatActivity() {
 
@@ -57,6 +62,29 @@ class UserEdit : AppCompatActivity() {
         addressBtn.setOnClickListener { view ->
             changeAddress(view)
         }
+
+        val backBtn = findViewById<ImageButton>(R.id.back_button)
+        backBtn.setOnClickListener(
+            View.OnClickListener {
+                finish() //quay về activity trước
+            }
+        )
+
+        val signOutBtn = findViewById<MaterialButton>(R.id.signOutBtn)
+        signOutBtn.setOnClickListener(
+            View.OnClickListener {
+                Firebase.auth.signOut()
+                Toast.makeText(
+                    this,
+                    "Đã đăng xuất thành công",
+                    Toast.LENGTH_SHORT,
+                ).show()
+                val intent= Intent(this,Login::class.java)
+                startActivity(intent)
+                finish()
+
+            }
+        )
 
     }
 
