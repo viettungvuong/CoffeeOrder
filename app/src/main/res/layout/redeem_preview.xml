@@ -29,6 +29,14 @@
             android:textSize="25dp"
             />
 
+        <TextView
+            android:id="@+id/size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Size: M"
+            android:textSize="17dp"
+            android:textStyle="italic"
+            />
 
 
         <LinearLayout

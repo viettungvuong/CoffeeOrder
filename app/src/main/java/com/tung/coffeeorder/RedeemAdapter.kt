@@ -28,7 +28,8 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
         val redeemBtn = view.findViewById<MaterialButton>(R.id.redeem_btn)
 
         fun redeem(redeemCoffee: RedeemCoffee){
-
+            //add vào cart một ly cà phê 0đ
+            //mở cart
         }
 
         fun bind(redeemCoffee: RedeemCoffee){
