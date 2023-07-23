@@ -28,9 +28,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
 
     private val cartList=ArrayList<CoffeeInCart>() //giỏ hàng
 
-    fun addToCart(coffeeInCart: CoffeeInCart){
-        cartList.add(coffeeInCart)
-
+    private fun getDescList(): LinkedList<String>{ //mảng chứa mô tả các sản phẩm trong cart
         val tempList = LinkedList<String>()
 
         for (coffeeInCart in cartList){
@@ -38,14 +36,22 @@ class Cart private constructor(){ //private constructor để không cho gọi c
             tempList.add(desc)
         }
 
-        //update cart
-        //nếu đang dùng tài khoản onl
+        return tempList
+    }
+
+    fun update(){
         if (sharedPreferences.getBoolean("online_acc",false)){
-            updateToFirebase(tempList) //up lên firebase
+            updateToFirebase(getDescList()) //up lên firebase
         }
         else{
-            updateLocally(tempList) //xuất ra file
+            updateLocally(getDescList()) //xuất ra file
         }
+    }
+
+    fun addToCart(coffeeInCart: CoffeeInCart){
+        cartList.add(coffeeInCart)
+
+        update()
     }
 
     fun removeFromCart(index: Int){
