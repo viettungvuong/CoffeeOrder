@@ -3,6 +3,10 @@ package com.tung.coffeeorder
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -30,15 +34,12 @@ class Login : AppCompatActivity() {
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
-                //xác nhận thất bại (số điện thoại sai format...)
-
-                if (e is FirebaseAuthInvalidCredentialsException) {
-                    // Invalid request
-                } else if (e is FirebaseTooManyRequestsException) {
-                    // The SMS quota for the project has been exceeded
-                } else if (e is FirebaseAuthMissingActivityForRecaptchaException) {
-                    // reCAPTCHA verification attempted with null Activity
-                }
+                //xác nhận thất bại
+                Toast.makeText(
+                    applicationContext,
+                    "Đăng nhập thất bại",
+                    Toast.LENGTH_LONG,
+                ).show()
 
             }
 
@@ -51,6 +52,13 @@ class Login : AppCompatActivity() {
                 resendToken = token
             }
         }
+
+        val signInBtn = findViewById<MaterialButton>(R.id.signInBtn)
+        signInBtn.setOnClickListener(
+            View.OnClickListener {
+                sendVerificationCode(findViewById<TextInputEditText>(R.id.username).text.toString()) //gửi mã xác nhận
+            }
+        )
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +95,11 @@ class Login : AppCompatActivity() {
                     finish()
                 } else { //đăng nhập thất bại
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                        // nhập sai mã otp
+                        Toast.makeText(
+                            applicationContext,
+                            "Bạn đã nhập sai mã xác nhận, hãy kiểm tra lại",
+                            Toast.LENGTH_LONG,
+                        ).show()
                     }
                 }
             }
