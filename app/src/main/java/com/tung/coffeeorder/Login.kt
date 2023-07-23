@@ -3,6 +3,7 @@ package com.tung.coffeeorder
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.Toast
 import com.google.android.material.button.MaterialButton
@@ -22,6 +23,8 @@ class Login : AppCompatActivity() {
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
 
     var signInMode = true //true là nhập số điện thoại, false là nhập otp
+
+    lateinit var textInput: TextInputEditText
 
     override fun onStart() {
         super.onStart()
@@ -77,6 +80,8 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
 
+        textInput = findViewById(R.id.username)
+
         val signInBtn = findViewById<MaterialButton>(R.id.signInBtn)
         val cancelBtn = findViewById<MaterialButton>(R.id.cancelBtn)
 
@@ -84,7 +89,8 @@ class Login : AppCompatActivity() {
             signInMode=true
             view.setVisibility(View.INVISIBLE) //ẩn nút
             signInBtn.text="Đăng nhập"
-            findViewById<TextInputEditText>(R.id.username).hint="Số điện thoại"
+            textInput.text= Editable.Factory.getInstance().newEditable("")
+            textInput.hint="Số điện thoại"
         }
 
         signInBtn.setOnClickListener {
@@ -119,7 +125,8 @@ class Login : AppCompatActivity() {
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
         signInMode=false
-        findViewById<TextInputEditText>(R.id.username).hint="Mã xác nhận"
+        textInput.text= Editable.Factory.getInstance().newEditable("")
+        textInput.hint="Mã xác nhận"
         (view as MaterialButton).text="Xác nhận mã"
     }
 
