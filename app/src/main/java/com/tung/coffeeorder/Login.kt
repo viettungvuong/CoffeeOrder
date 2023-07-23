@@ -34,41 +34,39 @@ class Login : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         initCoffeeList(AppController.listCoffee)
 
-        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
+        sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
 
         initRedeem() //lấy danh sách các redeem
 
         //nếu như đang dùng tài khoản online
-        if (sharedPreferences.getBoolean("online_acc",false)){
-            //đã có đăng nhập rồi
-            if (Firebase.auth.currentUser != null) {
-                Log.d("Already signed in",Firebase.auth.currentUser!!.uid)
-                sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
-                sharedPreferences.edit().apply()
 
-                Toast.makeText(
-                    this,
-                    "Đã đăng nhập thành công",
-                    Toast.LENGTH_SHORT,
-                ).show()
+        if (Firebase.auth.currentUser != null) {
+            sharedPreferences.edit()
+                .putBoolean("online_acc", true) //ghi nhận là dùng tài khoản online cho app
+            sharedPreferences.edit().apply()
 
-                val email = Firebase.auth.currentUser!!.email.toString()
+            Toast.makeText(
+                this,
+                "Đã đăng nhập thành công",
+                Toast.LENGTH_SHORT,
+            ).show()
 
-                AccountFunctions.getInfoFromFirebase(
-                    User.singleton
-                ) { id,name, phoneNumber, address ->
-                    User.singleton.edit(name, email, phoneNumber, address,id)
-                    val intent =
-                        Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-                //đã đăng nhập rồi vào luôn
-                val intent=Intent(this,MainActivity::class.java)
+            val email = Firebase.auth.currentUser!!.email.toString()
+
+            AccountFunctions.getInfoFromFirebase(
+                User.singleton
+            ) { id, name, phoneNumber, address ->
+                User.singleton.edit(name, email, phoneNumber, address, id)
+                val intent =
+                    Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
-                //vào luôn main activity
             }
+            //đã đăng nhập rồi vào luôn
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            //vào luôn main activity
         }
 
     }

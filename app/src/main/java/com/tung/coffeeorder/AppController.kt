@@ -58,9 +58,11 @@ class Cart {
 
     fun update(){
         if (sharedPreferences.getBoolean("online_acc",false)){
+            Log.d("Updated firebase","ok")
             updateToFirebase(getDescList()) //up lên firebase
         }
         else{
+            Log.d("Updated locally","ok")
             updateLocally(getDescList()) //xuất ra file
         }
     }
