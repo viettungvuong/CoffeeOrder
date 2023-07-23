@@ -10,7 +10,7 @@ import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tung.coffeeorder.Functions.Companion.listCoffee
+import com.tung.coffeeorder.AppController.Companion.listCoffee
 
 class Home: Fragment() {
     override fun onCreateView(

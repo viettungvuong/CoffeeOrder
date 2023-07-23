@@ -13,16 +13,6 @@ import kotlin.coroutines.suspendCoroutine
 
 class Functions {
     companion object{
-        @JvmField
-        var db= Firebase.firestore
-        val storage = Firebase.storage.reference
-        var listCoffee= LinkedList<Coffee>() //danh sách các coffee
-        val dbCoffeeList="coffee"
-        val dbCoffeeNameField="name"
-        val dbCoffeeImageField="imageName"
-        val dbCoffeePriceField="price"
-
-
 
         @JvmStatic
         //reformat định dạng số
