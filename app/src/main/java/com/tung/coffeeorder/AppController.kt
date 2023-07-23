@@ -125,8 +125,6 @@ class AccountFunctions {
             Firebase.auth.createUserWithEmailAndPassword(username, password)
                 .addOnCompleteListener(activity) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in User.singleton's information
-                        //Log.d(TAG, "createUserWithEmail:success")
                         Toast.makeText(
                             context,
                             "Tạo tài khoản thành công",
@@ -136,7 +134,6 @@ class AccountFunctions {
                         AppController.sharedPreferences.edit().putBoolean("online_acc",true) //ghi nhận là dùng tài khoản online cho app
                         AppController.sharedPreferences.edit().apply()
 
-
                         //update lên firebase
                         val userData = hashMapOf(
                             "email" to username,
@@ -144,9 +141,9 @@ class AccountFunctions {
                             "phone-number" to phoneNumber,
                             "address" to address
                         )
-
                         //set dữ liệu trên firebase
                         db.collection("users").document(Firebase.auth.currentUser!!.uid).set(userData)
+                        User.singleton.edit(Firebase.auth.currentUser!!.uid,name,username,phoneNumber,address)
 
                         val intent =
                             Intent(context,MainActivity::class.java)
