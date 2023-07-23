@@ -26,6 +26,13 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
         AppController.ongoingAdapter = OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())
         AppController.historyAdapter = OrderAdapter(this, AppController.historyOrders, HistoryFragment())
 
@@ -33,11 +40,6 @@ class MainActivity : AppCompatActivity() {
         resumeCart() //đọc cart còn dang dở
 
         fetchOrders() //lấy tất cả order (phải có cart thì mới lấy order được)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottom_navigation)
 

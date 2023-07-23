@@ -29,8 +29,10 @@ import java.util.concurrent.TimeUnit
 class Login : AppCompatActivity() {
 
 
-    override fun onStart() {
-        super.onStart()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.login_activity)
+
         FirebaseApp.initializeApp(this)
         initCoffeeList(AppController.listCoffee)
 
@@ -67,11 +69,6 @@ class Login : AppCompatActivity() {
             }
             //vào luôn main activity
         }
-
-    }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.login_activity)
 
         val userInput = findViewById<TextInputEditText>(R.id.username)
         val passwordInput = findViewById<TextInputEditText>(R.id.password)
