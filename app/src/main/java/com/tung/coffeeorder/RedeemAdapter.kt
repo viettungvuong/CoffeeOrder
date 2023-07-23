@@ -24,6 +24,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
         val coffeeName = view.findViewById<TextView>(R.id.coffeeTitle)
         val validDate = view.findViewById<TextView>(R.id.validdate)
         val imageView = view.findViewById<ImageView>(R.id.coffeeImage)
+        val sizeText = view.findViewById<TextView>(R.id.size)
 
         val redeemBtn = view.findViewById<MaterialButton>(R.id.redeem_btn)
 
@@ -33,6 +34,17 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
         }
 
         fun bind(redeemCoffee: RedeemCoffee){
+            when (redeemCoffee.getSize()){
+                1->{
+                    sizeText.text="Size S"
+                }
+                2->{
+                    sizeText.text="Size M"
+                }
+                3->{
+                    sizeText.text="Size L"
+                } //hiện ra size của ly cà phê
+            }
             coffeeName.text=redeemCoffee.getName()
             validDate.text=redeemCoffee.getValidDate().format(
                 DateTimeFormatter.ofPattern(

@@ -42,12 +42,12 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
             val priceText = linearLayout.findViewById<TextView>(R.id.price)
 
             var sizeString = ""
-            when (coffeeInCart.currentSize){
+            when (coffeeInCart.getSize()){
                 1->sizeString="(size S)"
                 2->sizeString="(size M)"
                 3->sizeString="(size L)"
             }
-            drinkContent.text=coffeeInCart.getName()+" "+sizeString+" x"+coffeeInCart.quantity.toString()
+            drinkContent.text=coffeeInCart.getName()+" "+sizeString+" x"+coffeeInCart.getQuantity().toString()
 
             priceText.text=reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
 
@@ -87,10 +87,10 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
         holder.itemView.setOnClickListener(
             View.OnClickListener {
                 if (fragment is OngoingFragment){ //chỉ nhận onclick của OngoingFragment
-                    Log.d("History orders size",AppController.historyOrders.size.toString())
+
                     orders[position].setDone(AppController.ongoingOrders,AppController.historyOrders,AppController.rewardsPoint) //đánh dấu đã hoàn thành order này
                     AppController.ongoingAdapter.notifyItemRemoved(position)
-                    Log.d("HistoryOrders size",AppController.historyOrders.size.toString())
+
                     AppController.historyAdapter.notifyItemInserted(AppController.historyOrders.size-1) //thông báo mới thêm item
                     holder.itemView.visibility= View.GONE
                     Toast.makeText(

@@ -36,14 +36,14 @@ class Functions {
             }
 
             if (strings[strings.size - 1] == ",") {
-                strings.removeAt(strings.size - 1);
+                strings.removeAt(strings.size- 1);
             }
 
             strings.reverse() //đảo ngược mảng
 
             moneyString = ""
 
-            for (i in 0..strings.size - 1) {
+            for (i in 0..strings.size- 1) {
                 moneyString += strings[i]
             }
 

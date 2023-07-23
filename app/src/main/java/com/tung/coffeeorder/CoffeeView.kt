@@ -53,7 +53,7 @@ class CoffeeView() : AppCompatActivity() {
             View.OnClickListener {
                 val checkInCart = checkInCart(coffeeInCart) //kiểm tra loại cà phê hiện tại đã có trong giỏ hàng hay chưa
                 if (checkInCart!=-1){
-                    Cart.singleton.getList()[checkInCart].changeQuantity(coffeeInCart.quantity) //thay đổi số lượng nếu đã có trong giỏ hàng
+                    Cart.singleton.getList()[checkInCart].changeQuantity(coffeeInCart.getQuantity()) //thay đổi số lượng nếu đã có trong giỏ hàng
                 }
                 else{
                     val temp = CoffeeInCart(coffeeInCart) //tạo copy để đề phòng người dùng muốn thêm ly khác size của cùng một loại cà phê

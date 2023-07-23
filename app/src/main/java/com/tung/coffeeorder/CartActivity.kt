@@ -57,12 +57,9 @@ class CartActivity: AppCompatActivity() {
                 //thêm vào một order
                 val temp= ArrayList(Cart.singleton.getList()) //copy constructor
                 AppController.ongoingOrders.add(Order(temp, LocalDateTime.now(), User.singleton.getaddress())) //thêm vào orders
-                Log.d("Cart size",temp.size.toString())
 
                 //xoá hết giỏ hàng khi đã checkout
                 Cart.singleton.getList().clear()
-                Log.d("Cart size",temp.size.toString())
-
                 val intent = Intent(this,OrderSuccess::class.java)
                 startActivity(intent) //mở order success
             }

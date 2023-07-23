@@ -46,8 +46,8 @@ class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: Cof
 
     fun plusButtonClick(): OnClickListener{
         return OnClickListener {
-            coffeeInCart.changeQuantity(++coffeeInCart.quantity) //tăng quantity
-            numberEditText.setText(coffeeInCart.quantity.toString())
+            coffeeInCart.changeQuantity(coffeeInCart.getQuantity()+1) //tăng quantity
+            numberEditText.setText(coffeeInCart.getQuantity().toString())
 
             priceText.text= Functions.reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
         }
@@ -55,7 +55,7 @@ class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: Cof
 
     fun minusButtonClick(): OnClickListener{
         return OnClickListener {
-            if (coffeeInCart.quantity<=1){
+            if (coffeeInCart.getQuantity()<=1){
                 Toast.makeText(
                     context,
                     "Không thể giảm số lượng thêm nữa",
@@ -63,8 +63,8 @@ class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: Cof
                 ).show()
             }
             else {
-                coffeeInCart.changeQuantity(--coffeeInCart.quantity) //giảm quantity
-                numberEditText.setText(coffeeInCart.quantity.toString())
+                coffeeInCart.changeQuantity(coffeeInCart.getQuantity()-1) //giảm quantity
+                numberEditText.setText(coffeeInCart.getQuantity().toString())
 
                 priceText.text= Functions.reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
             }

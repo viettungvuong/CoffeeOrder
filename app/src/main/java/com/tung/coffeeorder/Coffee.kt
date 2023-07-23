@@ -5,6 +5,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import java.io.Serializable
 import java.time.LocalDateTime
+import kotlin.math.sin
 
 open class Coffee(private val coffeeName: String, private val imageFilename: String, private val price: Long):
     Serializable {
@@ -22,34 +23,39 @@ open class Coffee(private val coffeeName: String, private val imageFilename: Str
     }
 }
 
-class CoffeeInCart(coffee: Coffee): Coffee(
+open class CoffeeInCart(coffee: Coffee): Coffee(
     coffee.getName(),
     coffee.getImageFilename(),
     coffee.getPrice()
 ){
-    var quantity=1
-    var currentSize=1 //1 là size nhỏ, 2 là size vừa, 3 là size lớn
-    private val singlePrice=coffee.getPrice()
+    protected var quantity=1
+    protected var currentSize=1 //1 là size nhỏ, 2 là size vừa, 3 là size lớn
+
+    protected val singlePrice=coffee.getPrice()
 
     fun changeQuantity(newQuantity: Int){
         this.quantity=newQuantity
-
     }
 
     fun changeSize(newSize: Int){
         this.currentSize=newSize
     }
 
-    fun calculatePrice(): Long{
-        return singlePrice*quantity
+    fun getQuantity(): Int{
+        return quantity
     }
 
+    fun getSize(): Int{
+        return currentSize
+    }
+
+    open fun calculatePrice(): Long{
+        return singlePrice*quantity
+    }
 }
 
-class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime): Coffee(
-    coffee.getName(),
-    coffee.getImageFilename(),
-    coffee.getPrice()
+class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime, private var restrictedSize: Int, private var maxQuantity: Int): CoffeeInCart(
+    coffee
 ){
 
     fun setValidDate(newDate: LocalDateTime){
@@ -58,5 +64,18 @@ class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime): Coffee
 
     fun getValidDate(): LocalDateTime{
         return validDate
+    }
+
+    fun setSize(size: Int){
+        this.currentSize=restrictedSize //size giới hạn cho redeem coffee này
+    }
+
+    override fun calculatePrice(): Long{
+        if (quantity<maxQuantity){
+            return 0
+        }
+        else{
+            return singlePrice*(quantity-maxQuantity)
+        }
     }
 }

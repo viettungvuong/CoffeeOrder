@@ -34,7 +34,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
         val tempList = LinkedList<String>()
 
         for (coffeeInCart in cartList){
-            val desc=coffeeInCart.getName()+","+coffeeInCart.currentSize.toString()+","+coffeeInCart.quantity.toString()
+            val desc=coffeeInCart.getName()+","+coffeeInCart.getSize().toString()+","+coffeeInCart.getQuantity().toString()
             tempList.add(desc)
         }
 
@@ -138,7 +138,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
                         (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
                     })] //tìm object cà phê tương ứng
                     val coffeeInCart = CoffeeInCart(tempCoffee)
-                    coffeeInCart.quantity=split[2].toInt()
+                    coffeeInCart.changeQuantity(split[2].toInt())
                     coffeeInCart.changeSize(split[1].toInt())
                     cartList.add(coffeeInCart)
                 }
@@ -166,7 +166,7 @@ class Cart private constructor(){ //private constructor để không cho gọi c
                     (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
                 })] //tìm object cà phê tương ứng
                 val coffeeInCart = CoffeeInCart(tempCoffee)
-                coffeeInCart.quantity=split[2].toInt()
+                coffeeInCart.changeQuantity(split[2].toInt())
                 coffeeInCart.changeSize(split[1].toInt())
                 cartList.add(coffeeInCart)
             }
@@ -216,9 +216,9 @@ class AppController{
 
             var i=0
             while (i<temp.size&&coffeeInCart.getName()<=temp[i].getName()){
-                if (coffeeInCart.getName()==temp[i].getName()&&coffeeInCart.currentSize==temp[i].currentSize){
-                        Log.d("Coffee size",coffeeInCart.currentSize.toString())
-                        Log.d("Cart size",temp[i].currentSize.toString())
+                if (coffeeInCart.getName()==temp[i].getName()&&coffeeInCart.getSize()==temp[i].getSize()){
+                        Log.d("Coffee size",coffeeInCart.getSize().toString())
+                        Log.d("Cart size",temp[i].getSize().toString())
                         return i //cà phê này đã có trong giỏ hàng (trùng tên và kích thước)
                         //nếu có trả về index
                 }
