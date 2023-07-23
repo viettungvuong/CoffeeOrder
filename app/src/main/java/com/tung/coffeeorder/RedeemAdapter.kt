@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import java.time.format.DateTimeFormatter
@@ -31,6 +32,12 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
         fun redeem(redeemCoffee: RedeemCoffee){
             //add vào cart một ly cà phê 0đ
             //mở cart
+            Cart.singleton.addToCart(redeemCoffee)
+            Toast.makeText(
+                activity,
+                "Đã thêm nước vào giỏ hàng thành công",
+                Toast.LENGTH_SHORT,
+            ).show()
         }
 
         fun bind(redeemCoffee: RedeemCoffee){
