@@ -111,7 +111,6 @@ class UserEdit : AppCompatActivity() {
         }
         else{ //lúc này nút là nút Accept, bấm là lưu thay đổi
             User.singleton.editName(userName.text.toString())
-            User.singleton.update()
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
@@ -144,7 +143,6 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             User.singleton.editEmail(userEmail.text.toString())
-            User.singleton.update()
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
@@ -178,7 +176,6 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             User.singleton.editPhoneNumber(userPhone.text.toString())
-            User.singleton.update()
             cancelEdit(cancelButton,view as ImageButton)
         }
     }
@@ -212,7 +209,6 @@ class UserEdit : AppCompatActivity() {
         }
         else{
             User.singleton.editAddress(userAddress.text.toString())
-            User.singleton.update()
             cancelEdit(cancelButton,view as ImageButton)
         }
     }

@@ -10,10 +10,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.AppController.Companion.db
-import com.tung.coffeeorder.AppController.Companion.dbCoffeeImageField
-import com.tung.coffeeorder.AppController.Companion.dbCoffeeList
-import com.tung.coffeeorder.AppController.Companion.dbCoffeeNameField
-import com.tung.coffeeorder.AppController.Companion.dbCoffeePriceField
+
 import com.tung.coffeeorder.AppController.Companion.listCoffee
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

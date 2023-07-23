@@ -43,18 +43,26 @@ class User private constructor(){
 
     fun editName(newFullName: String){
         this.fullName=newFullName
+
+        update()
     }
 
     fun editPhoneNumber(newPhoneNumber: String){
         this.phoneNumber=newPhoneNumber
+
+        update()
     }
 
     fun editEmail(newEmail: String){
         this.email=newEmail
+
+        update()
     }
 
     fun editAddress(newAddress: String){
         this.address=newAddress
+
+        update()
     }
 
     fun getname(): String{
@@ -73,13 +81,29 @@ class User private constructor(){
         return address
     }
 
-    fun edit(id: String, name: String, email: String, phoneNumber: String, address: String){
+    fun edit(id: String, name: String, email: String, phoneNumber: String, address: String, create: Boolean=false){
         editEmail(email)
         editName(name)
         editPhoneNumber(phoneNumber)
         editAddress(address)
 
         this.id=id
+
+        if (!create) {
+            update() //update
+        }
+        else{
+            //tạo trên firebase
+            val userData = mapOf(
+                "email" to email,
+                "name" to fullName,
+                "phone-number" to phoneNumber,
+                "address" to address
+            )
+
+            //cập nhật lên firebase thay đổi mới
+            db.collection("users").document(id).set(userData)
+        }
     }
 
     fun update(){
@@ -95,6 +119,7 @@ class User private constructor(){
 
             //cập nhật lên firebase thay đổi mới
             db.collection("users").document(id).update(userData)
+
         } //dành cho những người không dùng firebase
         else{
             val editor = sharedPreferences.edit()
