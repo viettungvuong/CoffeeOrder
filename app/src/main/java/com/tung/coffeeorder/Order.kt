@@ -1,12 +1,17 @@
 package com.tung.coffeeorder
 
 import android.location.Address
+import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.ktx.Firebase
 import com.google.rpc.Help.Link
 import com.google.type.DateTime
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
@@ -86,24 +91,47 @@ class Order
     }
 
     private fun updateToFirebase(){
-        val getOrder = AppController.db.collection("order")
-            .document(Firebase.auth.currentUser!!.uid+ Functions.getCurrentNoOfCarts().toString())
+        val getOrder = AppController.db.collection("orders"+Firebase.auth.currentUser!!.uid)
+            .document(Functions.getCurrentNoOfCarts().toString())
 
         val createField = mapOf(
-            "cartNo" to Functions.getCurrentNoOfCarts().toString()
+            "time" to time,
+            "address" to address,
+            "done" to done
         )
 
         getOrder//lấy document trên firebase
             .get()
             .addOnCompleteListener(OnCompleteListener {
                     task->if (task.isSuccessful()) {
-                getOrder.set(createField) //thêm cart
+                getOrder.set(createField) //thêm order
             }
             })
     }
 
     private fun updateLocally(){
+        val file = File("orders")
+        if (!file.exists()) {
+            try {
+                file.createNewFile()
+            } catch (e: IOException) {
+                Log.d("Error","Không thể xuất ra file")
+                return
+            }
+        }
 
+        try {
+            val writer = BufferedWriter(FileWriter(file, true)) //true là append vào file
+
+            val temp = "$time,$address,$done"
+            writer.write(temp)
+            writer.newLine()
+
+            writer.close()
+        } catch (e: Exception) {
+            Log.d("Error","Không thể xuất ra file")
+            return
+        }
     }
 
     fun fetch(){

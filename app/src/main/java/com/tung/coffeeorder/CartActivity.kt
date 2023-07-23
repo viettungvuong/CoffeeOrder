@@ -181,7 +181,7 @@ class CartActivity: AppCompatActivity() {
     fun addToOngoing(order: Order){
         order.update() //lúc này chưa increaseCart
         AppController.ongoingOrders.add(order) //thêm vào orders
-        
+
         increaseCart() //tăng số cart lên
     }
 }
