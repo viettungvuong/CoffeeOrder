@@ -27,9 +27,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        FirebaseApp.initializeApp(this)
 
-        initCoffeeList(listCoffee)
+
+
 
         //dummy address để test
         user.editName("Vương Quang Việt Tùng")

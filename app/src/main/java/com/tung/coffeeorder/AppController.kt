@@ -2,6 +2,8 @@ package com.tung.coffeeorder
 
 import android.location.Address
 import android.util.Log
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.util.LinkedList
 
 class Cart private constructor(){ //private constructor để không cho gọi constructor để singleton
@@ -34,6 +36,7 @@ class AppController{
         val rewardsPoint=LinkedList<Reward>() //danh sách điểm thưởng
         lateinit var ongoingAdapter: OrderAdapter
         lateinit var historyAdapter: OrderAdapter //để 2 adapter này ở đây vì hai adapter này có sự liên thông với nhau rất nhiều
+
 
         @JvmStatic
         fun checkInCart(coffeeInCart: CoffeeInCart): Int{

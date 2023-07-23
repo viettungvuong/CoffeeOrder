@@ -4,6 +4,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".Login">
+
+    <LinearLayout
+        android:id="@+id/logoName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/coffee_cup"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="monospace"
+            android:text="Coffee House"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/logoName"
+        android:gravity="center_horizontal">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textField"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            app:boxBackgroundColor="@color/white"
+            app:startIconDrawable="@drawable/account"
+            app:startIconContentDescription="Tên tài khoản">
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:hint="Số điện thoại"
+                android:inputType="number"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textField2"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:boxBackgroundColor="@color/white"
+            app:startIconDrawable="@drawable/password"
+            app:startIconContentDescription="Tên tài khoản">
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Mật khẩu"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signInBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:backgroundTint="#5373a6"
+            android:text="Đăng nhập"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signUpBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#5373a6"
+            android:text="Đăng ký"/>
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
