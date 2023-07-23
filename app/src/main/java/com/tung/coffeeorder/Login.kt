@@ -42,7 +42,19 @@ class Login : AppCompatActivity() {
                 Toast.LENGTH_SHORT,
             ).show()
 
-            //đã đăng nhập rồi
+            val email = Firebase.auth.currentUser!!.email.toString()
+
+            AccountFunctions.getInfoFromFirebase(
+                User.singleton
+            ) { name, phoneNumber, address ->
+                User.singleton.edit(name, email, phoneNumber, address)
+                val intent =
+                    Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            //đã đăng nhập rồi vào luôn
             val intent=Intent(this,MainActivity::class.java)
             startActivity(intent)
             finish()

@@ -89,16 +89,15 @@ class AccountFunctions {
                             Toast.LENGTH_SHORT,
                         ).show()
                         val email = task.result?.user?.email.toString()
-                        val name =  task.result?.user?.displayName.toString()
-                        val phoneNumber =  task.result?.user?.phoneNumber.toString()
-                        getAddressFromFirebase(User.singleton,
-                            {address->
-                                User.singleton.edit(name,email,phoneNumber,address)}
-                        )
-                        val intent =
-                            Intent(context,MainActivity::class.java)
-                        activity.startActivity(intent)
-                        activity.finish()
+                        getInfoFromFirebase(User.singleton
+                        ) { name,phoneNumber,address ->
+                            User.singleton.edit(name, email, phoneNumber, address)
+                            val intent =
+                                Intent(context, MainActivity::class.java)
+                            activity.startActivity(intent)
+                            activity.finish()
+                        }
+
 
                     } else {
                         // If sign in fails, display a message t@o the User.singleton.
@@ -124,6 +123,7 @@ class AccountFunctions {
                             "Tạo tài khoản thành công",
                             Toast.LENGTH_SHORT,
                         ).show()
+
 
                         //update lên firebase
                         val userData = hashMapOf(
@@ -181,13 +181,15 @@ class AccountFunctions {
 
         //lấy địa chỉ của User.singleton từ firebase
         @JvmStatic
-        fun getAddressFromFirebase(user: User, callback: (String)->Unit){
+        fun getInfoFromFirebase(user: User, callback: (String,String,String)->Unit){
             db.collection("users").document(Firebase.auth.uid.toString()).get()
                 .addOnSuccessListener {
                     documentSnapshot->
                     if (documentSnapshot.exists()){
                         val address=documentSnapshot.getString("address").toString()
-                        callback(address)
+                        val name =documentSnapshot.getString("name").toString() //để tìm hiểu cách chỉnh display name cho nó đúng
+                        val phoneNumber=documentSnapshot.getString("phone-number").toString()
+                        callback(name,phoneNumber,address)
                     }
                 }
         }
