@@ -8,6 +8,9 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.ktx.Firebase
 import com.google.rpc.Help.Link
 import com.google.type.DateTime
+import com.tung.coffeeorder.AppController.Companion.carts
+import com.tung.coffeeorder.AppController.Companion.dateFormat
+import com.tung.coffeeorder.AppController.Companion.historyOrders
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
 import java.io.BufferedWriter
 import java.io.File
@@ -15,6 +18,7 @@ import java.io.FileWriter
 import java.io.IOException
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -135,37 +139,5 @@ class Order
         }
     }
 
-    fun fetch(){
-        if (AppController.sharedPreferences.getBoolean("online_acc",false)){
-            fetchFromFirebase() //lấy từ firebase
-        }
-        else{
-            fetchLocally() //đọc từ file
-        }
-    }
 
-    private fun fetchFromFirebase(){
-        val getOrder = AppController.db.collection("orders"+Firebase.auth.currentUser!!.uid)
-            .document(Functions.getCurrentNoOfCarts().toString())
-
-        getOrder.get()
-            .addOnSuccessListener {
-                    documentSnapshot->
-                val time = documentSnapshot.getDate("time")
-                val address = documentSnapshot.getString("address")
-                var done = true
-                done = documentSnapshot.getString("done")=="true"
-
-                if (done){
-
-                }
-                else{
-
-                }
-            }
-    }
-
-    private fun fetchLocally(){
-
-    }
 }

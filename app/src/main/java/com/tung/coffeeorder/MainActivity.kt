@@ -12,6 +12,7 @@ import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.AppController.Companion.db
 
 import com.tung.coffeeorder.AppController.Companion.listCoffee
+import com.tung.coffeeorder.Functions.Companion.fetchOrders
 import com.tung.coffeeorder.Functions.Companion.initCarts
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +29,9 @@ class MainActivity : AppCompatActivity() {
         AppController.historyAdapter = OrderAdapter(this, AppController.historyOrders, HistoryFragment())
 
         initCarts() //lấy danh sách các cart
-        Cart.singleton.resume() //đọc cart
+        Cart.singleton.resume() //đọc cart còn dang dở
+
+        fetchOrders() //lấy tất cả order (phải có cart thì mới lấy order được)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

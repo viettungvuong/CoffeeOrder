@@ -18,6 +18,7 @@ import java.io.File
 import java.io.FileReader
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.coroutines.suspendCoroutine
 
@@ -157,30 +158,107 @@ class Functions {
             val lines = file.readLines()
 
             var currentCart = Cart()
-            for (line in lines) {
-                if (line.isNotBlank()) {
-                    val split = line.split(',') //tách từ theo dấu phẩy
 
-                    //tìm cà phê
-                    val temp = AppController.listCoffee
-                    temp.sortedBy { it.getName() }
-                    val tempCoffee =
-                        temp[AppController.listCoffee.binarySearch(split[0], { obj1, obj2 ->
-                            (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
-                        })] //tìm object cà phê tương ứng
-                    val coffeeInCart = CoffeeInCart(tempCoffee)
-                    coffeeInCart.changeQuantity(split[2].toInt())
-                    coffeeInCart.changeSize(split[1].toInt())
-                    currentCart.addToCart(coffeeInCart)
-                } else {
-                    val temp = currentCart
-                    carts.add(temp)
-                    currentCart=Cart() //xoá cart hiện tại
+            try {
+                for (line in lines) {
+                    if (line.isNotBlank()) {
+                        val split = line.split(',') //tách từ theo dấu phẩy
+
+                        //tìm cà phê
+                        val temp = AppController.listCoffee
+                        temp.sortedBy { it.getName() }
+                        val tempCoffee =
+                            temp[AppController.listCoffee.binarySearch(split[0], { obj1, obj2 ->
+                                (obj1 as Coffee).getName().compareTo((obj2 as Coffee).getName())
+                            })] //tìm object cà phê tương ứng
+                        val coffeeInCart = CoffeeInCart(tempCoffee)
+                        coffeeInCart.changeQuantity(split[2].toInt())
+                        coffeeInCart.changeSize(split[1].toInt())
+                        currentCart.addToCart(coffeeInCart)
+                    } else {
+                        val temp = currentCart
+                        carts.add(temp)
+                        currentCart = Cart() //xoá cart hiện tại
+                    }
                 }
-
+            } catch (e: Exception) {
+                Log.d("Error", "Không thể đọc file")
+                return
             }
 
 
+        }
+
+        fun fetchOrders(){
+            if (AppController.sharedPreferences.getBoolean("online_acc",false)){
+                fetchFromFirebase() //lấy từ firebase
+            }
+            else{
+                fetchLocally() //đọc từ file
+            }
+        }
+
+        private fun fetchFromFirebase(){
+            val getOrder = AppController.db.collection("orders"+Firebase.auth.currentUser!!.uid)
+
+            getOrder.get()
+                .addOnSuccessListener {
+                        documents->
+                    for (document in documents){
+                        val time = LocalDateTime.parse(document.getDate("time").toString(), DateTimeFormatter.ofPattern(
+                            AppController.dateFormat
+                        ))
+                        val address = document.getString("address")
+                        var done = true
+                        done = document.getString("done")=="true"
+
+                        val currentOrder=Order(carts[document.id.toInt()].getList(),time,address!!)
+
+                        if (done){
+                            AppController.historyOrders.add(currentOrder)
+                        }
+                        else{
+                            AppController.ongoingOrders.add(currentOrder)
+                        }
+                    }
+
+                }
+        }
+
+        private fun fetchLocally(){
+            val file = File("orders")
+            if (!file.exists()) {
+                Log.d("Error", "Không có file")
+                return
+            }
+
+            val lines = file.readLines()
+            
+            var index = 0
+            try {
+                for (line in lines) {
+                    val lineSplit = line.split(',')
+                    val time = LocalDateTime.parse(lineSplit[0], DateTimeFormatter.ofPattern(
+                        AppController.dateFormat
+                    ))
+                    val address = lineSplit[1]
+                    var done = true
+                    done = lineSplit[2]=="true"
+
+                    val currentOrder=Order(carts[index].getList(),time,address!!)
+
+                    if (done){
+                        AppController.historyOrders.add(currentOrder)
+                    }
+                    else{
+                        AppController.ongoingOrders.add(currentOrder)
+                    }
+                    index++
+                }
+            } catch (e: Exception) {
+                Log.d("Error", "Không thể đọc file")
+                return
+            }
         }
 
     }
