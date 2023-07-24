@@ -21,6 +21,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.AccountFunctions.Companion.signOut
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
+import com.tung.coffeeorder.Functions.Companion.logout
 
 class UserEdit : AppCompatActivity() {
     var editMode=ArrayList<Boolean>()
@@ -58,8 +59,7 @@ class UserEdit : AppCompatActivity() {
             )
             signOutBtn.setOnClickListener(
                 View.OnClickListener {
-                    signOut(this)
-                    sharedPreferences.edit().putBoolean("online_acc",true).apply()
+                    logout(this)
                     //để nó không tự đăng nhập lại vào acc anonymous, mà Firebase auth cũng kh có tài khoản
                     //là hiện ra màn hình đăng nhập
                     val intent = Intent(this,Login::class.java)
@@ -71,6 +71,8 @@ class UserEdit : AppCompatActivity() {
         }
         //mỗi lần mở lên kiểm tra có phải là từ anonymouslogin hay kh
     }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -211,5 +213,7 @@ class UserEdit : AppCompatActivity() {
         }
 
     }
+
+
 
 }

@@ -119,8 +119,6 @@ class Login : AppCompatActivity() {
                 val intent =
                     Intent(this, MainActivity::class.java)
 
-
-
                 sharedPreferences.edit()
                     .putBoolean("online_acc", true)
                     .apply() //ghi nhận là dùng tài khoản online cho app
@@ -136,7 +134,6 @@ class Login : AppCompatActivity() {
                 AccountFunctions.getInfoFromFirebase(
                     User.singleton
                 ) { id, name, phoneNumber, address,loyaltyPoint ->
-                    Log.d("Accountid2", id)
                     User.singleton.initialize(
                         Firebase.auth.currentUser!!.uid,
                         name,

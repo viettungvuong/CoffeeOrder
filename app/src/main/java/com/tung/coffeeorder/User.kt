@@ -54,7 +54,7 @@ class User private constructor(){
         }
     }
 
-    val loyalty=LoyaltyPoint()
+    var loyalty=LoyaltyPoint()
 
     fun editName(newFullName: String){
         this.fullName=newFullName
@@ -167,4 +167,12 @@ class User private constructor(){
         edit("",name,email,phoneNumber,address)
     }
 
+    fun clearUser(){
+        this.loyalty=LoyaltyPoint()
+        id=""
+        fullName=""
+        phoneNumber=""
+        email=""
+        address=""
+    }
 }

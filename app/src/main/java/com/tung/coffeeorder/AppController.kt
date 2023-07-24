@@ -184,24 +184,30 @@ class AccountFunctions {
                         val intent =
                             Intent(activity, MainActivity::class.java)
 
+                        sharedPreferences.edit()
+                            .putBoolean("online_acc", true)
+                            .apply() //ghi nhận là dùng tài khoản online cho app
 
                         Toast.makeText(
-                            context,
+                            activity,
                             "Đã đăng nhập thành công",
                             Toast.LENGTH_SHORT,
                         ).show()
 
-                        sharedPreferences.edit().putBoolean("online_acc",true).apply() //ghi nhận là dùng tài khoản online cho app
+                        val email = Firebase.auth.currentUser!!.email.toString()
 
-
-                        val email = task.result?.user?.email.toString()
-
-                       getInfoFromFirebase(
+                        AccountFunctions.getInfoFromFirebase(
                             User.singleton
                         ) { id, name, phoneNumber, address,loyaltyPoint ->
-                            Log.d("Accountid2", id)
-                            User.singleton.initialize(Firebase.auth.currentUser!!.uid, name, email, phoneNumber, address,loyaltyPoint)
-                            Functions.initCarts(context) //lấy danh sách các cart
+                            User.singleton.initialize(
+                                Firebase.auth.currentUser!!.uid,
+                                name,
+                                email,
+                                phoneNumber,
+                                address,
+                                loyaltyPoint
+                            )
+                            Functions.initCarts(activity) //lấy danh sách các cart
                             Functions.retrieveCurrentNoOfCarts()
                             Functions.retrieveCurrentNoOfOrders()
                             activity.startActivity(intent)

@@ -374,6 +374,16 @@ class Functions {
         }
 
 
+        fun logout(context: Context){
+            AccountFunctions.signOut(context)
+            sharedPreferences.edit().putBoolean("online_acc",true).apply()
+            carts.clear()
+            Cart.singleton.getList().clear()
+            ongoingOrders.clear()
+            historyOrders.clear()
+            rewardsPoint.clear()
+            User.singleton.clearUser()
+        }
     }
 
 }
