@@ -72,18 +72,20 @@ class Order
     }
 
     //đánh dấu là đã xong
-    fun setDone(ongoing: LinkedList<Order>, history: LinkedList<Order>, rewards: LinkedList<Reward>, context: Context){
+    fun setDone(ongoing: LinkedList<Order>, history: LinkedList<Order>, rewards: LinkedList<Reward>, context: Context, initializing: Boolean=false){
         ongoing.remove(this) //xoá khỏi danh sách History
         history.add(this) //thêm vào danh sách History
         val reward=Reward(this)
         rewards.add(reward) //thêm vào reward khi đơn hàng đã xong
-        Log.d("Rewards size",rewards.size.toString())
         if (!redeem){
             User.singleton.loyalty.addPoints(bonuspoint) //thêm điểm loyalty
 
-            for (coffeeInCart in cart){
-                User.singleton.loyalty.increaseLoyaltyCard(coffeeInCart.getquantity()) //tăng điểm theo số ly đã có
+            if (!initializing){ //khi gọi từ initialize thì không có bước này
+                for (coffeeInCart in cart){
+                    User.singleton.loyalty.increaseLoyaltyCard(coffeeInCart.getquantity()) //tăng điểm theo số ly đã có
+                }
             }
+
         }
         else{
             User.singleton.loyalty.removePoints(bonuspoint) //trừ điểm sau khi redeem

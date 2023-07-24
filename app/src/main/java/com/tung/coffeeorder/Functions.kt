@@ -199,7 +199,10 @@ class Functions {
             getCart.get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
-                        Log.d("cart name",document.id)
+                        if (document.id=="0"){
+                            continue //bỏ qua thằng 0
+                            //để kiếm cách fix thằng 0 này sau
+                        }
                         val cart = document.get("cart") as ArrayList<String> //array field cart
                         var currentCart=Cart()
                         for (cartDesc in cart) {
@@ -303,8 +306,7 @@ class Functions {
                         ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
                         if (done){
-                            Log.d("setDone","setDone")
-                            currentOrder.setDone(ongoingOrders, historyOrders, rewardsPoint, context)
+                            currentOrder.setDone(ongoingOrders, historyOrders, rewardsPoint, context,true)
 
                         }
 
@@ -339,7 +341,7 @@ class Functions {
 
                     if (done){
                         Log.d("setDone","setDone")
-                        currentOrder.setDone(ongoingOrders, historyOrders, rewardsPoint, context)
+                        currentOrder.setDone(ongoingOrders, historyOrders, rewardsPoint, context, true)
                     }
 
                     index++

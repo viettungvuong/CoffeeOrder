@@ -35,6 +35,8 @@ class User private constructor(){
                     loyaltyCardCount++
                 }
             }
+
+            update()
         }
 
         fun addPoints(amount: Int){
@@ -47,6 +49,8 @@ class User private constructor(){
 
         fun resetLoyaltyCard(){
             loyaltyCardCount=0
+
+            update()
         }
     }
 
@@ -106,7 +110,8 @@ class User private constructor(){
                 "email" to email,
                 "name" to fullName,
                 "phone-number" to phoneNumber,
-                "address" to address
+                "address" to address,
+                "loyalty-points" to 0
             )
 
             //cập nhật lên firebase thay đổi mới
@@ -114,13 +119,14 @@ class User private constructor(){
         }
     }
 
-    fun initialize(id: String, name: String, email: String, phoneNumber: String, address: String){
+    fun initialize(id: String, name: String, email: String, phoneNumber: String, address: String, loyaltyPoint: Int=0){
         this.fullName = name
         this.email=email
         this.phoneNumber=phoneNumber
         this.address=address
         this.id=id
 
+        this.loyalty.increaseLoyaltyCard(loyaltyPoint)
     }
 
     //cập nhật thay đổi
@@ -132,7 +138,8 @@ class User private constructor(){
                 "email" to email,
                 "name" to fullName,
                 "phone-number" to phoneNumber,
-                "address" to address
+                "address" to address,
+                "loyalty-points" to loyalty.getLoyaltyCardCount()
             )
 
             //cập nhật lên firebase thay đổi mới
@@ -145,7 +152,7 @@ class User private constructor(){
             editor.putString("name",fullName).apply()
             editor.putString("phone-number",phoneNumber).apply()
             editor.putString("address",address).apply()
-
+            editor.putInt("loyalty-points",loyalty.getLoyaltyCardCount()).apply()
         }
     }
 
@@ -155,6 +162,8 @@ class User private constructor(){
         val name = sharedPreferences.getString("name","")!!
         val phoneNumber = sharedPreferences.getString("phone-number","")!!
         val address = sharedPreferences.getString("address","")!!
+        val currentLoyaltyPoint = sharedPreferences.getInt("loyalty-points",0)!!
+        loyalty.increaseLoyaltyCard(currentLoyaltyPoint)
         edit("",name,email,phoneNumber,address)
     }
 

@@ -198,9 +198,9 @@ class AccountFunctions {
 
                        getInfoFromFirebase(
                             User.singleton
-                        ) { id, name, phoneNumber, address ->
+                        ) { id, name, phoneNumber, address,loyaltyPoint ->
                             Log.d("Accountid2", id)
-                            User.singleton.initialize(Firebase.auth.currentUser!!.uid, name, email, phoneNumber, address)
+                            User.singleton.initialize(Firebase.auth.currentUser!!.uid, name, email, phoneNumber, address,loyaltyPoint)
                             Functions.initCarts(context) //lấy danh sách các cart
                             Functions.retrieveCurrentNoOfCarts()
                             Functions.retrieveCurrentNoOfOrders()
@@ -281,7 +281,7 @@ class AccountFunctions {
 
         //lấy địa chỉ của User.singleton từ firebase
         @JvmStatic
-        fun getInfoFromFirebase(user: User, callback: (String,String,String,String)->Unit){
+        fun getInfoFromFirebase(user: User, callback: (String,String,String,String,Int)->Unit){
             db.collection("users").document(Firebase.auth.uid.toString()).get()
                 .addOnSuccessListener {
                     documentSnapshot->
@@ -291,7 +291,8 @@ class AccountFunctions {
                         val address=documentSnapshot.getString("address").toString()
                         val name =documentSnapshot.getString("name").toString() //để tìm hiểu cách chỉnh display name cho nó đúng
                         val phoneNumber=documentSnapshot.getString("phone-number").toString()
-                        callback(id,name,phoneNumber,address)
+                        val loyaltyPoint=documentSnapshot.getLong("loyalty-points")!!.toInt()
+                        callback(id,name,phoneNumber,address,loyaltyPoint)
                     }
                 }
         }

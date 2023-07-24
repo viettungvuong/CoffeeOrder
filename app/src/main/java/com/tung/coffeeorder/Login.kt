@@ -135,14 +135,15 @@ class Login : AppCompatActivity() {
 
                 AccountFunctions.getInfoFromFirebase(
                     User.singleton
-                ) { id, name, phoneNumber, address ->
+                ) { id, name, phoneNumber, address,loyaltyPoint ->
                     Log.d("Accountid2", id)
                     User.singleton.initialize(
                         Firebase.auth.currentUser!!.uid,
                         name,
                         email,
                         phoneNumber,
-                        address
+                        address,
+                        loyaltyPoint
                     )
                     initCarts(this) //lấy danh sách các cart
                     retrieveCurrentNoOfCarts()
