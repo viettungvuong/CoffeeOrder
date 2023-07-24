@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.listCoffee
 
 class Rewards: Fragment() {
@@ -26,6 +27,11 @@ class Rewards: Fragment() {
 
         val totalPoint = view.findViewById<TextView>(R.id.total_points)
         totalPoint.text=User.singleton.loyalty.getCurrentPoints().toString()
+
+        val redeemBtn = view.findViewById<MaterialButton>(R.id.redeem_btn)
+        redeemBtn.setOnClickListener{
+            
+        }
 
         return view
     }
