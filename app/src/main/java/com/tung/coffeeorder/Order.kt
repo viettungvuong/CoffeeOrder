@@ -85,7 +85,7 @@ class Order
             User.singleton.loyalty.removePoints(bonuspoint) //trừ điểm sau khi redeem
         }
         done=true
-        update(context)
+        updateDone(context) //update done sẽ khác là phải chỉnh file chứ không phải thêm vào file
     }
 
     fun totalPrice(): Long{
@@ -98,6 +98,15 @@ class Order
 
     fun getWhetherRedeem(): Boolean{
         return redeem
+    }
+
+    fun updateDone(context: Context){
+        if (AppController.sharedPreferences.getBoolean("online_acc",false)){
+            updateToFirebase() //up lên firebase
+        }
+        else{
+            updateDoneLocally(context) //xuất ra file
+        }
     }
 
     fun update(context: Context){
@@ -163,13 +172,9 @@ class Order
             }
         }
         try {
-            val writer = BufferedWriter(FileWriter(file, true)) //true là append vào file
-
-            val temp = "$idCount,${time.format(DateTimeFormatter.ofPattern(dateFormat))},$address,$done"
-            writer.write(temp)
-            writer.newLine()
-
-            writer.close()
+            val lines =  file.readLines().toMutableList() //đọc toàn bộ dòng và lưu vào một mảng
+            lines[idCount-1]="$idCount,${time.format(DateTimeFormatter.ofPattern(dateFormat))},$address,$done" //cập nhật đúng dòng
+            file.writeText(lines.joinToString("\n"))
         } catch (e: Exception) {
             Log.d("Error","Không thể xuất ra file order"+e.message.toString())
             return

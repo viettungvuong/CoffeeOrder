@@ -23,8 +23,8 @@ import com.tung.coffeeorder.Functions.Companion.increaseCarts
 import java.io.*
 import java.util.LinkedList
 
-const val orderFileName = "orders-save-app.bin"
-const val cartsFileName = "carts-save-app.bin"
+const val orderFileName = "orders-save-app.dat"
+const val cartsFileName = "carts-save-app.dat"
 class Cart() {
 
     private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
@@ -112,7 +112,6 @@ class Cart() {
         }
 
         try {
-            Log.d("Đang viết file","ok")
             val lines =  file.readLines().toMutableList() //đọc toàn bộ dòng và lưu vào một mảng
 
             var i = lines.size - 1
