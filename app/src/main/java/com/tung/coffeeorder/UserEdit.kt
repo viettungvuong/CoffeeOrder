@@ -81,7 +81,9 @@ class UserEdit : AppCompatActivity() {
             )
             signOutBtn.setOnClickListener(
                 View.OnClickListener {
-                    signOut(this)
+                    if (sharedPreferences.getBoolean("online_acc",false)) {
+                        signOut(this)
+                    }
                     sharedPreferences.edit().putBoolean("online_acc",true).apply()
                     //để nó không tự đăng nhập lại vào acc anonymous, mà Firebase auth cũng kh có tài khoản
                     //là hiện ra màn hình đăng nhập
