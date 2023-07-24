@@ -129,8 +129,6 @@ class Functions {
 
         //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
         fun increaseCarts(){
-            Log.d("number of carts", numberOfCarts.toString())
-            Log.d("called", numberOfCarts.toString())
             numberOfCarts++
             //acc offline
             if (!sharedPreferences.getBoolean("online_acc", false)) {
@@ -364,7 +362,7 @@ class Functions {
 
             val resumeCart = carts[getCurrentNoOfCarts()-1].getList()
             for (item in resumeCart){
-                Cart.singleton.addToCart(context,item) //dùng addToCart sẽ làm tăng số number-of-carts, dẫn đến kết quả sai
+                Cart.singleton.addToCart(context,item)
             }
         }
 
@@ -383,6 +381,8 @@ class Functions {
             historyOrders.clear()
             rewardsPoint.clear()
             User.singleton.clearUser()
+            numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
+            numberOfOrders = 0 //số order
         }
     }
 
