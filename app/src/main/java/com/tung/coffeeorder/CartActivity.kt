@@ -70,6 +70,14 @@ class CartActivity: AppCompatActivity() {
             carts.add(Cart.singleton) //báo là mới thêm cart mới
         }
 
+        val addressText = findViewById<TextView>(R.id.address)
+        addressText.text=User.singleton.getaddress()
+        
+        val changeAddressBtn=findViewById<MaterialButton>(R.id.changeaddressBtn)
+        changeAddressBtn.setOnClickListener {
+            //mở cái đổi địa chỉ
+        }
+
     }
 
     //mỗi lần mở đi mở lại cái activity này thì sẽ cập nhật giá
