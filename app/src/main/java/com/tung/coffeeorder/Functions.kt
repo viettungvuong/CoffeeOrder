@@ -183,13 +183,11 @@ class Functions {
         fun initCarts(){
             if (sharedPreferences.getBoolean("online_acc",false)){
                 initCartsFromFirebase {
-                    resumeCart()
                     fetchOrders()
                 }
             }
             else{
                 initCartsLocally()
-                resumeCart()
                 fetchOrders() //lấy tất cả order (phải có cart thì mới lấy order được)
             }
         }
@@ -220,6 +218,8 @@ class Functions {
                         }
                         carts.add(currentCart) //thêm vào danh sách các cart
                     }
+
+                    resumeCart()
                     callback()
                 }
 
@@ -257,6 +257,8 @@ class Functions {
                         currentCart = Cart() //xoá cart hiện tại
                     }
                 }
+
+                resumeCart()
             } catch (e: Exception) {
                 Log.d("Error", "Không thể đọc file")
                 return

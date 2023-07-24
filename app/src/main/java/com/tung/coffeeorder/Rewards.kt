@@ -30,7 +30,7 @@ class Rewards: Fragment() {
 
         val redeemBtn = view.findViewById<MaterialButton>(R.id.redeem_btn)
         redeemBtn.setOnClickListener{
-            
+
         }
 
         return view
