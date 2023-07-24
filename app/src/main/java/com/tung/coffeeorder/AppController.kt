@@ -152,7 +152,7 @@ class AppController{
         lateinit var historyAdapter: OrderAdapter //để 2 adapter này ở đây vì hai adapter này có sự liên thông với nhau rất nhiều
         var db= Firebase.firestore
         val storage = Firebase.storage.reference
-        var listCoffee= LinkedList<Coffee>() //danh sách các coffee
+        var listCoffee= ArrayList<Coffee>() //danh sách các coffee
         lateinit var sharedPreferences: SharedPreferences //shared preferences
         var carts= ArrayList<Cart>() //danh sách các cart
         var numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
@@ -228,7 +228,7 @@ class AppController{
             //gio ta phai cho no xuat dung chieu
         }
 
-        fun initCoffeeList(listCoffee: LinkedList<Coffee>){
+        fun initCoffeeList(listCoffee: ArrayList<Coffee>){
             listCoffee.add(Coffee("Cà phê sữa đá","caphesuada",18000))
             listCoffee.add(Coffee("Cà phê muối","caphemuoi",19000))
             listCoffee.add(Coffee("Americano","americano",35000))

@@ -40,7 +40,7 @@ class RewardSection: Fragment() {
                 currentPoint.text="0/8"
                 Toast.makeText(
                     context,
-                    "Đã reset hết 8 ly",
+                    "Đã reset ly thưởng",
                     Toast.LENGTH_SHORT,
                 ).show()
 
