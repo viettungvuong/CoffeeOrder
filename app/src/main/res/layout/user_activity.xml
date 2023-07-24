@@ -41,13 +41,13 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:layout_height="30dp"
                 android:src="@drawable/profile"/>
 
            <LinearLayout
                android:layout_width="0dp"
-               android:layout_weight="0.6"
+               android:layout_weight="0.5"
                android:layout_height="wrap_content"
                android:orientation="vertical">
 
@@ -85,8 +85,8 @@
 
                 <ImageButton
                     android:id="@+id/mainProfileBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/edit"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
@@ -102,13 +102,13 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:layout_height="30dp"
                 android:src="@drawable/phone"/>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="0.6"
+                android:layout_weight="0.5"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -126,7 +126,6 @@
                     android:enabled="false"
                     android:textColor="@color/black"
                     android:text="0123456789"
-
                     android:textSize="15dp"/>
 
             </LinearLayout>
@@ -147,8 +146,8 @@
 
                 <ImageButton
                     android:id="@+id/mainPhoneBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/edit"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
@@ -164,13 +163,13 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:layout_height="30dp"
                 android:src="@drawable/message"/>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="0.6"
+                android:layout_weight="0.5"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -188,7 +187,6 @@
                     android:enabled="false"
                     android:textColor="@color/black"
                     android:text="viettungvuong@gmail.com"
-
                     android:textSize="15dp"/>
 
             </LinearLayout>
@@ -209,8 +207,8 @@
 
                 <ImageButton
                     android:id="@+id/mainEmailBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/edit"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
@@ -226,13 +224,13 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:layout_height="30dp"
                 android:src="@drawable/address"/>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="0.6"
+                android:layout_weight="0.5"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -270,8 +268,8 @@
 
                 <ImageButton
                     android:id="@+id/mainAddressBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/edit"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
