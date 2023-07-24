@@ -142,11 +142,8 @@ class AppController{
         lateinit var redeemCoffees: LinkedList<RedeemCoffee>
         lateinit var sharedPreferences: SharedPreferences //shared preferences
         var carts= ArrayList<Cart>() //danh sách các cart
-//        val dbCoffeeList="coffee"
-//        val dbCoffeeNameField="name"
-//        val dbCoffeeImageField="imageName"
-//        val dbCoffeePriceField="price"
-
+        var numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
+        var numberOfOrders = 0 //số order
 
 
         @JvmStatic
@@ -188,17 +185,16 @@ class AccountFunctions {
 
                         val email = task.result?.user?.email.toString()
 
-                        getInfoFromFirebase(User.singleton
-                        ) { id,name,phoneNumber,address ->
-                            Log.d("Accountid2",id)
-                            User.singleton.initialize(Firebase.auth.currentUser!!.uid,name, email, phoneNumber, address)
-
-                            val intent =
-                                Intent(context, MainActivity::class.java)
-                            activity.startActivity(intent)
+                        AccountFunctions.getInfoFromFirebase(
+                            User.singleton
+                        ) { id, name, phoneNumber, address ->
+                            Log.d("Accountid2", id)
+                            User.singleton.initialize(Firebase.auth.currentUser!!.uid, name, email, phoneNumber, address)
+                            Functions.initCarts() //lấy danh sách các cart
+                            Functions.retrieveCurrentNoOfCarts()
+                            Functions.retrieveCurrentNoOfOrders()
                             activity.finish()
                         }
-
 
                     } else {
                         Log.w(ContentValues.TAG, "signInWithEmail:failure", task.exception)

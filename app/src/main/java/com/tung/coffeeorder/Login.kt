@@ -26,6 +26,8 @@ import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import com.tung.coffeeorder.Functions.Companion.initCarts
 import com.tung.coffeeorder.Functions.Companion.initCoffeeList
 import com.tung.coffeeorder.Functions.Companion.initRedeem
+import com.tung.coffeeorder.Functions.Companion.retrieveCurrentNoOfCarts
+import com.tung.coffeeorder.Functions.Companion.retrieveCurrentNoOfOrders
 import java.util.concurrent.TimeUnit
 
 class Login : AppCompatActivity() {
@@ -41,9 +43,6 @@ class Login : AppCompatActivity() {
         initCoffeeList(AppController.listCoffee)
 
         sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
-
-        //sharedPreferences.edit().putInt("number-of-carts", 0).apply() //tăng số lượng cart lên
-        //sharedPreferences.edit().putInt("number-of-orders", 0).apply() //tăng số lượng cart lên
 
         initRedeem() //lấy danh sách các redeem
 
@@ -81,6 +80,8 @@ class Login : AppCompatActivity() {
         val anonymousUse = findViewById<MaterialButton>(R.id.anonymous)
         anonymousUse.setOnClickListener{
             sharedPreferences.edit().putBoolean("online_acc",false).apply() //đặt là không dùng tài khoản online
+            retrieveCurrentNoOfCarts()
+            retrieveCurrentNoOfOrders()
             initCarts() //lấy danh sách các cart
             User.singleton.loadLocal() //đọc thông tin local
         }
@@ -115,6 +116,8 @@ class Login : AppCompatActivity() {
                 Log.d("Accountid2", id)
                 User.singleton.initialize(Firebase.auth.currentUser!!.uid, name, email, phoneNumber, address)
                 initCarts() //lấy danh sách các cart
+                retrieveCurrentNoOfCarts()
+                retrieveCurrentNoOfOrders()
                 finish()
             }
         }

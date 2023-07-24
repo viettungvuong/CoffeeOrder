@@ -5,6 +5,7 @@ import android.media.Image
 import android.util.Log
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -13,6 +14,8 @@ import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.historyOrders
 import com.tung.coffeeorder.AppController.Companion.listCoffee
+import com.tung.coffeeorder.AppController.Companion.numberOfCarts
+import com.tung.coffeeorder.AppController.Companion.numberOfOrders
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
 import com.tung.coffeeorder.AppController.Companion.redeemCoffees
 import com.tung.coffeeorder.AppController.Companion.rewardsPoint
@@ -106,30 +109,82 @@ class Functions {
             }
         }
 
+        fun retrieveCurrentNoOfCarts(){
+            if (!sharedPreferences.getBoolean("online_acc", false)) {
+                numberOfCarts=sharedPreferences.getInt("number-of-carts", 0) //tăng số lượng cart lên
+            }
+            else{
+
+                db.collection("users").document(Firebase.auth.currentUser!!.uid).get()
+                    .addOnSuccessListener {
+                        document->
+                        numberOfCarts=(document.getLong("number-of-carts")?:0L).toInt()
+                    }
+            }
+        }
+
         fun getCurrentNoOfCarts(): Int{
-            return sharedPreferences.getInt("number-of-carts",0) //trả về số lượng giỏ hàng cho tới hiện tại
+            return numberOfCarts //trả về số lượng giỏ hàng cho tới hiện tại
         }
 
         //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
         fun increaseCarts(){
-            sharedPreferences.edit().putInt("number-of-carts",getCurrentNoOfCarts()+1).apply() //tăng số lượng cart lên
+            Log.d("number of carts", numberOfCarts.toString())
+            Log.d("called", numberOfCarts.toString())
+            numberOfCarts++
+            //acc offline
+            if (!sharedPreferences.getBoolean("online_acc", false)) {
+                sharedPreferences.edit().putInt("number-of-carts", numberOfCarts)
+                    .apply() //tăng số lượng cart lên
+            }
+            else{
+                Log.d("number of carts", numberOfCarts.toString())
+                val setField=mapOf(
+                    "number-of-carts" to numberOfCarts
+                )
+                db.collection("users").document(Firebase.auth.currentUser!!.uid).set(setField, SetOptions.merge())
+            }
+        }
 
+        fun retrieveCurrentNoOfOrders(){
+            if (!sharedPreferences.getBoolean("online_acc", false)) {
+                numberOfOrders=sharedPreferences.getInt("number-of-orders", 0) //tăng số lượng cart lên
+            }
+            else{
+
+                db.collection("users").document(Firebase.auth.currentUser!!.uid).get()
+                    .addOnSuccessListener {
+                            document->
+                        numberOfOrders=(document.getLong("number-of-orders")?:0L).toInt()
+                    }
+            }
         }
 
         fun getCurrentNoOfOrders(): Int{
-            return sharedPreferences.getInt("number-of-orders",0) //trả về số lượng giỏ hàng cho tới hiện tại
+            return numberOfOrders //trả về số lượng giỏ hàng cho tới hiện tại
         }
 
         //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
         fun increaseOrders(){
-            sharedPreferences.edit().putInt("number-of-orders",getCurrentNoOfOrders()+1).apply() //tăng số lượng cart lên
-
+            numberOfOrders++
+            //acc offline
+            if (!sharedPreferences.getBoolean("online_acc", false)) {
+                sharedPreferences.edit().putInt("number-of-orders", numberOfOrders)
+                    .apply() //tăng số lượng cart lên
+            }
+            else{
+                val setField=mapOf(
+                    "number-of-orders" to numberOfOrders
+                )
+                db.collection("users").document(Firebase.auth.currentUser!!.uid).set(setField, SetOptions.merge())
+            }
         }
 
         fun initCarts(){
             if (sharedPreferences.getBoolean("online_acc",false)){
-                initCartsFromFirebase{ resumeCart()
-                fetchOrders()
+                initCartsFromFirebase {
+                    resumeCart()
+                    fetchOrders()
                 }
             }
             else{
@@ -303,8 +358,6 @@ class Functions {
         }
 
         fun needToResume(): Boolean{
-            Log.d("cart size", getCurrentNoOfCarts().toString())
-            Log.d("orders size",getCurrentNoOfOrders().toString())
             return getCurrentNoOfCarts() > getCurrentNoOfOrders()
         }
 
