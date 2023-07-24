@@ -226,12 +226,12 @@ class Functions {
         }
 
         private fun initCartsLocally(context: Context) {
-            val file = File(context.filesDir,"carts")
+            val file = File(context.filesDir,"cart")
             if (!file.exists()) {
-                Log.d("Error", "Không có file")
+                Log.d("Error", "Không có file cart")
                 return
             }
-
+            Log.d("Đọc file", "Có file")
             val lines = file.readLines()
 
             var currentCart = Cart()
@@ -250,17 +250,24 @@ class Functions {
                         val coffeeInCart = CoffeeInCart(tempCoffee!!)
                         coffeeInCart.changeQuantity(split[2].toInt())
                         coffeeInCart.changeSize(split[1].toInt())
+                        Log.d("split[0]",split[0])
+                        Log.d("split[1]",split[1])
+                        Log.d("split[2]",split[2])
                         currentCart.addToCart(context,coffeeInCart)
                     } else {
-                        val temp = currentCart
+                        val temp = Cart(currentCart) //copy constructor
                         carts.add(temp)
                         currentCart = Cart() //xoá cart hiện tại
                     }
                 }
+                val temp = Cart(currentCart) //copy constructor
+                carts.add(temp) //add thêm một lần nữa ở cuối file
 
                 resumeCart(context)
+                Log.d("cart",carts.size.toString())
+                Log.d("current cart",Cart.singleton.getList().size.toString())
             } catch (e: Exception) {
-                Log.d("Error", "Không thể đọc file")
+                Log.d("Error", "Không thể đọc file carts")
                 return
             }
 
@@ -307,9 +314,9 @@ class Functions {
         }
 
         private fun fetchOrderLocally(context: Context){
-            val file = File(context.filesDir,"orders")
+            val file = File(context.filesDir,"order")
             if (!file.exists()) {
-                Log.d("Error", "Không có file")
+                Log.d("Error", "Không có file order")
                 return
             }
 
@@ -338,7 +345,7 @@ class Functions {
                     index++
                 }
             } catch (e: Exception) {
-                Log.d("Error", "Không thể đọc file")
+                Log.d("Error", "Không thể đọc file orders")
                 return
             }
         }

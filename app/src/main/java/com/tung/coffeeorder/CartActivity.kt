@@ -67,7 +67,6 @@ class CartActivity: AppCompatActivity() {
         )
 
         if (Cart.singleton.getList().isEmpty()){ //chứng tỏ là cart mới
-            Log.d("Added!!","added to firebase")
             carts.add(Cart.singleton) //báo là mới thêm cart mới
         }
 

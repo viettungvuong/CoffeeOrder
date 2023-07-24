@@ -23,13 +23,18 @@ import com.tung.coffeeorder.Functions.Companion.increaseCarts
 import java.io.*
 import java.util.LinkedList
 
-class Cart {
+class Cart() {
+
+    private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
     companion object{
         @JvmStatic
         var singleton= Cart() //singleton
     }
 
-    private val cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
+    constructor(otherCart: Cart): this(){
+        cartList=otherCart.cartList
+    }
+
 
     private fun getDescList(): LinkedList<String>{ //mảng chứa mô tả các sản phẩm trong cart
         val tempList = LinkedList<String>()
@@ -70,8 +75,6 @@ class Cart {
 
     private fun updateToFirebase(tempList: LinkedList<String>){
 
-        Log.d("Added!!","added to firebase")
-
         val createField = hashMapOf(
             "cart" to tempList //tạo field cho cart (array field)
         )
@@ -96,7 +99,7 @@ class Cart {
     }
 
     private fun updateLocally(context: Context, tempList: LinkedList<String>){
-        val file = File(context.filesDir,"carts")
+        val file = File(context.filesDir,"cart")
         if (!file.exists()) {
             try {
                 file.createNewFile()
@@ -107,6 +110,7 @@ class Cart {
         }
 
         try {
+            Log.d("Đang viết file","ok")
             val lines =  file.readLines().toMutableList() //đọc toàn bộ dòng và lưu vào một mảng
 
             var i = lines.size - 1
@@ -118,6 +122,8 @@ class Cart {
             lines.addAll(tempList)
 
             //xuất từng dòng ra file, dùng jointostring với kí tự '\n' để xuống dòng
+            print("Update locally")
+            print(lines)
             file.writeText(lines.joinToString("\n"))
 
         } catch (e: Exception) {
