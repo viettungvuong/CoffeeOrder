@@ -46,10 +46,26 @@ class UserEdit : AppCompatActivity() {
             val greenColor = ColorStateList.valueOf(Color.parseColor("#007B5E"))
             signOutBtn.backgroundTintList = greenColor //chuyển button này để lưu thay đổi
             signOutBtn.setOnClickListener(
-                View.OnClickListener {
-                    val intent = Intent(this,MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                View.OnClickListener { //mở main activity nếu đủ thông tin
+                    if (User.singleton.getaddress().isBlank()) {
+                        Toast.makeText(
+                            this,
+                            "Bạn chưa nhập địa chỉ",
+                            Toast.LENGTH_LONG,
+                        ).show()
+                    }
+                    else if (User.singleton.getphoneNumber().isBlank()){
+                        Toast.makeText(
+                            this,
+                            "Bạn chưa nhập số điện thoại",
+                            Toast.LENGTH_LONG,
+                        ).show()
+                    }
+                    else{ //đủ thông tin rồi thì mở main activity
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
 
                 }
             )
