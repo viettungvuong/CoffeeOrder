@@ -13,11 +13,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import java.util.LinkedList
 
-class CoffeeAdapter(activity: Activity, coffeeList: LinkedList<Coffee>) :
+class CoffeeAdapter(activity: Activity, coffeeList: ArrayList<Coffee>) :
     RecyclerView.Adapter<CoffeeAdapter.CoffeeViewHolder>() {
 
     private var activity: Activity
-    private var coffeeList: LinkedList<Coffee>
+    private var coffeeList: ArrayList<Coffee>
 
     init {
         this.activity=activity
