@@ -37,8 +37,7 @@
         android:background="@drawable/layout_border_square">
 
         <LinearLayout
-            android:layout_height="0dp"
-            android:layout_weight="0.6"
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:orientation="horizontal"
             android:layout_marginHorizontal="20dp"
@@ -56,15 +55,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="18 đường số 7, phường Tân Hưng, quận 7"
-                android:textSize="18dp"/>
+                android:textSize="18dp"
+                />
 
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:layout_height="0dp"
-            android:layout_weight="0.4"
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginVertical="20dp"
+            android:layout_marginTop="20dp"
             android:text="Đổi địa chỉ"
             android:background="@drawable/rounded_button"
             app:backgroundTint="#324A59"

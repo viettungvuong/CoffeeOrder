@@ -96,6 +96,7 @@ class Cart {
     }
 
     private fun updateLocally(tempList: LinkedList<String>){
+        Log.d("Update locally","okay")
         val file = File("cart")
         if (!file.exists()) {
             try {
