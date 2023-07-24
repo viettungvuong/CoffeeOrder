@@ -91,8 +91,22 @@ class Login : AppCompatActivity() {
         initCarts() //lấy danh sách các cart
         User.singleton.loadLocal() //đọc thông tin local
 
-        val intent = Intent(this,UserEdit::class.java)
-        startActivity(intent) //mở userEdit để người dùng nhập thông tin
+        //nếu thiếu thông tin thì phải nhập
+        if (User.singleton.getaddress().isBlank()||User.singleton.getphoneNumber().isBlank()) {
+            Toast.makeText(
+                this,
+                "Bạn hãy nhập thông tin để tiếp tục",
+                Toast.LENGTH_LONG,
+            ).show()
+            val intent = Intent(this, UserEdit::class.java)
+            intent.putExtra("anonymouslogin", true) //để báo đây là anonymouslogin
+            startActivity(intent) //mở userEdit để người dùng nhập thông tin
+        }
+        else{
+            //đủ thông tin thì vào màn hình chính
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent) //mở userEdit để người dùng nhập thông tin
+        }
     }
 
     fun startLogin(userInput: TextInputEditText, passwordInput: TextInputEditText){
@@ -100,34 +114,46 @@ class Login : AppCompatActivity() {
     }
 
     fun autoLogin(){
-        if (Firebase.auth.currentUser != null) {
-            val intent =
-                Intent(this, MainActivity::class.java)
+        if (sharedPreferences.getBoolean("online_acc", false)) {
+            if (Firebase.auth.currentUser != null) {
+                val intent =
+                    Intent(this, MainActivity::class.java)
 
 
 
-            sharedPreferences.edit()
-                .putBoolean("online_acc", true).apply() //ghi nhận là dùng tài khoản online cho app
+                sharedPreferences.edit()
+                    .putBoolean("online_acc", true)
+                    .apply() //ghi nhận là dùng tài khoản online cho app
 
-            Toast.makeText(
-                this,
-                "Đã đăng nhập thành công",
-                Toast.LENGTH_SHORT,
-            ).show()
+                Toast.makeText(
+                    this,
+                    "Đã đăng nhập thành công",
+                    Toast.LENGTH_SHORT,
+                ).show()
 
-            val email = Firebase.auth.currentUser!!.email.toString()
+                val email = Firebase.auth.currentUser!!.email.toString()
 
-            AccountFunctions.getInfoFromFirebase(
-                User.singleton
-            ) { id, name, phoneNumber, address ->
-                Log.d("Accountid2", id)
-                User.singleton.initialize(Firebase.auth.currentUser!!.uid, name, email, phoneNumber, address)
-                initCarts() //lấy danh sách các cart
-                retrieveCurrentNoOfCarts()
-                retrieveCurrentNoOfOrders()
-                startActivity(intent)
-                finish()
+                AccountFunctions.getInfoFromFirebase(
+                    User.singleton
+                ) { id, name, phoneNumber, address ->
+                    Log.d("Accountid2", id)
+                    User.singleton.initialize(
+                        Firebase.auth.currentUser!!.uid,
+                        name,
+                        email,
+                        phoneNumber,
+                        address
+                    )
+                    initCarts() //lấy danh sách các cart
+                    retrieveCurrentNoOfCarts()
+                    retrieveCurrentNoOfOrders()
+                    startActivity(intent)
+                    finish()
+                }
             }
+        }
+        else{
+            anonymousLogin()
         }
     }
 

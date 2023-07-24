@@ -2,7 +2,10 @@ package com.tung.coffeeorder
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.opengl.Visibility
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
@@ -11,10 +14,12 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.AccountFunctions.Companion.signOut
+import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 
 class UserEdit : AppCompatActivity() {
 
@@ -25,13 +30,59 @@ class UserEdit : AppCompatActivity() {
     private lateinit var userAddress: EditText
 
     var editMode = false
+
+    var fromAnonymousLogin=false
+
     override fun onStart() {
         super.onStart()
+        fromAnonymousLogin=intent.getBooleanExtra("anonymouslogin",false)
+        val backBtn = findViewById<ImageButton>(R.id.back_button)
+        val signOutBtn = findViewById<MaterialButton>(R.id.signOutBtn)
+
+        if (fromAnonymousLogin){ //từ anonymous login qua thì nút sign out là nút để vào màn hình chính
+            //ẩn nút back
+            backBtn.setVisibility(View.INVISIBLE) //ẩn nút back nếu đi vào từ anonymouslogin
+            signOutBtn.text="Lưu thay đổi"
+            val greenColor = ColorStateList.valueOf(Color.parseColor("#007B5E"))
+            signOutBtn.backgroundTintList = greenColor //chuyển button này để lưu thay đổi
+            signOutBtn.setOnClickListener(
+                View.OnClickListener {
+                    val intent = Intent(this,MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
+                }
+            )
+        }
+        else{
+            backBtn.setVisibility(View.VISIBLE)
+            backBtn.setOnClickListener(
+                View.OnClickListener {
+                    val intent = Intent(this,MainActivity::class.java)
+                    startActivity(intent)
+                    finish() //quay về activity trước
+                }
+            )
+            signOutBtn.setOnClickListener(
+                View.OnClickListener {
+                    signOut(this)
+                    sharedPreferences.edit().putBoolean("online_acc",true).apply()
+                    //để nó không tự đăng nhập lại vào acc anonymous, mà Firebase auth cũng kh có tài khoản
+                    //là hiện ra màn hình đăng nhập
+                    val intent = Intent(this,Login::class.java)
+                    startActivity(intent)
+                    finish()
+
+                }
+            )
+        }
+        //mỗi lần mở lên kiểm tra có phải là từ anonymouslogin hay kh
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_activity)
+
 
         userName = findViewById<EditText>(R.id.userName)
         userEmail = findViewById<EditText>(R.id.userEmail)
@@ -64,25 +115,8 @@ class UserEdit : AppCompatActivity() {
             changeAddress(view)
         }
 
-        val backBtn = findViewById<ImageButton>(R.id.back_button)
-        backBtn.setOnClickListener(
-            View.OnClickListener {
-                val intent = Intent(this,MainActivity::class.java)
-                startActivity(intent)
-                finish() //quay về activity trước
-            }
-        )
 
-        val signOutBtn = findViewById<MaterialButton>(R.id.signOutBtn)
-        signOutBtn.setOnClickListener(
-            View.OnClickListener {
-                signOut(this)
-                val intent = Intent(this,Login::class.java)
-                startActivity(intent)
-                finish()
 
-            }
-        )
 
     }
 
