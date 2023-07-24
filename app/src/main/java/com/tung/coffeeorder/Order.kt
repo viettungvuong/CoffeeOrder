@@ -80,12 +80,15 @@ class Order
         Log.d("Rewards size",rewards.size.toString())
         if (!redeem){
             User.singleton.loyalty.addPoints(bonuspoint) //thêm điểm loyalty
+            User.singleton.loyalty.increaseLoyaltyCard(cart.size) //tăng điểm theo số ly đã có
         }
         else{
             User.singleton.loyalty.removePoints(bonuspoint) //trừ điểm sau khi redeem
         }
         done=true
+
         updateDone(context) //update done sẽ khác là phải chỉnh file chứ không phải thêm vào file
+
     }
 
     fun totalPrice(): Long{

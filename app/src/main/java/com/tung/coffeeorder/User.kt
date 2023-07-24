@@ -29,9 +29,11 @@ class User private constructor(){
             return loyaltyCardCount
         }
 
-        fun increaseLoyaltyCard(){
-            if (++loyaltyCardCount>8){
-                loyaltyCardCount=0
+        fun increaseLoyaltyCard(amount: Int){
+            for (i in 1..amount){
+                if (loyaltyCardCount+1<=8){
+                    loyaltyCardCount++
+                }
             }
         }
 
