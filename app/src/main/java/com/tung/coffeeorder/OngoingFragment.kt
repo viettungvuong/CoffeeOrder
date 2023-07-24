@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class OngoingFragment : Fragment() {
+    
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

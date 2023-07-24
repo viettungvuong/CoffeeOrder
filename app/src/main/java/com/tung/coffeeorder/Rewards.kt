@@ -1,5 +1,6 @@
 package com.tung.coffeeorder
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +31,8 @@ class Rewards: Fragment() {
 
         val redeemBtn = view.findViewById<MaterialButton>(R.id.redeem_btn)
         redeemBtn.setOnClickListener{
-
+            val intent = Intent(requireActivity(),Redeem::class.java)
+            requireActivity().startActivity(intent)
         }
 
         return view

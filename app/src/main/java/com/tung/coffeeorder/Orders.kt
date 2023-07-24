@@ -22,7 +22,6 @@ class Orders: Fragment() {
         val viewPager=view.findViewById<ViewPager2>(R.id.viewPager) //viewPager
         val tabLayout=view.findViewById<TabLayout>(R.id.tabLayout) //tabLayout
         viewPager.adapter=TabPageAdapter(requireActivity()) //adapter tab cho viewPager
-
         tabLayout.tabMode = TabLayout.MODE_FIXED
 
         //hiển thị tab

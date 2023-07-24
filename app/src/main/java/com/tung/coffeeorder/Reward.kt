@@ -11,8 +11,4 @@ class Reward(order: Order) {
         return order.getbonuspoint()
     }
 
-    //up lên firebase
-    fun updateReward(){
-
-    }
 }
