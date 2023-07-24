@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.api.Distribution.BucketOptions.Linear
 import com.tung.coffeeorder.AppController.Companion.redeemCoffees
+import com.tung.coffeeorder.Functions.Companion.initRedeem
 
 class Redeem : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,5 +16,10 @@ class Redeem : AppCompatActivity() {
         val redeemRecyclerView=findViewById<RecyclerView>(R.id.redeem_recycler)
         redeemRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         redeemRecyclerView.adapter=RedeemAdapter(this, redeemCoffees)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initRedeem()
     }
 }
