@@ -17,6 +17,12 @@ class RewardSection: Fragment() {
 
         rewardSectionHandler=RewardSectionHandler(requireActivity(),view)
 
+        view.setOnClickListener{
+            if (User.singleton.loyalty.getLoyaltyCardCount()==8){
+                User.singleton.loyalty.resetLoyaltyCard() //reset loyalty card
+            }
+        }
+
         return view
     }
 }

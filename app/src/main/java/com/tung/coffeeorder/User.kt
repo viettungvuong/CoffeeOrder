@@ -17,7 +17,7 @@ class User private constructor(){
         var singleton=User() //singleton
     }
 
-    inner class LoyaltyPoint(){
+    inner class LoyaltyPoint{
         private var currentPoints=-0
         private var loyaltyCardCount=0
 
@@ -43,6 +43,10 @@ class User private constructor(){
 
         fun removePoints(amount: Int){
             currentPoints-=amount
+        }
+
+        fun resetLoyaltyCard(){
+            loyaltyCardCount=0
         }
     }
 
