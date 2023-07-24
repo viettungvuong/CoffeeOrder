@@ -236,12 +236,14 @@ class Functions {
 
                         val currentOrder=Order(carts[document.id.toInt()-1].getList(),time,address!!,id.toInt())
 
+                        ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
+
                         if (done){
-                            historyOrders.add(currentOrder)
+                            Log.d("setDone","setDone")
+                            currentOrder.setDone(ongoingOrders, historyOrders, rewardsPoint)
+
                         }
-                        else{
-                            ongoingOrders.add(currentOrder)
-                        }
+
                     }
 
                 }
@@ -265,13 +267,14 @@ class Functions {
                         AppController.dateFormat
                     ))
                     val address = lineSplit[2]
-                    var done = true
-                    done = lineSplit[3]=="true"
+                    var done = false
+                    done = (lineSplit[3]=="true")
 
                     val currentOrder=Order(carts[index].getList(),time,address!!,id.toInt())
                     ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
                     if (done){
+                        Log.d("setDone","setDone")
                         currentOrder.setDone(ongoingOrders, historyOrders, rewardsPoint)
                     }
 
@@ -305,9 +308,6 @@ class Functions {
             return getCurrentNoOfCarts() > getCurrentNoOfOrders()
         }
 
-        fun calculateReward(){
-
-        }
 
     }
 

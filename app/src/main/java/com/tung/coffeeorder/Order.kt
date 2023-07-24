@@ -76,6 +76,7 @@ class Order
         history.add(this) //thêm vào danh sách History
         val reward=Reward(this)
         rewards.add(reward) //thêm vào reward khi đơn hàng đã xong
+        Log.d("Rewards size",rewards.size.toString())
         if (!redeem){
             User.singleton.loyalty.addPoints(bonuspoint) //thêm điểm loyalty
         }

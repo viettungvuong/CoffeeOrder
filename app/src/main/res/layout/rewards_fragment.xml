@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/total_points_section"
-        android:layout_marginVertical="40dp"
+        android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="20dp"
 />
 
