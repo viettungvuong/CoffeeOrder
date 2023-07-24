@@ -40,7 +40,7 @@ class RewardsPointAdapter(activity: Activity, rewards: LinkedList<Reward>): Recy
             val redeem=reward.getOrder().getWhetherRedeem()
             if (!redeem){
                 pointAdded.text="+"+reward.calculateBonusPoint().toString()+" điểm"
-                pointAdded.setTextColor(Color.GREEN)
+                pointAdded.setTextColor(Color.parseColor("#007B5E"))
             }
             else{
                 pointAdded.text="-"+reward.calculateBonusPoint().toString()+" điểm"

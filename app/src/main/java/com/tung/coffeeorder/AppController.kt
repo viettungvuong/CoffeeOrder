@@ -106,6 +106,7 @@ class Cart {
         }
 
         try {
+            //đọc ngược lên
             val writer = BufferedWriter(FileWriter(file, true)) //true là append vào file
 
             for (temp in tempList){
