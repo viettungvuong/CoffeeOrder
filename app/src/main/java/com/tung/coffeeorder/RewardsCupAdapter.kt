@@ -1,6 +1,7 @@
 package com.tung.coffeeorder
 
 import android.app.Activity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,18 +14,18 @@ class RewardsCupAdapter(activity: Activity, user: User): RecyclerView.Adapter<Re
 
     inner class rewardViewHolder(view: View): RecyclerView.ViewHolder(view){
         val view=view
-        var drawable=activity.getDrawable(R.drawable.coffee_cup)!!
 
         fun bind(position: Int){
-
-            if (User.singleton.loyalty.getLoyaltyCardCount()<position+1){
-                drawable.alpha=155 //làm mờ hình ảnh cái ly nếu như vị trí ly hơn số điểm đã tích được
+            val drawable=activity.getDrawable(R.drawable.coffee_cup)!!
+            val imageView=view.findViewById<ImageView>(R.id.rewardCup)
+            if (position+1>User.singleton.loyalty.getLoyaltyCardCount()){
+                imageView.alpha=0.3f //làm mờ hình ảnh cái ly nếu như vị trí ly hơn số điểm đã tích được
             }
             else{
-                drawable.alpha=255
+                imageView.alpha=1.0f
             }
 
-            view.findViewById<ImageView>(R.id.rewardCup).setImageDrawable(drawable) //đặt hình cái ly vào
+            imageView.setImageDrawable(drawable) //đặt hình cái ly vào
         }
     }
 
