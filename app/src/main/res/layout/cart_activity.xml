@@ -30,11 +30,60 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/totalPriceSection"
+        android:background="@drawable/layout_border_square">
+
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_weight="0.6"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="20dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Địa chỉ: "
+                android:textStyle="bold"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18 đường số 7, phường Tân Hưng, quận 7"
+                android:textSize="18dp"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_height="0dp"
+            android:layout_weight="0.4"
+            android:layout_width="wrap_content"
+            android:text="Đổi địa chỉ"
+            android:background="@drawable/rounded_button"
+            app:backgroundTint="#324A59"
+            android:id="@+id/changeaddressBtn"
+            android:layout_gravity="center_horizontal"
+            />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/totalPriceSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
 
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/layout_border">
+        android:background="@drawable/layout_border_square">
 
         <LinearLayout
             android:layout_width="wrap_content"
