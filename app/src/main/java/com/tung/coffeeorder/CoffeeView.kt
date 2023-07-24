@@ -12,8 +12,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.checkInCart
-import com.tung.coffeeorder.Functions.Companion.increaseCarts
-import com.tung.coffeeorder.Functions.Companion.reformatNumber
+import com.tung.coffeeorder.AppController.Companion.increaseCarts
+import com.tung.coffeeorder.AppController.Companion.reformatNumber
 
 class CoffeeView() : AppCompatActivity() {
     lateinit var coffee: Coffee
@@ -33,7 +33,7 @@ class CoffeeView() : AppCompatActivity() {
         priceText.text = reformatNumber(coffee.getPrice()) + " VNĐ"
 
         val imageView = findViewById<ImageView>(R.id.coffee_image)
-        imageView.setImageResource(Functions.imageFromCoffee(this, coffee))
+        imageView.setImageResource(AppController.imageFromCoffee(this, coffee))
 
         val inflater=LayoutInflater.from(this)
 

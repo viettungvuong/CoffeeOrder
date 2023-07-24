@@ -42,11 +42,11 @@ class CoffeeAdapter(activity: Activity, coffeeList: LinkedList<Coffee>) :
         }
 
         fun setImage(coffee: Coffee){
-            coffeeImage.setImageResource(Functions.imageFromCoffee(activity, coffee))
+            coffeeImage.setImageResource(AppController.imageFromCoffee(activity, coffee))
         }
 
         fun setPrice(coffee: Coffee){
-            coffePriceText.text= Functions.reformatNumber(coffee.getPrice())+" VNĐ"
+            coffePriceText.text= AppController.reformatNumber(coffee.getPrice())+" VNĐ"
         }
 
         fun bind(coffee: Coffee){

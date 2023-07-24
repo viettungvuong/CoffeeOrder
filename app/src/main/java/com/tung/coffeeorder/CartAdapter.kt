@@ -9,8 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.rpc.Help.Link
-import com.tung.coffeeorder.Functions.Companion.imageFromCoffee
-import com.tung.coffeeorder.Functions.Companion.reformatNumber
+import com.tung.coffeeorder.AppController.Companion.imageFromCoffee
+import com.tung.coffeeorder.AppController.Companion.reformatNumber
 import java.util.LinkedList
 
 class CartAdapter(activity: Activity, cartList: ArrayList<CoffeeInCart>): RecyclerView.Adapter<CartAdapter.CartViewHolder>() {

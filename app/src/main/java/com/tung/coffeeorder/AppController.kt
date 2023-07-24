@@ -11,16 +11,21 @@ import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.tung.coffeeorder.AppController.Companion.getCurrentNoOfCarts
 import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.db
+import com.tung.coffeeorder.AppController.Companion.initCarts
 import com.tung.coffeeorder.AppController.Companion.listCoffee
+import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfCarts
+import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfOrders
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
-import com.tung.coffeeorder.Functions.Companion.getCurrentNoOfCarts
-import com.tung.coffeeorder.Functions.Companion.increaseCarts
 import java.io.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.LinkedList
 
 const val orderFileName = "orders-save-app.dat"
@@ -168,6 +173,373 @@ class AppController{
             }
             return -1
         }
+
+        //lấy địa chỉ của User.singleton từ firebase
+        @JvmStatic
+        fun getInfoFromFirebase(user: User, callback: (String,String,String,String,Int)->Unit){
+            db.collection("users").document(Firebase.auth.uid.toString()).get()
+                .addOnSuccessListener {
+                        documentSnapshot->
+                    if (documentSnapshot.exists()){
+                        val id =documentSnapshot.id
+                        Log.d("Accountid",id)
+                        val address=documentSnapshot.getString("address").toString()
+                        val name =documentSnapshot.getString("name").toString() //để tìm hiểu cách chỉnh display name cho nó đúng
+                        val phoneNumber=documentSnapshot.getString("phone-number").toString()
+                        val loyaltyPoint=documentSnapshot.getLong("loyalty-points")!!.toInt()
+                        callback(id,name,phoneNumber,address,loyaltyPoint)
+                    }
+                }
+        }
+        @JvmStatic
+        //reformat định dạng số
+        fun reformatNumber(money: Long): String {
+            if (money <= 100)
+                return money.toString()
+
+
+            var moneyString = money.toString();
+
+            val strings = java.util.ArrayList<String>()
+
+            val n = moneyString.length - 1;
+
+            for (i in n downTo 0 step 3) {
+                val start = Integer.max(i - 2, 0)
+                val end = Integer.min(n + 1, i + 1)
+                val s = moneyString.substring(start, end)
+                strings.add(s)
+                strings.add(",")
+            }
+
+            if (strings[strings.size - 1] == ",") {
+                strings.removeAt(strings.size- 1);
+            }
+
+            strings.reverse() //đảo ngược mảng
+
+            moneyString = ""
+
+            for (i in 0..strings.size- 1) {
+                moneyString += strings[i]
+            }
+
+            return moneyString;
+            //gio ta phai cho no xuat dung chieu
+        }
+
+        fun initCoffeeList(listCoffee: LinkedList<Coffee>){
+            listCoffee.add(Coffee("Cà phê sữa đá","caphesuada",18000))
+            listCoffee.add(Coffee("Cà phê muối","caphemuoi",19000))
+            listCoffee.add(Coffee("Americano","americano",35000))
+            listCoffee.add(Coffee("Cappuccino","cappuccino",36000))
+            listCoffee.add(Coffee("Espresso","espresso",33000))
+            listCoffee.add(Coffee("Cold brew","coldbrew",42000))
+            listCoffee.add(Coffee("Bạc sỉu","bacsiu",20000))
+            listCoffee.add(Coffee("Latte","latte",41000))
+        }
+
+        fun imageFromCoffee(context: Context, coffee: Coffee): Int {
+            return context.resources.getIdentifier(coffee.getImageFilename(),
+                "drawable",
+                context.packageName)
+        }
+
+        fun initRedeem() {
+            db.collection("redeem").get().addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val date = LocalDateTime.parse(document.getString("valid-date"), DateTimeFormatter.ofPattern(
+                        AppController.dateFormat
+                    ))
+                    if (date> LocalDateTime.now()){
+                        continue //đã quá invalid date nên không thêm nữa
+                    }
+                    val coffeeName = document.id
+                    val temp = AppController.listCoffee
+                    temp.sortedBy { it.getName() }
+                    val tempCoffee = listCoffee.find { coffee ->
+                        coffee.getName() == coffeeName
+                    }//tìm object cà phê tương ứng
+                    val size = document.getLong("size")?.toInt()
+                    val points = document.getLong("points")?.toInt()
+                    val redeemCoffee=RedeemCoffee(tempCoffee!!,date,size!!,points!!)
+                    AppController.redeemCoffees.add(redeemCoffee)
+                }
+            }
+        }
+
+        fun retrieveCurrentNoOfCarts(){
+            if (!sharedPreferences.getBoolean("online_acc", false)) {
+                AppController.numberOfCarts =sharedPreferences.getInt("number-of-carts", 0) //tăng số lượng cart lên
+            }
+            else{
+
+                db.collection("users").document(Firebase.auth.currentUser!!.uid).get()
+                    .addOnSuccessListener {
+                            document->
+                        AppController.numberOfCarts =(document.getLong("number-of-carts")?:0L).toInt()
+                    }
+            }
+        }
+
+        fun getCurrentNoOfCarts(): Int{
+            return AppController.numberOfCarts //trả về số lượng giỏ hàng cho tới hiện tại
+        }
+
+        //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
+        fun increaseCarts(){
+            AppController.numberOfCarts++
+            //acc offline
+            if (!sharedPreferences.getBoolean("online_acc", false)) {
+                sharedPreferences.edit().putInt("number-of-carts", AppController.numberOfCarts)
+                    .apply() //tăng số lượng cart lên
+            }
+            else{
+                Log.d("number of carts", AppController.numberOfCarts.toString())
+                val setField=mapOf(
+                    "number-of-carts" to AppController.numberOfCarts
+                )
+                db.collection("users").document(Firebase.auth.currentUser!!.uid).set(setField, SetOptions.merge())
+            }
+        }
+
+        fun retrieveCurrentNoOfOrders(){
+            if (!sharedPreferences.getBoolean("online_acc", false)) {
+                AppController.numberOfOrders =sharedPreferences.getInt("number-of-orders", 0) //tăng số lượng cart lên
+            }
+            else{
+
+                db.collection("users").document(Firebase.auth.currentUser!!.uid).get()
+                    .addOnSuccessListener {
+                            document->
+                        AppController.numberOfOrders =(document.getLong("number-of-orders")?:0L).toInt()
+                    }
+            }
+        }
+
+        fun getCurrentNoOfOrders(): Int{
+            return AppController.numberOfOrders //trả về số lượng giỏ hàng cho tới hiện tại
+        }
+
+        //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
+        fun increaseOrders(){
+            AppController.numberOfOrders++
+            //acc offline
+            if (!sharedPreferences.getBoolean("online_acc", false)) {
+                sharedPreferences.edit().putInt("number-of-orders", AppController.numberOfOrders)
+                    .apply() //tăng số lượng cart lên
+            }
+            else{
+                val setField=mapOf(
+                    "number-of-orders" to AppController.numberOfOrders
+                )
+                db.collection("users").document(Firebase.auth.currentUser!!.uid).set(setField, SetOptions.merge())
+            }
+        }
+
+        @JvmStatic
+        fun initCarts(context: Context){
+            if (sharedPreferences.getBoolean("online_acc",false)){
+                initCartsFromFirebase(context) {
+                    fetchOrders(context)
+                }
+            }
+            else{
+                initCartsLocally(context)
+                fetchOrders(context) //lấy tất cả order (phải có cart thì mới lấy order được)
+            }
+        }
+
+        //load tất cả các cart
+        private fun initCartsFromFirebase(context: Context, callback: ()->Unit){
+            val getCart = db.collection("cart" + Firebase.auth.currentUser!!.uid)
+
+            getCart.get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        if (document.id=="0"){
+                            continue //bỏ qua thằng 0
+                            //để kiếm cách fix thằng 0 này sau
+                        }
+                        val cart = document.get("cart") as java.util.ArrayList<String> //array field cart
+                        var currentCart=Cart()
+                        for (cartDesc in cart) {
+                            val split = cartDesc.split(',') //tách từ theo dấu phẩy
+
+                            //tìm cà phê
+                            val temp = listCoffee
+                            temp.sortedBy { it.getName() }
+                            val tempCoffee = listCoffee.find { coffee ->
+                                coffee.getName() == split[0]
+                            }//tìm object cà phê tương ứng
+                            val coffeeInCart = CoffeeInCart(tempCoffee!!)
+                            coffeeInCart.changeQuantity(split[2].toInt())
+                            coffeeInCart.changeSize(split[1].toInt())
+                            currentCart.addToCart(context,coffeeInCart)
+                        }
+                        carts.add(currentCart) //thêm vào danh sách các cart
+                    }
+
+                    resumeCart(context)
+                    callback()
+                }
+
+        }
+
+        private fun initCartsLocally(context: Context) {
+            val file = File(context.filesDir, cartsFileName)
+            if (!file.exists()) {
+                Log.d("Error", "Không có file cart")
+                return
+            }
+            Log.d("Đọc file", "Có file")
+            val lines = file.readLines()
+
+            var currentCart = Cart()
+
+            try {
+                for (line in lines) {
+                    if (line.isNotBlank()) {
+                        val split = line.split(',') //tách từ theo dấu phẩy
+
+                        //tìm cà phê
+                        val temp = AppController.listCoffee
+                        temp.sortedBy { it.getName() }
+                        val tempCoffee = listCoffee.find { coffee ->
+                            coffee.getName() == split[0]
+                        }//tìm object cà phê tương ứng //tìm object cà phê tương ứng
+                        val coffeeInCart = CoffeeInCart(tempCoffee!!)
+                        coffeeInCart.changeQuantity(split[2].toInt())
+                        coffeeInCart.changeSize(split[1].toInt())
+                        Log.d("split[0]",split[0])
+                        Log.d("split[1]",split[1])
+                        Log.d("split[2]",split[2])
+                        currentCart.addToCart(context,coffeeInCart)
+                    } else {
+                        val temp = Cart(currentCart) //copy constructor
+                        carts.add(temp)
+                        currentCart = Cart() //xoá cart hiện tại
+                    }
+                }
+                val temp = Cart(currentCart) //copy constructor
+                carts.add(temp) //add thêm một lần nữa ở cuối file
+
+                resumeCart(context)
+                Log.d("cart",carts.size.toString())
+                Log.d("current cart",Cart.singleton.getList().size.toString())
+            } catch (e: Exception) {
+                Log.d("Error", "Không thể đọc file carts")
+                return
+            }
+
+
+        }
+
+        fun fetchOrders(context: Context){
+            if (sharedPreferences.getBoolean("online_acc",false)){
+                fetchOrderFromFirebase(context) //lấy từ firebase
+            }
+            else{
+                fetchOrderLocally(context) //đọc từ file
+            }
+        }
+
+        private fun fetchOrderFromFirebase(context: Context){
+            val getOrder = AppController.db.collection("orders"+Firebase.auth.currentUser!!.uid)
+
+            getOrder.get()
+                .addOnSuccessListener {
+                        documents->
+                    for (document in documents){
+                        val time = LocalDateTime.parse(document.getString("time"), DateTimeFormatter.ofPattern(
+                            AppController.dateFormat
+                        ))
+                        val id = document.id
+                        val address = document.getString("address")
+                        var done = false
+                        done = document.getString("done")=="true"
+
+                        val currentOrder=Order(carts[document.id.toInt()-1].getList(),time,address!!,id.toInt())
+
+                        AppController.ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
+
+                        if (done){
+                            currentOrder.setDone(
+                                AppController.ongoingOrders,
+                                AppController.historyOrders,
+                                AppController.rewardsPoint, context,true)
+
+                        }
+
+                    }
+
+                }
+        }
+
+        private fun fetchOrderLocally(context: Context){
+            val file = File(context.filesDir, orderFileName)
+            if (!file.exists()) {
+                Log.d("Error", "Không có file order")
+                return
+            }
+
+            val lines = file.readLines()
+
+            var index = 0
+            try {
+                for (line in lines) {
+                    val lineSplit = line.split(',')
+                    val id = lineSplit[0]
+                    val time = LocalDateTime.parse(lineSplit[1], DateTimeFormatter.ofPattern(
+                        AppController.dateFormat
+                    ))
+                    val address = lineSplit[2]
+                    var done = false
+                    done = (lineSplit[3]=="true")
+
+                    val currentOrder=Order(carts[index].getList(),time,address!!,id.toInt())
+                    AppController.ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
+
+                    if (done){
+                        Log.d("setDone","setDone")
+                        currentOrder.setDone(
+                            AppController.ongoingOrders,
+                            AppController.historyOrders,
+                            AppController.rewardsPoint, context, true)
+                    }
+
+                    index++
+                }
+            } catch (e: Exception) {
+                Log.d("Error","Không thể đọc file order"+e.message.toString())
+                return
+            }
+        }
+
+        //resume cart
+        fun resumeCart(context: Context){
+            if (!needToResume()){
+                Log.d("needtoresume", needToResume().toString())
+                return
+            }
+            if (carts.isEmpty()){
+                return
+            }
+
+            val resumeCart = carts[getCurrentNoOfCarts()-1].getList()
+            for (item in resumeCart){
+                Cart.singleton.addToCart(context,item)
+            }
+        }
+
+        //có cần phải resumecart kh
+        fun needToResume(): Boolean{
+            return getCurrentNoOfCarts() > getCurrentNoOfOrders()
+        }
+
+
+
+
     }
 
 
@@ -175,7 +547,18 @@ class AppController{
 
 class AccountFunctions {
     companion object{
-
+        fun logout(context: Context){
+            AccountFunctions.signOut(context)
+            sharedPreferences.edit().putBoolean("online_acc",true).apply()
+            carts.clear()
+            Cart.singleton.getList().clear()
+            AppController.ongoingOrders.clear()
+            AppController.historyOrders.clear()
+            AppController.rewardsPoint.clear()
+            User.singleton.clearUser()
+            AppController.numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
+            AppController.numberOfOrders = 0 //số order
+        }
         @JvmStatic
         fun signIn(activity: Activity, context: Context, username: String, password: String){
             Firebase.auth.signInWithEmailAndPassword(username, password)
@@ -196,7 +579,7 @@ class AccountFunctions {
 
                         val email = Firebase.auth.currentUser!!.email.toString()
 
-                        AccountFunctions.getInfoFromFirebase(
+                        AppController.getInfoFromFirebase(
                             User.singleton
                         ) { id, name, phoneNumber, address,loyaltyPoint ->
                             User.singleton.initialize(
@@ -207,9 +590,9 @@ class AccountFunctions {
                                 address,
                                 loyaltyPoint
                             )
-                            Functions.initCarts(activity) //lấy danh sách các cart
-                            Functions.retrieveCurrentNoOfCarts()
-                            Functions.retrieveCurrentNoOfOrders()
+                            initCarts(activity) //lấy danh sách các cart
+                            retrieveCurrentNoOfCarts()
+                            retrieveCurrentNoOfOrders()
                             activity.startActivity(intent)
                             activity.finish()
                         }
@@ -281,24 +664,6 @@ class AccountFunctions {
                             "Đã đổi mật khẩu thành công",
                             Toast.LENGTH_SHORT,
                         ).show()
-                    }
-                }
-        }
-
-        //lấy địa chỉ của User.singleton từ firebase
-        @JvmStatic
-        fun getInfoFromFirebase(user: User, callback: (String,String,String,String,Int)->Unit){
-            db.collection("users").document(Firebase.auth.uid.toString()).get()
-                .addOnSuccessListener {
-                    documentSnapshot->
-                    if (documentSnapshot.exists()){
-                        val id =documentSnapshot.id
-                        Log.d("Accountid",id)
-                        val address=documentSnapshot.getString("address").toString()
-                        val name =documentSnapshot.getString("name").toString() //để tìm hiểu cách chỉnh display name cho nó đúng
-                        val phoneNumber=documentSnapshot.getString("phone-number").toString()
-                        val loyaltyPoint=documentSnapshot.getLong("loyalty-points")!!.toInt()
-                        callback(id,name,phoneNumber,address,loyaltyPoint)
                     }
                 }
         }

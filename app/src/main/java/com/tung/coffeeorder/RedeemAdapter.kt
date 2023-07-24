@@ -76,7 +76,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                     AppController.dateFormat
                 )).toString()
 
-            imageView.setImageResource(Functions.imageFromCoffee(activity, redeemCoffee))
+            imageView.setImageResource(AppController.imageFromCoffee(activity, redeemCoffee))
 
             redeemBtn.setOnClickListener{
                 redeem(redeemCoffee)

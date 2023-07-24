@@ -13,7 +13,7 @@ import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.dateFormat
 import com.tung.coffeeorder.AppController.Companion.historyOrders
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
-import com.tung.coffeeorder.Functions.Companion.getCurrentNoOfCarts
+import com.tung.coffeeorder.AppController.Companion.getCurrentNoOfCarts
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter

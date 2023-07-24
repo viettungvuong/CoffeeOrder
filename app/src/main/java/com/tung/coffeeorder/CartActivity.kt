@@ -22,9 +22,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.carts
-import com.tung.coffeeorder.Functions.Companion.getCurrentNoOfCarts
-import com.tung.coffeeorder.Functions.Companion.increaseOrders
-import com.tung.coffeeorder.Functions.Companion.reformatNumber
+import com.tung.coffeeorder.AppController.Companion.getCurrentNoOfCarts
+import com.tung.coffeeorder.AppController.Companion.increaseOrders
+import com.tung.coffeeorder.AppController.Companion.reformatNumber
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.roundToInt

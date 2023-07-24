@@ -12,11 +12,11 @@ import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.AppController.Companion.db
 
 import com.tung.coffeeorder.AppController.Companion.listCoffee
-import com.tung.coffeeorder.Functions.Companion.fetchOrders
-import com.tung.coffeeorder.Functions.Companion.initCarts
-import com.tung.coffeeorder.Functions.Companion.resumeCart
-import com.tung.coffeeorder.Functions.Companion.retrieveCurrentNoOfCarts
-import com.tung.coffeeorder.Functions.Companion.retrieveCurrentNoOfOrders
+import com.tung.coffeeorder.AppController.Companion.fetchOrders
+import com.tung.coffeeorder.AppController.Companion.initCarts
+import com.tung.coffeeorder.AppController.Companion.resumeCart
+import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfCarts
+import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfOrders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

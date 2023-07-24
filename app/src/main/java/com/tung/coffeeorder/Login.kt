@@ -23,11 +23,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.AccountFunctions.Companion.signIn
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
-import com.tung.coffeeorder.Functions.Companion.initCarts
-import com.tung.coffeeorder.Functions.Companion.initCoffeeList
-import com.tung.coffeeorder.Functions.Companion.initRedeem
-import com.tung.coffeeorder.Functions.Companion.retrieveCurrentNoOfCarts
-import com.tung.coffeeorder.Functions.Companion.retrieveCurrentNoOfOrders
+import com.tung.coffeeorder.AppController.Companion.initCarts
+import com.tung.coffeeorder.AppController.Companion.initCoffeeList
+import com.tung.coffeeorder.AppController.Companion.initRedeem
+import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfCarts
+import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfOrders
 import java.util.concurrent.TimeUnit
 
 class Login : AppCompatActivity() {
@@ -131,7 +131,7 @@ class Login : AppCompatActivity() {
 
                 val email = Firebase.auth.currentUser!!.email.toString()
 
-                AccountFunctions.getInfoFromFirebase(
+                AppController.getInfoFromFirebase(
                     User.singleton
                 ) { id, name, phoneNumber, address,loyaltyPoint ->
                     User.singleton.initialize(

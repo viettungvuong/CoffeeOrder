@@ -6,8 +6,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.tung.coffeeorder.Functions.Companion.imageFromCoffee
-import com.tung.coffeeorder.Functions.Companion.reformatNumber
+import com.tung.coffeeorder.AppController.Companion.imageFromCoffee
+import com.tung.coffeeorder.AppController.Companion.reformatNumber
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -50,7 +50,7 @@ class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: Cof
             coffeeInCart.changeQuantity(coffeeInCart.getquantity()+1) //tăng quantity
             numberEditText.setText(coffeeInCart.getquantity().toString())
 
-            priceText.text= Functions.reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
+            priceText.text= AppController.reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
         }
     }
 
@@ -68,7 +68,7 @@ class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: Cof
                 Log.d("Coffee in cart quantity",coffeeInCart.getquantity().toString())
                 numberEditText.setText(coffeeInCart.getquantity().toString())
 
-                priceText.text= Functions.reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
+                priceText.text= AppController.reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
             }
         }
     }

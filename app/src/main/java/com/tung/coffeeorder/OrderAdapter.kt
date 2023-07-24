@@ -13,7 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.AppController.Companion.dateFormat
-import com.tung.coffeeorder.Functions.Companion.reformatNumber
+import com.tung.coffeeorder.AppController.Companion.reformatNumber
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

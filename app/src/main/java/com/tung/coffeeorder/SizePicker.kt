@@ -6,7 +6,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
-import com.tung.coffeeorder.Functions.Companion.reformatNumber
+import com.tung.coffeeorder.AppController.Companion.reformatNumber
 
 class SizePicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart, priceText: TextView): LinearLayout(context){
     private var smallButton: ImageButton
