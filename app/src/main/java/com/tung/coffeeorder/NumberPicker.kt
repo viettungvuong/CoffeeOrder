@@ -3,6 +3,7 @@ package com.tung.coffeeorder
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -47,6 +48,7 @@ class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: Cof
     fun plusButtonClick(): OnClickListener{
         return OnClickListener {
             coffeeInCart.changeQuantity(coffeeInCart.getquantity()+1) //tăng quantity
+            Log.d("Coffee in cart quantity",coffeeInCart.getquantity().toString())
             numberEditText.setText(coffeeInCart.getquantity().toString())
 
             priceText.text= Functions.reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
@@ -64,6 +66,7 @@ class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: Cof
             }
             else {
                 coffeeInCart.changeQuantity(coffeeInCart.getquantity()-1) //giảm quantity
+                Log.d("Coffee in cart quantity",coffeeInCart.getquantity().toString())
                 numberEditText.setText(coffeeInCart.getquantity().toString())
 
                 priceText.text= Functions.reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"

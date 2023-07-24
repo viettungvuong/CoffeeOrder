@@ -23,15 +23,16 @@ open class Coffee(private val coffeeName: String, private val imageFilename: Str
     }
 }
 
-open class CoffeeInCart(coffee: Coffee): Coffee(
-    coffee.getName(),
-    coffee.getImageFilename(),
-    coffee.getPrice()
-){
+open class CoffeeInCart(coffee: Coffee): Coffee(coffee.getName(), coffee.getImageFilename(), coffee.getPrice()){
     protected var quantity=1
     protected var currentSize=1 //1 là size nhỏ, 2 là size vừa, 3 là size lớn
 
     protected val singlePrice=coffee.getPrice()
+
+    constructor(other: CoffeeInCart): this(other as Coffee){
+        quantity=other.getquantity()
+        currentSize=other.currentSize
+    }
 
     fun changeQuantity(newQuantity: Int){
         this.quantity=newQuantity
