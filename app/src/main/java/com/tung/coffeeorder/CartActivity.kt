@@ -6,8 +6,11 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -27,8 +30,10 @@ import java.util.*
 import kotlin.math.roundToInt
 
 class CartActivity: AppCompatActivity() {
-    var totalPrice=0L
     lateinit var cartAdapter: CartAdapter
+
+    var editMode = false //edit mode = true là cho thay đổi giao đến đâu
+    var totalPrice=0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,14 +75,43 @@ class CartActivity: AppCompatActivity() {
             carts.add(Cart.singleton) //báo là mới thêm cart mới
         }
 
-        val addressText = findViewById<TextView>(R.id.address)
-        addressText.text=User.singleton.getaddress()
+        val addressText = findViewById<EditText>(R.id.address)
+        addressText.text=Editable.Factory.getInstance().newEditable(User.singleton.getaddress())
 
         val changeAddressBtn=findViewById<MaterialButton>(R.id.changeaddressBtn)
         changeAddressBtn.setOnClickListener {
             //mở cái đổi địa chỉ
+            v->changeShippingAddress(v,addressText)
         }
 
+    }
+
+    fun changeShippingAddress(view: View, addressText: EditText){
+        val cancelChangeBtn =findViewById<MaterialButton>(R.id.cancelchangeBtn)
+        if (!editMode){ //kích hoạt chế độ thay đổi
+            (view as MaterialButton).text="Lưu thay đổi"
+            val temp = addressText.text.toString()
+            editMode=true
+            addressText.isEnabled=true
+            addressText.requestFocus()
+            val imm: InputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(addressText, InputMethodManager.SHOW_IMPLICIT)
+            addressText.setSelection(addressText.length())
+            cancelChangeBtn.visibility=View.VISIBLE //nút huỷ thay đổi
+            cancelChangeBtn.setOnClickListener{ //bấm nút huỷ thay đổi
+                editMode=false
+                findViewById<EditText>(R.id.address).isEnabled=false
+                addressText.text = Editable.Factory.getInstance().newEditable(temp)
+
+            }
+        }
+        else{ //bấm để lưu thay đổi
+            editMode=false
+            (view as MaterialButton).text="Đổi địa chỉ"
+            cancelChangeBtn.visibility=View.INVISIBLE
+            addressText.isEnabled=false
+        }
     }
 
     //mỗi lần mở đi mở lại cái activity này thì sẽ cập nhật giá
