@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initCarts() //lấy danh sách các cart
+        //từ đây mới có order và resume
 
         AppController.ongoingAdapter = OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())
         AppController.historyAdapter = OrderAdapter(this, AppController.historyOrders, HistoryFragment())

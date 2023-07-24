@@ -44,7 +44,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                     Toast.LENGTH_SHORT,
                 ).show()
                 User.singleton.loyalty.removePoints(redeemCoffee.getPoints()) //trừ điểm
-                ongoingOrders.add(Order(redeemCoffee, LocalDateTime.now(), User.singleton.getaddress())) //thêm vào ongoing orders
+                ongoingOrders.add(Order(redeemCoffee, LocalDateTime.now(), User.singleton.getaddress(), redeemCoffee.getPoints())) //thêm vào ongoing orders
             }
             else{
                 Toast.makeText(
@@ -68,7 +68,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                     sizeText.text="Size L"
                 } //hiện ra size của ly cà phê
             }
-            pointText.text=redeemCoffee.getPoints().toString()+ "điểm"
+            pointText.text=redeemCoffee.getPoints().toString()+ "điểm" //điểm số mất nếu redeem
             coffeeName.text=redeemCoffee.getName()
             validDate.text=redeemCoffee.getValidDate().format(
                 DateTimeFormatter.ofPattern(

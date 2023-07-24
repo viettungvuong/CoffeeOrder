@@ -8,11 +8,7 @@ class Reward(order: Order) {
     }
 
     fun calculateBonusPoint(): Int{
-        var res=0L
-        for (coffeeInCart in order.getCart()){
-            res+=(coffeeInCart.getPrice()/1000)
-        }
-        return res.toInt()
+        return order.getBonusPoint()
     }
 
     //up lên firebase
