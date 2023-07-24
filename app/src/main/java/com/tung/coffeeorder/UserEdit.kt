@@ -25,6 +25,7 @@ import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 class UserEdit : AppCompatActivity() {
     var editMode=ArrayList<Boolean>()
     var textFields=ArrayList<EditText>()
+    var cancelButtons=ArrayList<ImageButton>()
 
     var fromAnonymousLogin=false
 
@@ -36,7 +37,7 @@ class UserEdit : AppCompatActivity() {
 
         if (fromAnonymousLogin){ //từ anonymous login qua thì nút sign out là nút để vào màn hình chính
             //ẩn nút back
-            backBtn.setVisibility(View.INVISIBLE) //ẩn nút back nếu đi vào từ anonymouslogin
+            backBtn.setVisibility(View.GONE) //ẩn nút back nếu đi vào từ anonymouslogin
             signOutBtn.text="Lưu thay đổi"
             val greenColor = ColorStateList.valueOf(Color.parseColor("#007B5E"))
             signOutBtn.backgroundTintList = greenColor //chuyển button này để lưu thay đổi
@@ -84,6 +85,11 @@ class UserEdit : AppCompatActivity() {
         textFields.add(findViewById<EditText>(R.id.userPhone))
         textFields.add(findViewById<EditText>(R.id.userAddress))
 
+        cancelButtons.add(findViewById(R.id.secondaryProfileBtn))
+        cancelButtons.add(findViewById(R.id.secondaryEmailBtn))
+        cancelButtons.add(findViewById(R.id.secondaryPhoneBtn))
+        cancelButtons.add(findViewById(R.id.secondaryAddressBtn))
+
         for (textField in textFields){
             textField.isEnabled=false //disable toàn bộ textField
         }
@@ -116,16 +122,16 @@ class UserEdit : AppCompatActivity() {
     }
 
     fun change(view: View, index: Int){
-        val cancelButton = findViewById<ImageButton>(R.id.secondaryProfileBtn)
+
         val temp = textFields[index].text.toString()
 
         if (!editMode[index]){
-            cancelButton.setVisibility(View.VISIBLE) //hiện nút
+            cancelButtons[index].setVisibility(View.VISIBLE) //hiện nút
             editMode[index] = true
             textFields[index].isEnabled = true
 
-            cancelButton.setImageResource(R.drawable.cancel)
-            cancelButton.setOnClickListener { v ->
+            cancelButtons[index].setImageResource(R.drawable.cancel)
+            cancelButtons[index].setOnClickListener { v ->
                 cancelEdit(v,view as ImageButton,index)
                 textFields[index].text= Editable.Factory.getInstance().newEditable(temp)
             }
@@ -170,7 +176,7 @@ class UserEdit : AppCompatActivity() {
                     User.singleton.editAddress(newText)
                 }
             }
-            cancelEdit(cancelButton,view as ImageButton,index)
+            cancelEdit(cancelButtons[index],view as ImageButton,index)
         }
     }
 
