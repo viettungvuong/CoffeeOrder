@@ -37,7 +37,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
             //mở cart
             //nếu đủ điểm
             if (redeemCoffee.getPoints()<=User.singleton.loyalty.getCurrentPoints()){
-                Cart.singleton.addToCart(redeemCoffee)
+                Cart.singleton.addToCart(activity,redeemCoffee)
                 Toast.makeText(
                     activity,
                     "Đã thêm nước vào giỏ hàng thành công",

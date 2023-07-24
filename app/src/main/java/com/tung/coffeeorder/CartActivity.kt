@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -119,7 +120,7 @@ class CartActivity: AppCompatActivity() {
 
         fun deleteFromCart(position: Int){
             removeFromCartPrice(position, findViewById(R.id.totalPrice)) //giảm giá tổng của cart
-            Cart.singleton.removeFromCart(position) //xoá khỏi cart
+            Cart.singleton.removeFromCart(context,position) //xoá khỏi cart
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -205,7 +206,7 @@ class CartActivity: AppCompatActivity() {
 
     fun addToOngoing(order: Order){
         AppController.ongoingOrders.add(order) //thêm vào orders
-        order.update() //lúc này chưa increaseCart
+        order.update(this) //lúc này chưa increaseCart
 
         increaseOrders() //tăng số order lên
     }

@@ -1,5 +1,6 @@
 package com.tung.coffeeorder
 
+import android.content.Context
 import android.location.Address
 import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
@@ -71,7 +72,7 @@ class Order
     }
 
     //đánh dấu là đã xong
-    fun setDone(ongoing: LinkedList<Order>, history: LinkedList<Order>, rewards: LinkedList<Reward>){
+    fun setDone(ongoing: LinkedList<Order>, history: LinkedList<Order>, rewards: LinkedList<Reward>, context: Context){
         ongoing.remove(this) //xoá khỏi danh sách History
         history.add(this) //thêm vào danh sách History
         val reward=Reward(this)
@@ -84,7 +85,7 @@ class Order
             User.singleton.loyalty.removePoints(bonuspoint) //trừ điểm sau khi redeem
         }
         done=true
-        update()
+        update(context)
     }
 
     fun totalPrice(): Long{
@@ -99,12 +100,12 @@ class Order
         return redeem
     }
 
-    fun update(){
+    fun update(context: Context){
         if (AppController.sharedPreferences.getBoolean("online_acc",false)){
             updateToFirebase() //up lên firebase
         }
         else{
-            updateLocally() //xuất ra file
+            updateLocally(context) //xuất ra file
         }
     }
 
@@ -127,8 +128,8 @@ class Order
             })
     }
 
-    private fun updateLocally(){
-        val file = File("orders")
+    private fun updateLocally(context: Context){
+        val file = File(context.filesDir,"orders")
         if (!file.exists()) {
             try {
                 file.createNewFile()

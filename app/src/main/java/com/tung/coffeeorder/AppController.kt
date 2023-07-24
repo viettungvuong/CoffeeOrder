@@ -43,28 +43,28 @@ class Cart {
     }
 
 
-    fun addToCart(coffeeInCart: CoffeeInCart){
+    fun addToCart(context: Context,coffeeInCart: CoffeeInCart){
         cartList.add(coffeeInCart)
-        update()
+        update(context)
     }
 
-    fun removeFromCart(index: Int){
+    fun removeFromCart(context: Context, index: Int){
         cartList.removeAt(index)
-        update()
+        update(context)
     }
 
     fun getList(): ArrayList<CoffeeInCart>{
         return this.cartList
     }
 
-    fun update(){
+    fun update(context: Context){
         if (sharedPreferences.getBoolean("online_acc",false)){
             Log.d("Updated firebase","ok")
             updateToFirebase(getDescList()) //up lên firebase
         }
         else{
             Log.d("Updated locally","ok")
-            updateLocally(getDescList()) //xuất ra file
+            updateLocally(context,getDescList()) //xuất ra file
         }
     }
 
@@ -95,14 +95,13 @@ class Cart {
             })
     }
 
-    private fun updateLocally(tempList: LinkedList<String>){
-        Log.d("Update locally","okay")
-        val file = File("cart")
+    private fun updateLocally(context: Context, tempList: LinkedList<String>){
+        val file = File(context.filesDir,"cart")
         if (!file.exists()) {
             try {
                 file.createNewFile()
             } catch (e: IOException) {
-                Log.d("Error","Không thể xuất ra file")
+                Log.d("Error",e.message.toString())
                 return
             }
         }
@@ -195,7 +194,7 @@ class AccountFunctions {
                         ) { id, name, phoneNumber, address ->
                             Log.d("Accountid2", id)
                             User.singleton.initialize(Firebase.auth.currentUser!!.uid, name, email, phoneNumber, address)
-                            Functions.initCarts() //lấy danh sách các cart
+                            Functions.initCarts(context) //lấy danh sách các cart
                             Functions.retrieveCurrentNoOfCarts()
                             Functions.retrieveCurrentNoOfOrders()
                             activity.startActivity(intent)

@@ -180,20 +180,20 @@ class Functions {
             }
         }
 
-        fun initCarts(){
+        fun initCarts(context: Context){
             if (sharedPreferences.getBoolean("online_acc",false)){
-                initCartsFromFirebase {
-                    fetchOrders()
+                initCartsFromFirebase(context) {
+                    fetchOrders(context)
                 }
             }
             else{
-                initCartsLocally()
-                fetchOrders() //lấy tất cả order (phải có cart thì mới lấy order được)
+                initCartsLocally(context)
+                fetchOrders(context) //lấy tất cả order (phải có cart thì mới lấy order được)
             }
         }
 
         //load tất cả các cart
-        private fun initCartsFromFirebase(callback: ()->Unit){
+        private fun initCartsFromFirebase(context: Context, callback: ()->Unit){
             val getCart = db.collection("cart" + Firebase.auth.currentUser!!.uid)
 
             getCart.get()
@@ -214,18 +214,18 @@ class Functions {
                             val coffeeInCart = CoffeeInCart(tempCoffee!!)
                             coffeeInCart.changeQuantity(split[2].toInt())
                             coffeeInCart.changeSize(split[1].toInt())
-                            currentCart.addToCart(coffeeInCart)
+                            currentCart.addToCart(context,coffeeInCart)
                         }
                         carts.add(currentCart) //thêm vào danh sách các cart
                     }
 
-                    resumeCart()
+                    resumeCart(context)
                     callback()
                 }
 
         }
 
-        private fun initCartsLocally() {
+        private fun initCartsLocally(context: Context) {
             val file = File("carts")
             if (!file.exists()) {
                 Log.d("Error", "Không có file")
@@ -250,7 +250,7 @@ class Functions {
                         val coffeeInCart = CoffeeInCart(tempCoffee!!)
                         coffeeInCart.changeQuantity(split[2].toInt())
                         coffeeInCart.changeSize(split[1].toInt())
-                        currentCart.addToCart(coffeeInCart)
+                        currentCart.addToCart(context,coffeeInCart)
                     } else {
                         val temp = currentCart
                         carts.add(temp)
@@ -258,7 +258,7 @@ class Functions {
                     }
                 }
 
-                resumeCart()
+                resumeCart(context)
             } catch (e: Exception) {
                 Log.d("Error", "Không thể đọc file")
                 return
@@ -267,16 +267,16 @@ class Functions {
 
         }
 
-        fun fetchOrders(){
+        fun fetchOrders(context: Context){
             if (sharedPreferences.getBoolean("online_acc",false)){
-                fetchOrderFromFirebase() //lấy từ firebase
+                fetchOrderFromFirebase(context) //lấy từ firebase
             }
             else{
-                fetchOrderLocally() //đọc từ file
+                fetchOrderLocally(context) //đọc từ file
             }
         }
 
-        private fun fetchOrderFromFirebase(){
+        private fun fetchOrderFromFirebase(context: Context){
             val getOrder = AppController.db.collection("orders"+Firebase.auth.currentUser!!.uid)
 
             getOrder.get()
@@ -297,7 +297,7 @@ class Functions {
 
                         if (done){
                             Log.d("setDone","setDone")
-                            currentOrder.setDone(ongoingOrders, historyOrders, rewardsPoint)
+                            currentOrder.setDone(ongoingOrders, historyOrders, rewardsPoint, context)
 
                         }
 
@@ -306,8 +306,8 @@ class Functions {
                 }
         }
 
-        private fun fetchOrderLocally(){
-            val file = File("orders")
+        private fun fetchOrderLocally(context: Context){
+            val file = File(context.filesDir,"orders")
             if (!file.exists()) {
                 Log.d("Error", "Không có file")
                 return
@@ -332,7 +332,7 @@ class Functions {
 
                     if (done){
                         Log.d("setDone","setDone")
-                        currentOrder.setDone(ongoingOrders, historyOrders, rewardsPoint)
+                        currentOrder.setDone(ongoingOrders, historyOrders, rewardsPoint, context)
                     }
 
                     index++
@@ -344,7 +344,7 @@ class Functions {
         }
 
         //resume cart
-        fun resumeCart(){
+        fun resumeCart(context: Context){
             if (!needToResume()){
                 Log.d("needtoresume", needToResume().toString())
                 return
@@ -355,7 +355,7 @@ class Functions {
 
             val resumeCart = carts[getCurrentNoOfCarts()-1].getList()
             for (item in resumeCart){
-                Cart.singleton.addToCart(item) //dùng addToCart sẽ làm tăng số number-of-carts, dẫn đến kết quả sai
+                Cart.singleton.addToCart(context,item) //dùng addToCart sẽ làm tăng số number-of-carts, dẫn đến kết quả sai
             }
         }
 

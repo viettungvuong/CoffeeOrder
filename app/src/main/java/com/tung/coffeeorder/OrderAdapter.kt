@@ -88,7 +88,7 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
             View.OnClickListener {
                 if (fragment is OngoingFragment){ //chỉ nhận onclick của OngoingFragment
 
-                    orders[position].setDone(AppController.ongoingOrders,AppController.historyOrders,AppController.rewardsPoint) //đánh dấu đã hoàn thành order này
+                    orders[position].setDone(AppController.ongoingOrders,AppController.historyOrders,AppController.rewardsPoint,activity) //đánh dấu đã hoàn thành order này
                     AppController.ongoingAdapter.notifyItemRemoved(position)
 
                     AppController.historyAdapter.notifyItemInserted(AppController.historyOrders.size-1) //thông báo mới thêm item

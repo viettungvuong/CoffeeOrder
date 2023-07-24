@@ -88,7 +88,7 @@ class Login : AppCompatActivity() {
         sharedPreferences.edit().putBoolean("online_acc",false).apply() //đặt là không dùng tài khoản online
         retrieveCurrentNoOfCarts()
         retrieveCurrentNoOfOrders()
-        initCarts() //lấy danh sách các cart
+        initCarts(this) //lấy danh sách các cart
         User.singleton.loadLocal() //đọc thông tin local
 
         //nếu thiếu thông tin thì phải nhập
@@ -144,7 +144,7 @@ class Login : AppCompatActivity() {
                         phoneNumber,
                         address
                     )
-                    initCarts() //lấy danh sách các cart
+                    initCarts(this) //lấy danh sách các cart
                     retrieveCurrentNoOfCarts()
                     retrieveCurrentNoOfOrders()
                     startActivity(intent)
