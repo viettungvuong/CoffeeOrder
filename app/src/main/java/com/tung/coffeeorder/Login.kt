@@ -79,13 +79,20 @@ class Login : AppCompatActivity() {
 
         val anonymousUse = findViewById<MaterialButton>(R.id.anonymous)
         anonymousUse.setOnClickListener{
-            sharedPreferences.edit().putBoolean("online_acc",false).apply() //đặt là không dùng tài khoản online
-            retrieveCurrentNoOfCarts()
-            retrieveCurrentNoOfOrders()
-            initCarts() //lấy danh sách các cart
-            User.singleton.loadLocal() //đọc thông tin local
+            anonymousLogin()
         }
 
+    }
+
+    fun anonymousLogin(){
+        sharedPreferences.edit().putBoolean("online_acc",false).apply() //đặt là không dùng tài khoản online
+        retrieveCurrentNoOfCarts()
+        retrieveCurrentNoOfOrders()
+        initCarts() //lấy danh sách các cart
+        User.singleton.loadLocal() //đọc thông tin local
+
+        val intent = Intent(this,UserEdit::class.java)
+        startActivity(intent) //mở userEdit để người dùng nhập thông tin
     }
 
     fun startLogin(userInput: TextInputEditText, passwordInput: TextInputEditText){

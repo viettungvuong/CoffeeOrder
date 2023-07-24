@@ -72,7 +72,7 @@ class CartActivity: AppCompatActivity() {
 
         val addressText = findViewById<TextView>(R.id.address)
         addressText.text=User.singleton.getaddress()
-        
+
         val changeAddressBtn=findViewById<MaterialButton>(R.id.changeaddressBtn)
         changeAddressBtn.setOnClickListener {
             //mở cái đổi địa chỉ
