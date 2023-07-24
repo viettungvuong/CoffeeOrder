@@ -173,6 +173,9 @@ class AccountFunctions {
             Firebase.auth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(activity) { task ->
                     if (task.isSuccessful) {
+                        val intent =
+                            Intent(activity, MainActivity::class.java)
+
 
                         Toast.makeText(
                             context,
@@ -185,7 +188,7 @@ class AccountFunctions {
 
                         val email = task.result?.user?.email.toString()
 
-                        AccountFunctions.getInfoFromFirebase(
+                       getInfoFromFirebase(
                             User.singleton
                         ) { id, name, phoneNumber, address ->
                             Log.d("Accountid2", id)
@@ -193,6 +196,7 @@ class AccountFunctions {
                             Functions.initCarts() //lấy danh sách các cart
                             Functions.retrieveCurrentNoOfCarts()
                             Functions.retrieveCurrentNoOfOrders()
+                            activity.startActivity(intent)
                             activity.finish()
                         }
 

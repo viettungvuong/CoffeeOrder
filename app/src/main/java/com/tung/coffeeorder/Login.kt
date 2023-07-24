@@ -97,7 +97,7 @@ class Login : AppCompatActivity() {
             val intent =
                 Intent(this, MainActivity::class.java)
 
-            startActivity(intent)
+
 
             sharedPreferences.edit()
                 .putBoolean("online_acc", true).apply() //ghi nhận là dùng tài khoản online cho app
@@ -118,6 +118,7 @@ class Login : AppCompatActivity() {
                 initCarts() //lấy danh sách các cart
                 retrieveCurrentNoOfCarts()
                 retrieveCurrentNoOfOrders()
+                startActivity(intent)
                 finish()
             }
         }
