@@ -226,7 +226,7 @@ class Functions {
         }
 
         private fun initCartsLocally(context: Context) {
-            val file = File(context.filesDir,"cart")
+            val file = File(context.filesDir, cartsFileName)
             if (!file.exists()) {
                 Log.d("Error", "Không có file cart")
                 return
@@ -314,7 +314,7 @@ class Functions {
         }
 
         private fun fetchOrderLocally(context: Context){
-            val file = File(context.filesDir,"orders-app")
+            val file = File(context.filesDir, orderFileName)
             if (!file.exists()) {
                 Log.d("Error", "Không có file order")
                 return

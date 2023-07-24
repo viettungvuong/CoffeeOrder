@@ -23,6 +23,8 @@ import com.tung.coffeeorder.Functions.Companion.increaseCarts
 import java.io.*
 import java.util.LinkedList
 
+const val orderFileName = "orders"
+const val cartsFileName = "carts"
 class Cart() {
 
     private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
@@ -99,7 +101,7 @@ class Cart() {
     }
 
     private fun updateLocally(context: Context, tempList: LinkedList<String>){
-        val file = File(context.filesDir,"cart")
+        val file = File(context.filesDir, cartsFileName)
         if (!file.exists()) {
             try {
                 file.createNewFile()
