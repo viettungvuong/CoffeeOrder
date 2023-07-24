@@ -33,7 +33,7 @@ class Order
 
     private var done=false //false là ongoing, true là history
 
-    protected var bonusPoint=0 //điểm thưởng
+    protected var bonuspoint=0 //điểm thưởng
 
     constructor(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String, idCount: Int, redeem: Boolean=false){
         this.cart = cart
@@ -44,7 +44,7 @@ class Order
 
         //tính điểm bonus
         for (coffeeInCart in getCart()){
-            bonusPoint+=((coffeeInCart.getPrice()/1000) as Int)
+            bonuspoint+=((coffeeInCart.getPrice()/1000) as Int)
         }
     }
 
@@ -55,7 +55,7 @@ class Order
         this.address=address
         this.redeem=true
         this.idCount=idCount
-        this.bonusPoint=redeemPoint
+        this.bonuspoint=redeemPoint
     }
 
     fun getCart(): ArrayList<CoffeeInCart>{
@@ -76,7 +76,12 @@ class Order
         history.add(this) //thêm vào danh sách History
         val reward=Reward(this)
         rewards.add(reward) //thêm vào reward khi đơn hàng đã xong
-        User.singleton.loyalty.addPoints(bonusPoint)
+        if (!redeem){
+            User.singleton.loyalty.addPoints(bonuspoint) //thêm điểm loyalty
+        }
+        else{
+            User.singleton.loyalty.removePoints(bonuspoint) //trừ điểm sau khi redeem
+        }
         done=true
         update()
     }
@@ -146,7 +151,7 @@ class Order
         }
     }
 
-    public fun getBonusPoint(): Int{
-        return bonusPoint
+    public fun getbonuspoint(): Int{
+        return bonuspoint
     }
 }

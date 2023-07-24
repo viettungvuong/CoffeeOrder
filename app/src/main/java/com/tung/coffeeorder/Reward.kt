@@ -8,7 +8,7 @@ class Reward(order: Order) {
     }
 
     fun calculateBonusPoint(): Int{
-        return order.getBonusPoint()
+        return order.getbonuspoint()
     }
 
     //up lên firebase

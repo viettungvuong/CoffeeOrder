@@ -43,7 +43,8 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                     "Đã thêm nước vào giỏ hàng thành công",
                     Toast.LENGTH_SHORT,
                 ).show()
-                User.singleton.loyalty.removePoints(redeemCoffee.getPoints()) //trừ điểm
+//                User.singleton.loyalty.removePoints(redeemCoffee.getPoints()) //trừ điểm
+                //trừ sau khi đơn hàng done nên không trừ ở đây
                 ongoingOrders.add(Order(redeemCoffee, LocalDateTime.now(), User.singleton.getaddress(), redeemCoffee.getPoints())) //thêm vào ongoing orders
             }
             else{
