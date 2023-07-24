@@ -47,26 +47,7 @@ class UserEdit : AppCompatActivity() {
             signOutBtn.backgroundTintList = greenColor //chuyển button này để lưu thay đổi
             signOutBtn.setOnClickListener(
                 View.OnClickListener { //mở main activity nếu đủ thông tin
-                    if (User.singleton.getaddress().isBlank()) {
-                        Toast.makeText(
-                            this,
-                            "Bạn chưa nhập địa chỉ",
-                            Toast.LENGTH_LONG,
-                        ).show()
-                    }
-                    else if (User.singleton.getphoneNumber().isBlank()){
-                        Toast.makeText(
-                            this,
-                            "Bạn chưa nhập số điện thoại",
-                            Toast.LENGTH_LONG,
-                        ).show()
-                    }
-                    else{ //đủ thông tin rồi thì mở main activity
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-
+                    saveChangesForAnonymous(User.singleton)
                 }
             )
         }
@@ -232,6 +213,14 @@ class UserEdit : AppCompatActivity() {
             userPhone.setSelection(userPhone.length())
         }
         else{ //lúc này đã là nút Accept
+            if (userEmail.text.isBlank()){
+                Toast.makeText(
+                    this,
+                    "Bạn chưa nhập số email",
+                    Toast.LENGTH_LONG,
+                ).show()
+                return
+            }
             User.singleton.editPhoneNumber(userPhone.text.toString())
             cancelEdit(cancelButton,view as ImageButton)
         }
@@ -266,6 +255,14 @@ class UserEdit : AppCompatActivity() {
             userAddress.setSelection(userAddress.length())
         }
         else{ //lúc này đã là nút Accept
+            if (userAddress.text.isBlank()){
+                Toast.makeText(
+                    this,
+                    "Bạn chưa nhập số địa chỉ",
+                    Toast.LENGTH_LONG,
+                ).show()
+                return
+            }
             User.singleton.editAddress(userAddress.text.toString())
             cancelEdit(cancelButton,view as ImageButton)
         }
@@ -281,6 +278,29 @@ class UserEdit : AppCompatActivity() {
 
         view.setVisibility(View.INVISIBLE) //ẩn nút
         mainBtn.setImageResource(R.drawable.edit)
+    }
+
+    fun saveChangesForAnonymous(user: User){
+        if (user.getaddress().isBlank()) {
+            Toast.makeText(
+                this,
+                "Bạn chưa nhập địa chỉ",
+                Toast.LENGTH_LONG,
+            ).show()
+        }
+        else if (user.getphoneNumber().isBlank()){
+            Toast.makeText(
+                this,
+                "Bạn chưa nhập số điện thoại",
+                Toast.LENGTH_LONG,
+            ).show()
+        }
+        else{ //đủ thông tin rồi thì mở main activity
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
 
 }
