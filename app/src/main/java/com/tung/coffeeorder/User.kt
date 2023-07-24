@@ -46,33 +46,28 @@ class User private constructor(){
 
     val loyalty=LoyaltyPoint()
 
-    fun editName(newFullName: String, initialize: Boolean=true){
+    fun editName(newFullName: String){
         this.fullName=newFullName
 
-        if (!initialize){
-            update()
-        }
+        update() //cập nhật thay đổi
     }
 
-    fun editPhoneNumber(newPhoneNumber: String, initialize: Boolean=true){
+    fun editPhoneNumber(newPhoneNumber: String){
         this.phoneNumber=newPhoneNumber
 
-        if (!initialize)
-            update()
+        update() //cập nhật thay đổi
     }
 
-    fun editEmail(newEmail: String, initialize: Boolean=true){
+    fun editEmail(newEmail: String){
         this.email=newEmail
 
-        if (!initialize)
-            update()
+        update() //cập nhật thay đổi
     }
 
-    fun editAddress(newAddress: String, initialize: Boolean=true){
+    fun editAddress(newAddress: String){
         this.address=newAddress
 
-        if (!initialize)
-            update()
+        update() //cập nhật thay đổi
     }
 
     fun getname(): String{
@@ -94,12 +89,13 @@ class User private constructor(){
     fun edit(id: String, name: String, email: String, phoneNumber: String, address: String, create: Boolean=false){
         initialize(id,name,email,phoneNumber, address)
 
+        //nếu không gọi từ signup
         if (!create) {
             update() //cập nhật thay đổi
         }
         else{
             //create là để biết gọi từ hàm signUp
-            //tạo trên firebase
+            //thì tạo trên firebase một document cho người dùng
             val userData = mapOf(
                 "email" to email,
                 "name" to fullName,
@@ -113,11 +109,10 @@ class User private constructor(){
     }
 
     fun initialize(id: String, name: String, email: String, phoneNumber: String, address: String){
-        editEmail(email)
-        editName(name)
-        editPhoneNumber(phoneNumber)
-        editAddress(address)
-
+        this.fullName = name
+        this.email=email
+        this.phoneNumber=phoneNumber
+        this.address=address
         this.id=id
 
     }

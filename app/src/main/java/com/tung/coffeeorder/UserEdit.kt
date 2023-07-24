@@ -108,6 +108,7 @@ class UserEdit : AppCompatActivity() {
             val imm: InputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(userName, InputMethodManager.SHOW_IMPLICIT)
+            userName.setSelection(userName.length())
         }
         else{ //lúc này nút là nút Accept, bấm là lưu thay đổi
             User.singleton.editName(userName.text.toString())
@@ -140,8 +141,9 @@ class UserEdit : AppCompatActivity() {
             val imm: InputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(userEmail, InputMethodManager.SHOW_IMPLICIT)
+            userEmail.setSelection(userEmail.length())
         }
-        else{
+        else{ //lúc này đã là nút Accept
             User.singleton.editEmail(userEmail.text.toString())
             cancelEdit(cancelButton,view as ImageButton)
         }
@@ -173,8 +175,9 @@ class UserEdit : AppCompatActivity() {
             val imm: InputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(userPhone, InputMethodManager.SHOW_IMPLICIT)
+            userPhone.setSelection(userPhone.length())
         }
-        else{
+        else{ //lúc này đã là nút Accept
             User.singleton.editPhoneNumber(userPhone.text.toString())
             cancelEdit(cancelButton,view as ImageButton)
         }
@@ -206,8 +209,9 @@ class UserEdit : AppCompatActivity() {
             val imm: InputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(userAddress, InputMethodManager.SHOW_IMPLICIT)
+            userAddress.setSelection(userAddress.length())
         }
-        else{
+        else{ //lúc này đã là nút Accept
             User.singleton.editAddress(userAddress.text.toString())
             cancelEdit(cancelButton,view as ImageButton)
         }
