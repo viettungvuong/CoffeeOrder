@@ -314,7 +314,7 @@ class Functions {
         }
 
         private fun fetchOrderLocally(context: Context){
-            val file = File(context.filesDir,"order")
+            val file = File(context.filesDir,"orders-app")
             if (!file.exists()) {
                 Log.d("Error", "Không có file order")
                 return
@@ -345,7 +345,7 @@ class Functions {
                     index++
                 }
             } catch (e: Exception) {
-                Log.d("Error", "Không thể đọc file orders")
+                Log.d("Error","Không thể đọc file order"+e.message.toString())
                 return
             }
         }
