@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.allViews
 import androidx.recyclerview.widget.RecyclerView
+import com.tung.coffeeorder.AppController.Companion.dateFormat
 import java.time.format.DateTimeFormatter
 import java.util.LinkedList
 
@@ -33,7 +34,7 @@ class RewardsPointAdapter(activity: Activity, rewards: LinkedList<Reward>): Recy
                 coffeesInCart.addView(coffeeText)
             }
 
-            val dateFormat = "dd-MM-yyyy HH:mm" //format ngày tháng
+
             view.findViewById<TextView>(R.id.drinkContent).text=reward.getOrder().gettime().format(DateTimeFormatter.ofPattern(dateFormat)).toString()
 
             val pointAdded = view.findViewById<TextView>(R.id.pointAdded)

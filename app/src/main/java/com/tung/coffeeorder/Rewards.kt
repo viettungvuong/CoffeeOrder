@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.AppController.Companion.listCoffee
 
-class Rewards: Fragment(R.layout.rewards_fragment) {
+class Rewards: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
