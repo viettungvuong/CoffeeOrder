@@ -269,14 +269,14 @@ class Functions {
 
         fun fetchOrders(){
             if (sharedPreferences.getBoolean("online_acc",false)){
-                fetchFromFirebase() //lấy từ firebase
+                fetchOrderFromFirebase() //lấy từ firebase
             }
             else{
-                fetchLocally() //đọc từ file
+                fetchOrderLocally() //đọc từ file
             }
         }
 
-        private fun fetchFromFirebase(){
+        private fun fetchOrderFromFirebase(){
             val getOrder = AppController.db.collection("orders"+Firebase.auth.currentUser!!.uid)
 
             getOrder.get()
@@ -306,7 +306,7 @@ class Functions {
                 }
         }
 
-        private fun fetchLocally(){
+        private fun fetchOrderLocally(){
             val file = File("orders")
             if (!file.exists()) {
                 Log.d("Error", "Không có file")
