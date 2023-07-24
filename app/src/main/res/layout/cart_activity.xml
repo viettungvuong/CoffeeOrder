@@ -2,7 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </RelativeLayout>
 
     <include layout="@layout/back_button"/>
 
@@ -22,82 +30,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cartRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toBottomOf="@id/sectionName"
-        android:layout_marginTop="30dp"
-        android:layout_marginHorizontal="30dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toTopOf="@id/totalPriceSection"
-        android:background="@drawable/layout_border_square">
-
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="20dp"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Giao đến: "
-                android:textStyle="bold"
-                android:textSize="18dp"/>
-
-            <EditText
-                android:id="@+id/address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="18 đường số 7, phường Tân Hưng, quận 7"
-                android:textSize="18dp"
-                android:enabled="false"
-                android:inputType="text"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal">
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:text="Huỳ thay đổi"
-                android:background="@drawable/rounded_button"
-                app:backgroundTint="#CC2400"
-                android:id="@+id/cancelchangeBtn"
-                android:visibility="invisible"
-                />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:text="Đổi địa chỉ"
-                android:background="@drawable/rounded_button"
-                app:backgroundTint="#324A59"
-                android:id="@+id/changeaddressBtn"
-                android:layout_marginHorizontal="20dp"
-                />
-
-        </LinearLayout>
-
-
-
-
-
-    </LinearLayout>
+        android:layout_marginTop="100dp"
+        android:layout_marginHorizontal="30dp"/>
 
     <LinearLayout
         android:id="@+id/totalPriceSection"
@@ -149,7 +86,5 @@
 
 
     </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
