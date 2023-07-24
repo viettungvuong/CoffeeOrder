@@ -23,8 +23,8 @@ import com.tung.coffeeorder.Functions.Companion.increaseCarts
 import java.io.*
 import java.util.LinkedList
 
-const val orderFileName = "orders"
-const val cartsFileName = "carts"
+const val orderFileName = "orders-save-app.bin"
+const val cartsFileName = "carts-save-app.bin"
 class Cart() {
 
     private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart

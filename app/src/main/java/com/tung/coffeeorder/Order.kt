@@ -152,6 +152,30 @@ class Order
         }
     }
 
+    private fun updateDoneLocally(context: Context){
+        val file = File(context.filesDir, orderFileName)
+        if (!file.exists()) {
+            try {
+                file.createNewFile()
+            } catch (e: IOException) {
+                Log.d("Error","Không thể xuất ra file order")
+                return
+            }
+        }
+        try {
+            val writer = BufferedWriter(FileWriter(file, true)) //true là append vào file
+
+            val temp = "$idCount,${time.format(DateTimeFormatter.ofPattern(dateFormat))},$address,$done"
+            writer.write(temp)
+            writer.newLine()
+
+            writer.close()
+        } catch (e: Exception) {
+            Log.d("Error","Không thể xuất ra file order"+e.message.toString())
+            return
+        }
+    }
+
     public fun getbonuspoint(): Int{
         return bonuspoint
     }
