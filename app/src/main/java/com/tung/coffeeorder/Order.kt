@@ -80,7 +80,10 @@ class Order
         Log.d("Rewards size",rewards.size.toString())
         if (!redeem){
             User.singleton.loyalty.addPoints(bonuspoint) //thêm điểm loyalty
-            User.singleton.loyalty.increaseLoyaltyCard(cart.size) //tăng điểm theo số ly đã có
+
+            for (coffeeInCart in cart){
+                User.singleton.loyalty.increaseLoyaltyCard(coffeeInCart.getquantity()) //tăng điểm theo số ly đã có
+            }
         }
         else{
             User.singleton.loyalty.removePoints(bonuspoint) //trừ điểm sau khi redeem
