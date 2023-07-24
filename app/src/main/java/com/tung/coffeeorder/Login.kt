@@ -33,7 +33,7 @@ class Login : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO) //chặn dark mode
-        
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
 

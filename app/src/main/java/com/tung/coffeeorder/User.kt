@@ -49,8 +49,9 @@ class User private constructor(){
     fun editName(newFullName: String, initialize: Boolean=true){
         this.fullName=newFullName
 
-        if (!initialize)
-        update()
+        if (!initialize){
+            update()
+        }
     }
 
     fun editPhoneNumber(newPhoneNumber: String, initialize: Boolean=true){
