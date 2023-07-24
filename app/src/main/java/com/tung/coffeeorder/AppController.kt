@@ -135,12 +135,12 @@ class AppController{
         val ongoingOrders=LinkedList<Order>() //danh sách các order onging
         val historyOrders=LinkedList<Order>() //danh sách các order history
         val rewardsPoint=LinkedList<Reward>() //danh sách điểm thưởng
+        val redeemCoffees= LinkedList<RedeemCoffee>()
         lateinit var ongoingAdapter: OrderAdapter
         lateinit var historyAdapter: OrderAdapter //để 2 adapter này ở đây vì hai adapter này có sự liên thông với nhau rất nhiều
         var db= Firebase.firestore
         val storage = Firebase.storage.reference
         var listCoffee= LinkedList<Coffee>() //danh sách các coffee
-        lateinit var redeemCoffees: LinkedList<RedeemCoffee>
         lateinit var sharedPreferences: SharedPreferences //shared preferences
         var carts= ArrayList<Cart>() //danh sách các cart
         var numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
