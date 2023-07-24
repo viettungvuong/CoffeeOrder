@@ -31,7 +31,7 @@ class CartAdapter(activity: Activity, cartList: ArrayList<CoffeeInCart>): Recycl
 
         fun bind(coffeeInCart: CoffeeInCart){
             coffeeName.text=coffeeInCart.getName()
-            coffeePriceText.text=reformatNumber(coffeeInCart.calculatePrice())
+            coffeePriceText.text=reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
             coffeeQuantity.text="Số lượng: "+coffeeInCart.getquantity().toString()
             when (coffeeInCart.getSize()){
                 1->{

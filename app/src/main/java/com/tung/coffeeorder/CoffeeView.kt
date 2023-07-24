@@ -47,7 +47,7 @@ class CoffeeView() : AppCompatActivity() {
         //tương tự với sizePicker
         val sizePickerLayout = findViewById<LinearLayout>(R.id.sizePicker)
         sizePickerLayout.removeAllViews()
-        val sizePicker = SizePicker(this, inflater, coffeeInCart)
+        val sizePicker = SizePicker(this, inflater, coffeeInCart,priceText)
         sizePickerLayout.addView(sizePicker)
 
         val purchaseBtn=findViewById<MaterialButton>(R.id.purchaseBtn)

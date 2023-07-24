@@ -8,11 +8,12 @@ import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
 
-class SizePicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart): LinearLayout(context){
+class SizePicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart, priceText: TextView): LinearLayout(context){
     private var smallButton: ImageButton
     private var mediumButton: ImageButton
     private var largeButton: ImageButton
     private var coffeeInCart=coffeeInCart
+    private var priceText=priceText
     init {
         inflater.inflate(R.layout.pick_size,this,true)
 
@@ -26,13 +27,17 @@ class SizePicker(context: Context, inflater: LayoutInflater, coffeeInCart: Coffe
         largeButton.setOnClickListener(largeButtonClick())
     }
 
+    fun updatePrice(){
+        priceText.text= reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
+    }
+
     fun smallButtonClick(): OnClickListener{
         return OnClickListener {
             coffeeInCart.changeSize(1) //size nhỏ = 1
             smallButton.alpha=1f
             mediumButton.alpha=0.5f //làm mờ các nút còn lại
             largeButton.alpha=0.5f
-
+            updatePrice()
         }
     }
 
@@ -42,7 +47,7 @@ class SizePicker(context: Context, inflater: LayoutInflater, coffeeInCart: Coffe
             smallButton.alpha=0.5f
             mediumButton.alpha=1f
             largeButton.alpha=0.5f
-
+            updatePrice()
         }
     }
 
@@ -52,7 +57,7 @@ class SizePicker(context: Context, inflater: LayoutInflater, coffeeInCart: Coffe
             smallButton.alpha=0.5f
             mediumButton.alpha=0.5f
             largeButton.alpha=1f
-
+            updatePrice()
 
         }
     }

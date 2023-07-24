@@ -23,15 +23,21 @@ open class Coffee(private val coffeeName: String, private val imageFilename: Str
     }
 }
 
-open class CoffeeInCart(coffee: Coffee): Coffee(coffee.getName(), coffee.getImageFilename(), coffee.getPrice()){
+open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), coffee.getImageFilename(), coffee.getPrice()){
     protected var quantity=1
     protected var currentSize=1 //1 là size nhỏ, 2 là size vừa, 3 là size lớn
 
-    protected val singlePrice=coffee.getPrice()
+    protected var singlePrice=coffee.getPrice()
 
     constructor(other: CoffeeInCart): this(other as Coffee){
         quantity=other.getquantity()
-        currentSize=other.currentSize
+        currentSize=other.getSize()
+
+        when (currentSize){
+            1->singlePrice=coffee.getPrice()
+            2->singlePrice=(coffee.getPrice().toFloat()*1.2f).toLong()
+            3->singlePrice=(coffee.getPrice().toFloat()*1.3f).toLong()
+        }
     }
 
     fun changeQuantity(newQuantity: Int){
@@ -40,6 +46,12 @@ open class CoffeeInCart(coffee: Coffee): Coffee(coffee.getName(), coffee.getImag
 
     fun changeSize(newSize: Int){
         this.currentSize=newSize
+
+        when (currentSize){
+            1->singlePrice=coffee.getPrice()
+            2->singlePrice=(coffee.getPrice().toFloat()*1.2f).toLong()
+            3->singlePrice=(coffee.getPrice().toFloat()*1.3f).toLong()
+        }
     }
 
     fun getquantity(): Int{
