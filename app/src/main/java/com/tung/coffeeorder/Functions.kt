@@ -359,6 +359,7 @@ class Functions {
             }
         }
 
+        //có cần phải resumecart kh
         fun needToResume(): Boolean{
             return getCurrentNoOfCarts() > getCurrentNoOfOrders()
         }

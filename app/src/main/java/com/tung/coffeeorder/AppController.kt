@@ -107,25 +107,25 @@ class Cart {
         }
 
         try {
-            //đọc ngược lên
-            val writer = BufferedWriter(FileWriter(file, true)) //true là append vào file
+            val lines =  file.readLines().toMutableList() //đọc toàn bộ dòng và lưu vào một mảng
 
-            for (temp in tempList){
-                writer.write(temp)
-                writer.newLine()
+            var i = lines.size - 1
+            while (i >= 0 && lines[i].isNotBlank()) { //đọc đến khi gặp dòng trống
+                lines.removeAt(i) //xoá dòng
+                i--
             }
 
-            writer.write("")
+            lines.addAll(tempList)
 
-            writer.close()
+            //xuất từng dòng ra file, dùng jointostring với kí tự '\n' để xuống dòng
+            file.writeText(lines.joinToString("\n"))
+
         } catch (e: Exception) {
             Log.d("Error","Không thể xuất ra file")
             return
         }
     }
-
-
-
+    
 }
 
 class AppController{
