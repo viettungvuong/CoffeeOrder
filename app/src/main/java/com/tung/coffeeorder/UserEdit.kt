@@ -213,10 +213,10 @@ class UserEdit : AppCompatActivity() {
             userPhone.setSelection(userPhone.length())
         }
         else{ //lúc này đã là nút Accept
-            if (userEmail.text.isBlank()){
+            if (userPhone.text.isBlank()){
                 Toast.makeText(
                     this,
-                    "Bạn chưa nhập số email",
+                    "Bạn chưa nhập số điện thoại",
                     Toast.LENGTH_LONG,
                 ).show()
                 return
@@ -258,7 +258,7 @@ class UserEdit : AppCompatActivity() {
             if (userAddress.text.isBlank()){
                 Toast.makeText(
                     this,
-                    "Bạn chưa nhập số địa chỉ",
+                    "Bạn chưa nhập địa chỉ",
                     Toast.LENGTH_LONG,
                 ).show()
                 return
