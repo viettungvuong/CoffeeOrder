@@ -109,13 +109,17 @@ class CartActivity: AppCompatActivity() {
             return false //ta kh kich hoat tinh nang keo tha
         }
 
+        fun deleteFromCart(position: Int){
+            removeFromCartPrice(position, findViewById(R.id.totalPrice)) //giảm giá tổng của cart
+            Cart.singleton.removeFromCart(position) //xoá khỏi cart
+        }
+
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val position = viewHolder.adapterPosition
             //vi tri adapter position cua mot item trong recycler view
 
-            //xoá khỏi cart ở vị trí
-            removeFromCartPrice(position, findViewById(R.id.totalPrice)) //giảm giá tổng của cart
-            Cart.singleton.removeFromCart(position)
+            //xoá khỏi cart ở vị trí position
+            deleteFromCart(position)
             adapter.notifyItemRemoved(position)
             adapter.notifyItemRangeChanged(position,Cart.singleton.getList().size-position)
             viewHolder.itemView.visibility= View.GONE

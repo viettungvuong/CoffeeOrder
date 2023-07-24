@@ -50,6 +50,7 @@ class Cart {
 
     fun removeFromCart(index: Int){
         cartList.removeAt(index)
+        update()
     }
 
     fun getList(): ArrayList<CoffeeInCart>{
