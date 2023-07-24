@@ -226,7 +226,7 @@ class Functions {
         }
 
         private fun initCartsLocally(context: Context) {
-            val file = File("carts")
+            val file = File(context.filesDir,"carts")
             if (!file.exists()) {
                 Log.d("Error", "Không có file")
                 return

@@ -96,7 +96,7 @@ class Cart {
     }
 
     private fun updateLocally(context: Context, tempList: LinkedList<String>){
-        val file = File(context.filesDir,"cart")
+        val file = File(context.filesDir,"carts")
         if (!file.exists()) {
             try {
                 file.createNewFile()
