@@ -10,12 +10,6 @@ class BottomNavigationHandler(activity: Activity, navBar: BottomNavigationView) 
     //dùng class này để quản lý bottom nav bar gọn hơn
     init {
         var currentSelected=0
-
-        when (navBar.selectedItemId){
-
-        }
-
-
         navBar.selectedItemId=currentSelected //đặt index cho bottom nav bar
 
         navBar.setOnItemSelectedListener { item ->
