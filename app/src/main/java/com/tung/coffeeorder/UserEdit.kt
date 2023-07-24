@@ -16,20 +16,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.AccountFunctions.Companion.signOut
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 
 class UserEdit : AppCompatActivity() {
-
-
-    private lateinit var userName: EditText
-    private lateinit var userEmail: EditText
-    private lateinit var userPhone: EditText
-    private lateinit var userAddress: EditText
-
-    var editMode = false
+    var editMode=ArrayList<Boolean>()
+    var textFields=ArrayList<EditText>()
 
     var fromAnonymousLogin=false
 
@@ -80,16 +75,23 @@ class UserEdit : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_activity)
 
+        for (i in 0..4){
+            editMode.add(false) //thêm editmode = false cho 4 field
+        }
 
-        userName = findViewById<EditText>(R.id.userName)
-        userEmail = findViewById<EditText>(R.id.userEmail)
-        userPhone = findViewById<EditText>(R.id.userPhone)
-        userAddress = findViewById<EditText>(R.id.userAddress)
+        textFields.add(findViewById<EditText>(R.id.userName))
+        textFields.add(findViewById<EditText>(R.id.userEmail))
+        textFields.add(findViewById<EditText>(R.id.userPhone))
+        textFields.add(findViewById<EditText>(R.id.userAddress))
 
-        userName.text = Editable.Factory.getInstance().newEditable(User.singleton.getname())
-        userEmail.text = Editable.Factory.getInstance().newEditable(User.singleton.getemail())
-        userPhone.text = Editable.Factory.getInstance().newEditable(User.singleton.getphoneNumber())
-        userAddress.text = Editable.Factory.getInstance().newEditable(User.singleton.getaddress())
+        for (textField in textFields){
+            textField.isEnabled=false //disable toàn bộ textField
+        }
+
+        textFields[0].text = Editable.Factory.getInstance().newEditable(User.singleton.getname())
+        textFields[1].text = Editable.Factory.getInstance().newEditable(User.singleton.getemail())
+        textFields[2].text = Editable.Factory.getInstance().newEditable(User.singleton.getphoneNumber())
+        textFields[3].text = Editable.Factory.getInstance().newEditable(User.singleton.getaddress())
 
         val nameBtn = findViewById<ImageButton>(R.id.mainProfileBtn)
         val emailBtn = findViewById<ImageButton>(R.id.mainEmailBtn)
@@ -97,182 +99,85 @@ class UserEdit : AppCompatActivity() {
         val addressBtn = findViewById<ImageButton>(R.id.mainAddressBtn)
 
         nameBtn.setOnClickListener { view ->
-            changeName(view)
+            change(view,0)
         }
 
         emailBtn.setOnClickListener { view ->
-            changeEmail(view)
+            change(view,1)
         }
 
         phoneBtn.setOnClickListener { view ->
-            changePhone(view)
+            change(view,2)
         }
 
         addressBtn.setOnClickListener { view ->
-            changeAddress(view)
+            change(view,3)
         }
-
-
-
-
     }
 
-    fun changeName(view: View) {
+    fun change(view: View, index: Int){
         val cancelButton = findViewById<ImageButton>(R.id.secondaryProfileBtn)
-        val temp = userName.text.toString()
+        val temp = textFields[index].text.toString()
 
-        if (!editMode){
+        if (!editMode[index]){
             cancelButton.setVisibility(View.VISIBLE) //hiện nút
-            editMode = true
-            userName.isEnabled = true
-            userEmail.isEnabled = false
-            userPhone.isEnabled = false
-            userAddress.isEnabled = false
+            editMode[index] = true
+            textFields[index].isEnabled = true
 
             cancelButton.setImageResource(R.drawable.cancel)
             cancelButton.setOnClickListener { v ->
-                cancelEdit(v,view as ImageButton)
-                userName.text= Editable.Factory.getInstance().newEditable(temp)
+                cancelEdit(v,view as ImageButton,index)
+                textFields[index].text= Editable.Factory.getInstance().newEditable(temp)
             }
 
             (view as ImageButton).setImageResource(R.drawable.save_change)
 
-            userName.requestFocus()
+            textFields[index].requestFocus()
             val imm: InputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(userName, InputMethodManager.SHOW_IMPLICIT)
-            userName.setSelection(userName.length())
+            imm.showSoftInput(textFields[index], InputMethodManager.SHOW_IMPLICIT)
+            textFields[index].setSelection(textFields[index].length())
         }
         else{ //lúc này nút là nút Accept, bấm là lưu thay đổi
-            User.singleton.editName(userName.text.toString())
-            cancelEdit(cancelButton,view as ImageButton)
+            val newText = textFields[index].text.toString()
+            when (index){
+                0->{
+                    User.singleton.editName(newText)
+                }
+                1->{
+                    User.singleton.editEmail(newText)
+                }
+                2->{
+                    if (newText.isBlank()){
+                        Toast.makeText(
+                            this,
+                            "Bạn chưa nhập số điện thoại",
+                            Toast.LENGTH_LONG,
+                        ).show()
+                        return
+                    }
+                    User.singleton.editPhoneNumber(newText)
+                }
+                3->{
+                    if (newText.isBlank()){
+                        Toast.makeText(
+                            this,
+                            "Bạn chưa nhập địa chỉ",
+                            Toast.LENGTH_LONG,
+                        ).show()
+                        return
+                    }
+                    User.singleton.editAddress(newText)
+                }
+            }
+            cancelEdit(cancelButton,view as ImageButton,index)
         }
     }
 
-    fun changeEmail(view: View) {
-        val cancelButton = findViewById<ImageButton>(R.id.secondaryEmailBtn)
-        val temp = userEmail.text.toString()
+    fun cancelEdit(view: View, mainBtn: ImageButton, index: Int) {
 
-        if (!editMode) {
-            cancelButton.setVisibility(View.VISIBLE) //hiện nút
-            editMode = true
-            userEmail.isEnabled = true
-            userName.isEnabled = false
-            userPhone.isEnabled = false
-            userAddress.isEnabled = false
-
-
-            cancelButton.setImageResource(R.drawable.cancel)
-            cancelButton.setOnClickListener { v ->
-                cancelEdit(v,view as ImageButton)
-                userEmail.text= Editable.Factory.getInstance().newEditable(temp)
-            }
-
-            (view as ImageButton).setImageResource(R.drawable.save_change)
-
-            userEmail.requestFocus()
-            val imm: InputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(userEmail, InputMethodManager.SHOW_IMPLICIT)
-            userEmail.setSelection(userEmail.length())
-        }
-        else{ //lúc này đã là nút Accept
-            User.singleton.editEmail(userEmail.text.toString())
-            cancelEdit(cancelButton,view as ImageButton)
-        }
-    }
-
-    fun changePhone(view: View) {
-        val cancelButton = findViewById<ImageButton>(R.id.secondaryPhoneBtn)
-        val temp = userPhone.text.toString()
-
-        if (!editMode) {
-            cancelButton.setVisibility(View.VISIBLE) //hiện nút
-            editMode = true
-            userPhone.isEnabled = true
-            userName.isEnabled = false
-            userEmail.isEnabled = false
-            userAddress.isEnabled = false
-
-
-            cancelButton.setImageResource(R.drawable.cancel)
-            cancelButton.setOnClickListener { v ->
-                cancelEdit(v,view as ImageButton)
-                userPhone.text= Editable.Factory.getInstance().newEditable(temp)
-            }
-
-            (view as ImageButton).setImageResource(R.drawable.save_change)
-
-
-            userPhone.requestFocus()
-            val imm: InputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(userPhone, InputMethodManager.SHOW_IMPLICIT)
-            userPhone.setSelection(userPhone.length())
-        }
-        else{ //lúc này đã là nút Accept
-            if (userPhone.text.isBlank()){
-                Toast.makeText(
-                    this,
-                    "Bạn chưa nhập số điện thoại",
-                    Toast.LENGTH_LONG,
-                ).show()
-                return
-            }
-            User.singleton.editPhoneNumber(userPhone.text.toString())
-            cancelEdit(cancelButton,view as ImageButton)
-        }
-    }
-
-    fun changeAddress(view: View) {
-        val cancelButton = findViewById<ImageButton>(R.id.secondaryAddressBtn)
-        val temp = userAddress.text.toString()
-
-        if (!editMode) {
-            cancelButton.setVisibility(View.VISIBLE) //hiện nút
-            editMode = true
-            userAddress.isEnabled = true
-            userName.isEnabled = false
-            userPhone.isEnabled = false
-            userEmail.isEnabled = false
-
-
-            cancelButton.setImageResource(R.drawable.cancel)
-            cancelButton.setOnClickListener { v ->
-                cancelEdit(v,view as ImageButton)
-                userAddress.text= Editable.Factory.getInstance().newEditable(temp)
-            }
-
-            (view as ImageButton).setImageResource(R.drawable.save_change)
-
-
-            userAddress.requestFocus()
-            val imm: InputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(userAddress, InputMethodManager.SHOW_IMPLICIT)
-            userAddress.setSelection(userAddress.length())
-        }
-        else{ //lúc này đã là nút Accept
-            if (userAddress.text.isBlank()){
-                Toast.makeText(
-                    this,
-                    "Bạn chưa nhập địa chỉ",
-                    Toast.LENGTH_LONG,
-                ).show()
-                return
-            }
-            User.singleton.editAddress(userAddress.text.toString())
-            cancelEdit(cancelButton,view as ImageButton)
-        }
-    }
-
-    fun cancelEdit(view: View, mainBtn: ImageButton) {
-
-        editMode = false
-        userAddress.isEnabled = false
-        userName.isEnabled = false
-        userPhone.isEnabled = false
-        userEmail.isEnabled = false
+        editMode[index] = false
+        textFields[index].isEnabled=false
 
         view.setVisibility(View.INVISIBLE) //ẩn nút
         mainBtn.setImageResource(R.drawable.edit)

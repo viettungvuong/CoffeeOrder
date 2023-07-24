@@ -44,9 +44,6 @@ class Login : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("Prefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
 
-       //sharedPreferences.edit().putInt("number-of-carts", 0).apply() //dùng sharedprerences để lưu vài thông tin
-       //sharedPreferences.edit().putInt("number-of-orders", 0).apply()//dùng sharedprerences để lưu vài thông tin
-
         initRedeem() //lấy danh sách các redeem
 
         autoLogin() //tự động đăng nhập
