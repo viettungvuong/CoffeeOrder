@@ -44,4 +44,5 @@ class RewardsCupAdapter(activity: Activity, user: User): RecyclerView.Adapter<Re
     override fun onBindViewHolder(holder: rewardViewHolder, position: Int) {
         holder.bind(position)
     }
+
 }

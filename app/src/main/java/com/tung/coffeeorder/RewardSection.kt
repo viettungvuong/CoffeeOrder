@@ -36,13 +36,15 @@ class RewardSection: Fragment() {
         view.setOnClickListener {
             if (User.singleton.loyalty.getLoyaltyCardCount()==8){
                 User.singleton.loyalty.resetLoyaltyCard() //reset loyalty card
-                rewardsCupAdapter.notifyItemRangeRemoved(0,8) //xoá hết
+                rewardsCupAdapter.notifyDataSetChanged() //làm mờ toàn bộ ly (notifyDataSetChanged sẽ rebind lại recycler view)
+                currentPoint.text="0/8"
                 Toast.makeText(
                     context,
                     "Đã reset hết 8 ly",
                     Toast.LENGTH_SHORT,
                 ).show()
 
+                //rảnh thì thêm hiệu ứng ở đây
             }
         }
 
