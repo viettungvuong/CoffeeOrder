@@ -231,7 +231,7 @@ class Functions {
                         ))
                         val id = document.id
                         val address = document.getString("address")
-                        var done = true
+                        var done = false
                         done = document.getString("done")=="true"
 
                         val currentOrder=Order(carts[document.id.toInt()-1].getList(),time,address!!,id.toInt())
@@ -303,6 +303,10 @@ class Functions {
             Log.d("cart size", getCurrentNoOfCarts().toString())
             Log.d("orders size",getCurrentNoOfOrders().toString())
             return getCurrentNoOfCarts() > getCurrentNoOfOrders()
+        }
+
+        fun calculateReward(){
+
         }
 
     }

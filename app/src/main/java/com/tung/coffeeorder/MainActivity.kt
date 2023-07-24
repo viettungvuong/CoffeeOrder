@@ -39,10 +39,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initCarts() //lấy danh sách các cart
         //từ đây mới có order và resume
 
         AppController.ongoingAdapter = OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())

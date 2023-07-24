@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.checkInCart
+import com.tung.coffeeorder.Functions.Companion.increaseCarts
 import com.tung.coffeeorder.Functions.Companion.reformatNumber
 
 class CoffeeView() : AppCompatActivity() {
@@ -58,7 +59,11 @@ class CoffeeView() : AppCompatActivity() {
                 }
                 else{
                     val temp = CoffeeInCart(coffeeInCart) //tạo copy để đề phòng người dùng muốn thêm ly khác size của cùng một loại cà phê
+                    if (Cart.singleton.getList().isEmpty()){
+                        increaseCarts() //thêm số cart
+                    }
                     Cart.singleton.addToCart(temp) //thêm ly cà phê hiện tại vào giỏ hàng
+
                 }
 
                 val intent= Intent(this,CartActivity::class.java)
