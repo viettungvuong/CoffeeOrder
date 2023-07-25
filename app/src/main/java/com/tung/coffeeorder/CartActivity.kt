@@ -197,8 +197,8 @@ class CartActivity: AppCompatActivity() {
             ).show()
             return
         }
-        val temp = ArrayList(Cart.singleton.getList()) //copy constructor để nó kh reference
-        val order = Order(temp, LocalDateTime.now(), User.singleton.getaddress(), getCurrentNoOfCarts())
+        val temp = LinkedList(Cart.singleton.getList()) //copy constructor để nó kh reference
+        val order = Order(getCurrentNoOfCarts(),User.singleton.getaddress(),LocalDateTime.now(),temp)
         addToOngoing(order) //thêm vào orders
 
         //xoá hết giỏ hàng khi đã checkout
@@ -208,7 +208,7 @@ class CartActivity: AppCompatActivity() {
     //thêm vào ônging
     fun addToOngoing(order: Order){
         AppController.ongoingOrders.add(order) //thêm vào orders
-        order.update(this) //lúc này chưa increaseOrders
+        saveOrder(order,this) //lúc này chưa increaseOrders
 
         increaseOrders() //tăng số order lên
     }

@@ -13,9 +13,9 @@ import com.tung.coffeeorder.AppController.Companion.imageFromCoffee
 import com.tung.coffeeorder.AppController.Companion.reformatNumber
 import java.util.LinkedList
 
-class CartAdapter(activity: Activity, cartList: ArrayList<CoffeeInCart>): RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
     var activity: Activity
-    var cartList: ArrayList<CoffeeInCart>
+    var cartList: LinkedList<CoffeeInCart>
 
     init {
         this.activity=activity

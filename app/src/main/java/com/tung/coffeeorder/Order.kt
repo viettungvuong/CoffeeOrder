@@ -35,24 +35,24 @@ import kotlinx.coroutines.runBlocking
 @Entity(tableName = "order_table")
 data class Order(
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
+    var id: Int,
+    var address: String,
+    var time: LocalDateTime,
+    var cart: LinkedList<CoffeeInCart>,
     var redeem: Boolean = false,
     var done: Boolean = false,
     var bonusPoint: Int = 0,
-    var address: String,
-    var time: LocalDateTime,
-    var cart: LinkedList<CoffeeInCart>
 )
 
 class Converters {
     @TypeConverter
-    fun fromArrayList(value: ArrayList<String>): String {
+    fun fromLinkedList(value: LinkedList<CoffeeInCart>): String {
         return Gson().toJson(value)
     }
 
     @TypeConverter
-    fun toArrayList(value: String): ArrayList<String> {
-        val listType = object : TypeToken<ArrayList<String>>() {}.type
+    fun toLinkedList(value: String): LinkedList<CoffeeInCart> {
+        val listType = object : TypeToken<LinkedList<CoffeeInCart>>() {}.type
         return Gson().fromJson(value, listType)
     }
 }
@@ -66,13 +66,15 @@ interface OrderDao {
     suspend fun updateOrder(order: Order)
 
     @Query("SELECT * FROM order_table WHERE id = :orderId")
-    suspend fun getOrderById(orderId: Long): Order?
+    suspend fun getOrderById(orderId: Int): Order?
 
     @Query("SELECT * FROM order_table")
     suspend fun getAllOrders(): List<Order>
 
     @Query("UPDATE order_table SET done=1 WHERE id = :orderId")
-    fun markDone(orderId: Long) //update trên database
+    fun markDone(orderId: Int) //update trên database
+
+
 
 }
 
@@ -116,7 +118,7 @@ fun saveOrder(order: Order, context: Context){
     }
 }
 
-fun updateAsDone(order: Order, context: Context) {
+private fun updateAsDone(order: Order, context: Context) {
     order.done = true
     if (AppController.sharedPreferences.getBoolean("online_acc", false)) {
         updateToFirebase(order) //up lên firebase
@@ -166,4 +168,20 @@ private fun updateToFirebase(order: Order) {
                 }
             })
     }
+}
+
+fun calculateTotalPrice(order: Order): Long{
+    var res=0L
+    for (coffeeInCart in order.cart){
+        res+=coffeeInCart.calculatePrice()
+    }
+    return res
+}
+
+fun calculateBonusPoint(order: Order): Int{
+    var res=0
+    for (coffeeInCart in order.cart){
+        res+=((coffeeInCart.calculatePrice()/1000).toInt())
+    }
+    return res
 }

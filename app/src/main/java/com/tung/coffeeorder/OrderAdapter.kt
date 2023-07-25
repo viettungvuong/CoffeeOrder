@@ -57,16 +57,16 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
 
         fun bind(order: Order){
 
-            timeText.text=order.gettime().format(dateTimeFormat).toString()
+            timeText.text=order.time.format(dateTimeFormat).toString()
 
-            addressText.text=order.getaddress().toString()
+            addressText.text=order.address.toString()
 
-            val cart = order.getcart()
+            val cart = order.cart
             for (drink in cart){
                 drinksList.addView(drinkView(drink)) //với từng cà phê trong order này thì thêm vào view
             }
 
-            totalPriceText.text= reformatNumber(order.totalPrice())+" VNĐ"
+            totalPriceText.text= reformatNumber(calculateTotalPrice(order))+" VNĐ"
         }
     }
 
@@ -89,7 +89,7 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
             View.OnClickListener {
                 if (fragment is OngoingFragment){ //chỉ nhận onclick của OngoingFragment
 
-                    orders[position].setDone(AppController.ongoingOrders,AppController.historyOrders,AppController.rewardsPoint,activity) //đánh dấu đã hoàn thành order này
+                    setOrderDone(orders[position],AppController.ongoingOrders,AppController.historyOrders,AppController.rewardsPoint,activity) //đánh dấu đã hoàn thành order này
                     AppController.ongoingAdapter.notifyItemRemoved(position)
 
                     AppController.historyAdapter.notifyItemInserted(AppController.historyOrders.size-1) //thông báo mới thêm item

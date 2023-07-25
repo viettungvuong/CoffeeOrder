@@ -27,18 +27,17 @@ import com.tung.coffeeorder.AppController.Companion.redeemCoffees
 import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfCarts
 import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfOrders
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
+import kotlinx.coroutines.runBlocking
 import java.io.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.LinkedList
 
-const val orderFileName = "filesave-Orders.dat"
 const val cartsFileName = "filesave-Carts.dat"
-const val redeemFileName = "filesave-Redeems.dat"
 class Cart() {
 
-    private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
+    private var cartList=LinkedList<CoffeeInCart>() //giỏ hàng của cart
     companion object{
         @JvmStatic
         var singleton= Cart() //singleton
@@ -71,7 +70,7 @@ class Cart() {
         update(context)
     }
 
-    fun getList(): ArrayList<CoffeeInCart>{
+    fun getList(): LinkedList<CoffeeInCart>{
         return this.cartList
     }
 
@@ -381,7 +380,6 @@ class AppController{
             else{
                 initCartsLocally(context)
                 fetchOrders(context) //lấy tất cả order (phải có cart thì mới lấy order được)
-                fetchRedeemLocally(context)
             }
         }
 
@@ -492,22 +490,23 @@ class AppController{
                         val done = document.getString("done")=="true"
                         val redeem = document.getString("redeem")=="true"
 
-                        var currentOrder = Order()
+                        var currentOrder: Order?=null
                         if (!redeem){
-                            currentOrder=Order(carts[document.id.toInt()-1].getList(),time,address!!,id.toInt())
+                            currentOrder=Order(id.toInt(),address!!,time,carts[document.id.toInt()-1].getList())
                         }
-                        else{
+                        else{ //nếu là redeem
                             val coffeeName = document.getString("redeemCoffee")
                             val size=document.getLong("redeemSize")!!.toInt()
                             val redeemPoint = document.getLong("redeemPoint")!!.toInt()
                             val redeemCoffee= RedeemCoffee(searchCoffeeByName(coffeeName!!)!!,size,redeemPoint)
-                            currentOrder = Order(redeemCoffee,time,address!!,redeemPoint)
+                            currentOrder=Order(id.toInt(),address!!,time,LinkedList<CoffeeInCart>())
+                            currentOrder.cart.add(redeemCoffee)
                         }
 
                         ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
-                        if (done){
-                            currentOrder.setDone(
+                        if (currentOrder.done){
+                            setOrderDone(currentOrder,
                                 ongoingOrders,
                                 historyOrders,
                                 rewardsPoint, context,true)
@@ -519,82 +518,23 @@ class AppController{
                 }
         }
 
-        private fun fetchRedeemLocally(context: Context){
-            val file = File(context.filesDir, redeemFileName)
-            if (!file.exists()) {
-                Log.d("Error", "Không có file redeem")
-                return
-            }
-
-            val lines = file.readLines()
-
-            try {
-                for (line in lines) {
-                    val lineSplit = line.split(',')
-
-                    var currentOrder=Order()
-                    var done=(lineSplit[6] == "true")
-                    val address = lineSplit[5]
-                    val time = LocalDateTime.parse(lineSplit[4], dateTimeFormat)
-                    val redeemPoint = lineSplit[3].toInt()
-                    val size = lineSplit[2].toInt()
-                    val redeemCoffee =
-                        RedeemCoffee(searchCoffeeByName(lineSplit[1])!!, size, redeemPoint)
-                    val id = lineSplit[0].toInt()
-                    currentOrder = Order(redeemCoffee, time, address, redeemPoint,id)
-                    ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
-
-                    if (done){
-                        currentOrder.setDone(
-                            ongoingOrders,
-                            historyOrders,
-                            rewardsPoint, context, true)
-                    }
-                }
-            } catch (e: Exception) {
-                Log.d("Error","Không thể đọc file redeem "+e.message.toString())
-                return
-            }
-        }
         private fun fetchOrderLocally(context: Context){
-            val file = File(context.filesDir, orderFileName)
-            if (!file.exists()) {
-                Log.d("Error", "Không có file order")
-                return
-            }
+            runBlocking {
+                val list = AppDatabase.getSingleton(context).orderDao().getAllOrders()
 
-            val lines = file.readLines()
+                for (order in list){
+                    ongoingOrders.add(order) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
-            var index = 0
-            try {
-                for (line in lines) {
-                    Log.d("current line",line)
-                    val lineSplit = line.split(',')
-
-                    var currentOrder=Order()
-                    var done=(lineSplit[3] == "true")
-                    val id = lineSplit[0]
-                    val time = LocalDateTime.parse(lineSplit[1], dateTimeFormat)
-                    val address = lineSplit[2]
-                    currentOrder = Order(carts[index].getList(), time, address!!, id.toInt())
-                    Log.d("Carts index",carts[index].getList()[0].getName())
-                    ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
-
-                    if (done){
-                        currentOrder.setDone(
+                    if (order.done){
+                        setOrderDone(order,
                             ongoingOrders,
                             historyOrders,
-                            rewardsPoint, context, true)
+                            rewardsPoint, context,true)
+
                     }
-
-                    index++
-
-                    Log.d("Added index",index.toString())
                 }
-            } catch (e: Exception) {
-                Log.d("Error","Không thể đọc file order "+e.message.toString())
-                return
             }
+
         }
 
         //resume cart

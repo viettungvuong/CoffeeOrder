@@ -15,6 +15,7 @@ import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.dateFormat
 import com.tung.coffeeorder.AppController.Companion.increaseOrders
 import com.tung.coffeeorder.AppController.Companion.increaseRedeems
+import com.tung.coffeeorder.AppController.Companion.numberOfRedeem
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -47,11 +48,12 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                     Toast.LENGTH_SHORT,
                 ).show()
                 //mở cart
-                val order = Order(redeemCoffee, LocalDateTime.now(), User.singleton.getaddress(),
-                    redeemCoffee.getPoints()
-                )
+                val order =Order(-numberOfRedeem,User.singleton.getaddress(),
+                    LocalDateTime.now(),LinkedList<CoffeeInCart>())
+                order.cart.add(redeemCoffee)
+
                 ongoingOrders.add(order) //thêm vào orders
-                order.update(activity) //rồi mới update
+                saveOrder(order,activity) //rồi mới update
                 increaseRedeems() //tăng số redeem lên
 
                 val intent= Intent(activity,OrderSuccess::class.java)

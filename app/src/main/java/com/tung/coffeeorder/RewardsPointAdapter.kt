@@ -28,7 +28,7 @@ class RewardsPointAdapter(activity: Activity, rewards: LinkedList<Reward>): Recy
         }
 
         fun bind(reward: Reward){
-            for (coffeeInCart in reward.getOrder().getcart()){
+            for (coffeeInCart in reward.getOrder().cart){
                 val coffeeText = LayoutInflater.from(activity).inflate(R.layout.coffee_in_cart_linear,null) as TextView
                 coffeeText.text=coffeeInCart.getName()
 
@@ -36,11 +36,11 @@ class RewardsPointAdapter(activity: Activity, rewards: LinkedList<Reward>): Recy
             }
 
 
-            view.findViewById<TextView>(R.id.drinkContent).text=reward.getOrder().gettime().format(
+            view.findViewById<TextView>(R.id.drinkContent).text=reward.getOrder().time.format(
                 dateTimeFormat)
 
             val pointAdded = view.findViewById<TextView>(R.id.pointAdded)
-            val redeem=reward.getOrder().getWhetherRedeem()
+            val redeem=reward.getOrder().redeem
             if (!redeem){
                 pointAdded.text="+"+reward.calculateBonusPoint().toString()+" điểm"
                 pointAdded.setTextColor(Color.parseColor("#007B5E"))
