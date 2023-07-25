@@ -1,6 +1,7 @@
 package com.tung.coffeeorder
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,8 +49,9 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
                 3->sizeString="(size L)"
             }
             drinkContent.text=coffeeInCart.getName()+" "+sizeString+" x"+coffeeInCart.getquantity().toString()
-
             priceText.text=reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
+            drinkContent.setTextColor(Color.parseColor("#1F5DC9"))
+            priceText.setTextColor(Color.parseColor("#1F5DC9"))
 
             return linearLayout as LinearLayout
         }

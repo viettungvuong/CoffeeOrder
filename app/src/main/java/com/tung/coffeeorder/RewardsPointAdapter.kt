@@ -30,8 +30,9 @@ class RewardsPointAdapter(activity: Activity, rewards: LinkedList<Reward>): Recy
             for (coffeeInCart in reward.getOrder().getCart()){
                 val coffeeText = LayoutInflater.from(activity).inflate(R.layout.coffee_in_cart_linear,null) as TextView
                 coffeeText.text=coffeeInCart.getName()
+                coffeeText.setTextColor(Color.parseColor("#1D79CB"))
 
-                coffeesInCart.addView(coffeeText)
+                coffeesInCart.addView(coffeeText) //thêm vào linear layout
             }
 
 

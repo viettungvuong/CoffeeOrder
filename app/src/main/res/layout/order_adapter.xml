@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginHorizontal="0dp"
     android:layout_marginVertical="10dp"
     android:background="@drawable/layout_border">
@@ -22,7 +23,8 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/time"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp"
+                app:tint="#1D79CB"/>
 
             <TextView
                 android:id="@+id/time"
@@ -30,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="Thời gian"
                 android:textSize="20dp"
+                android:textColor="#1D79CB"
                 />
 
         </LinearLayout>
@@ -44,7 +47,8 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/address"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp"
+                app:tint="#1D79CB"/>
 
             <TextView
                 android:id="@+id/address"
@@ -52,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:text="Địa chỉ"
                 android:textSize="20dp"
+                android:textColor="#1D79CB"
                 />
 
         </LinearLayout>
@@ -78,5 +83,6 @@
         android:textSize="25dp"
         android:textStyle="bold"
         android:gravity="right"
+        android:textColor="#1D79CB"
         />
 </RelativeLayout>
