@@ -18,25 +18,25 @@ open class Coffee(private val coffeeName: String, private val imageFilename: Str
         return imageFilename
     }
 
-    fun getPrice(): Long {
+    fun getSinglePrice(): Long {
         return price
     }
 }
 
-open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), coffee.getImageFilename(), coffee.getPrice()){
+open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), coffee.getImageFilename(), coffee.getSinglePrice()){
     protected var quantity=1
     protected var currentSize=1 //1 là size nhỏ, 2 là size vừa, 3 là size lớn
 
-    protected var singlePrice=coffee.getPrice()
+    private var singlePriceOfCoffee=0L
 
     constructor(other: CoffeeInCart): this(other as Coffee){
         quantity=other.getquantity()
         currentSize=other.getSize()
 
         when (currentSize){
-            1->singlePrice=coffee.getPrice()
-            2->singlePrice=(coffee.getPrice().toFloat()*1.2f).toLong()
-            3->singlePrice=(coffee.getPrice().toFloat()*1.3f).toLong()
+            1->singlePriceOfCoffee=coffee.getSinglePrice()
+            2->singlePriceOfCoffee=(coffee.getSinglePrice().toFloat()*1.2f).toLong()
+            3->singlePriceOfCoffee=(coffee.getSinglePrice().toFloat()*1.3f).toLong()
         }
     }
 
@@ -48,9 +48,9 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
         this.currentSize=newSize
 
         when (currentSize){
-            1->singlePrice=coffee.getPrice()
-            2->singlePrice=(coffee.getPrice().toFloat()*1.2f).toLong()
-            3->singlePrice=(coffee.getPrice().toFloat()*1.3f).toLong()
+            1->singlePriceOfCoffee=coffee.getSinglePrice()
+            2->singlePriceOfCoffee=(coffee.getSinglePrice().toFloat()*1.2f).toLong()
+            3->singlePriceOfCoffee=(coffee.getSinglePrice().toFloat()*1.3f).toLong()
         }
     }
 
@@ -63,7 +63,7 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
     }
 
     open fun calculatePrice(): Long{
-        return singlePrice*quantity
+        return singlePriceOfCoffee*quantity
     }
 }
 

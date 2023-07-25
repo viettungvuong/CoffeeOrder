@@ -46,7 +46,7 @@ class CoffeeAdapter(activity: Activity, coffeeList: ArrayList<Coffee>) :
         }
 
         fun setPrice(coffee: Coffee){
-            coffePriceText.text= AppController.reformatNumber(coffee.getPrice())+" VNĐ"
+            coffePriceText.text= AppController.reformatNumber(coffee.getSinglePrice())+" VNĐ"
         }
 
         fun bind(coffee: Coffee){

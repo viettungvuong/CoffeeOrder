@@ -41,6 +41,6 @@ class CoffeePreview(context: Context, coffee: Coffee): LinearLayout(context) {
     }
 
     fun setPrice(coffee: Coffee){
-        coffePriceText.text= reformatNumber(coffee.getPrice())
+        coffePriceText.text= reformatNumber(coffee.getSinglePrice())
     }
 }

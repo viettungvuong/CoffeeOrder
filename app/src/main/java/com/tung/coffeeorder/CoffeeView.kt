@@ -30,7 +30,7 @@ class CoffeeView() : AppCompatActivity() {
         coffeeText.text = coffee.getName()
 
         val priceText = findViewById<TextView>(R.id.coffee_price)
-        priceText.text = reformatNumber(coffee.getPrice()) + " VNĐ"
+        priceText.text = reformatNumber(coffee.getSinglePrice()) + " VNĐ"
 
         val imageView = findViewById<ImageView>(R.id.coffee_image)
         imageView.setImageResource(AppController.imageFromCoffee(this, coffee))
