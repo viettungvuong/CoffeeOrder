@@ -85,6 +85,13 @@ class CartActivity: AppCompatActivity() {
         updateCartPrice(findViewById(R.id.totalPrice))
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateCartPrice(findViewById(R.id.totalPrice))
+    }
+
+
+
     fun updateCartPrice(totalPriceText: TextView){
         for (coffeeInCart in Cart.singleton.getList()){
             totalPrice+=coffeeInCart.calculatePrice()

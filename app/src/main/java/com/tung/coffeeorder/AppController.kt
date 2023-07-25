@@ -29,8 +29,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.LinkedList
 
-const val orderFileName = "saveOrders.bin"
-const val cartsFileName = "saveCarts.bin"
+const val orderFileName = "saveOrdersFile.bin"
+const val cartsFileName = "saveCartsFile.bin"
 class Cart() {
 
     private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
