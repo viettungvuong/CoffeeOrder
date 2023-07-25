@@ -79,7 +79,9 @@
         android:layout_marginTop="2dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/rounded_corner"
-        android:padding="30dp" />
+        android:paddingTop="30dp"
+        android:paddingHorizontal="30dp"
+        android:paddingBottom="10dp"/>
 
     <FrameLayout
         android:layout_width="match_parent"
