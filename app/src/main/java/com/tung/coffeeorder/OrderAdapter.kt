@@ -57,7 +57,7 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
 
         fun bind(order: Order){
 
-            timeText.text=order.time.format(dateTimeFormat).toString()
+            timeText.text=order.time //đặt ngày tháng
 
             addressText.text=order.address.toString()
 

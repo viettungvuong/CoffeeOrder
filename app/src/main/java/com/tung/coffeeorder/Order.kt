@@ -37,7 +37,7 @@ data class Order(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     var address: String,
-    var time: LocalDateTime,
+    var time: String,
     var cart: LinkedList<CoffeeInCart>,
     var redeem: Boolean = false,
     var done: Boolean = false,
@@ -104,8 +104,6 @@ interface OrderDao {
     @Query("UPDATE order_table SET done=1 WHERE id = :orderId")
     fun markDone(orderId: Int) //update trên database
 
-
-
 }
 
 fun setOrderDone(
@@ -144,7 +142,7 @@ fun saveOrder(order: Order, context: Context){
     if (AppController.sharedPreferences.getBoolean("online_acc", false)) {
         updateToFirebase(order) //up lên firebase
     } else {
-        AppDatabase.getSingleton(context).orderDao().markDone(order.id) //tiến hành query
+        AppDatabase.getSingleton(context).orderDao().insertOrder(order) //tiến hành query insert
     }
 }
 
@@ -153,9 +151,7 @@ private fun updateAsDone(order: Order, context: Context) {
     if (AppController.sharedPreferences.getBoolean("online_acc", false)) {
         updateToFirebase(order) //up lên firebase
     } else {
-        runBlocking {
-            AppDatabase.getSingleton(context).orderDao().insertOrder(order) //tiến hành query
-        }
+        AppDatabase.getSingleton(context).orderDao().markDone(order.id)
     }
 }
 

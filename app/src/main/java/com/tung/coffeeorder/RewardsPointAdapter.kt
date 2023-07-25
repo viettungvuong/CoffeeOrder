@@ -36,8 +36,7 @@ class RewardsPointAdapter(activity: Activity, rewards: LinkedList<Reward>): Recy
             }
 
 
-            view.findViewById<TextView>(R.id.drinkContent).text=reward.getOrder().time.format(
-                dateTimeFormat)
+            view.findViewById<TextView>(R.id.time).text=reward.getOrder().time //đặt ngày giờ
 
             val pointAdded = view.findViewById<TextView>(R.id.pointAdded)
             val redeem=reward.getOrder().redeem

@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.dateFormat
+import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
 import com.tung.coffeeorder.AppController.Companion.increaseOrders
 import com.tung.coffeeorder.AppController.Companion.increaseRedeems
 import com.tung.coffeeorder.AppController.Companion.numberOfRedeem
@@ -49,7 +50,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                 ).show()
                 //mở cart
                 val order =Order(-numberOfRedeem,User.singleton.getaddress(),
-                    LocalDateTime.now(),LinkedList<CoffeeInCart>())
+                    LocalDateTime.now().format(dateTimeFormat),LinkedList<CoffeeInCart>())
                 order.cart.add(redeemCoffee)
 
                 ongoingOrders.add(order) //thêm vào orders

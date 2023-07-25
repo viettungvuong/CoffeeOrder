@@ -484,7 +484,7 @@ class AppController{
                 .addOnSuccessListener {
                         documents->
                     for (document in documents){
-                        val time = LocalDateTime.parse(document.getString("time"), dateTimeFormat)
+                        val time = document.getString("time")
                         val id = document.id
                         val address = document.getString("address")
                         val done = document.getString("done")=="true"
@@ -492,14 +492,14 @@ class AppController{
 
                         var currentOrder: Order?=null
                         if (!redeem){
-                            currentOrder=Order(id.toInt(),address!!,time,carts[document.id.toInt()-1].getList())
+                            currentOrder=Order(id.toInt(),address!!,time!!,carts[document.id.toInt()-1].getList())
                         }
                         else{ //nếu là redeem
                             val coffeeName = document.getString("redeemCoffee")
                             val size=document.getLong("redeemSize")!!.toInt()
                             val redeemPoint = document.getLong("redeemPoint")!!.toInt()
                             val redeemCoffee= RedeemCoffee(searchCoffeeByName(coffeeName!!)!!,size,redeemPoint)
-                            currentOrder=Order(id.toInt(),address!!,time,LinkedList<CoffeeInCart>())
+                            currentOrder=Order(id.toInt(),address!!,time!!,LinkedList<CoffeeInCart>())
                             currentOrder.cart.add(redeemCoffee)
                         }
 
@@ -523,6 +523,7 @@ class AppController{
                 val list = AppDatabase.getSingleton(context).orderDao().getAllOrders()
 
                 for (order in list){
+                    Log.d("order",order.id.toString()+" "+order.cart[0].getName()+" "+order.address)
                     ongoingOrders.add(order) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
                     if (order.done){

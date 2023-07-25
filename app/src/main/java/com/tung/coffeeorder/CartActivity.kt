@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.carts
+import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
 import com.tung.coffeeorder.AppController.Companion.getCurrentNoOfCarts
 import com.tung.coffeeorder.AppController.Companion.increaseOrders
 import com.tung.coffeeorder.AppController.Companion.reformatNumber
@@ -198,7 +199,8 @@ class CartActivity: AppCompatActivity() {
             return
         }
         val temp = LinkedList(Cart.singleton.getList()) //copy constructor để nó kh reference
-        val order = Order(getCurrentNoOfCarts(),User.singleton.getaddress(),LocalDateTime.now(),temp)
+        val localDateTimeStr = LocalDateTime.now().format(dateTimeFormat)
+        val order = Order(getCurrentNoOfCarts(),User.singleton.getaddress(),localDateTimeStr,temp)
         addToOngoing(order) //thêm vào orders
 
         //xoá hết giỏ hàng khi đã checkout
