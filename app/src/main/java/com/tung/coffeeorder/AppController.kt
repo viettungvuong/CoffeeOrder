@@ -29,8 +29,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.LinkedList
 
-const val orderFileName = "ordersApp.dat"
-const val cartsFileName = "cartsApp.dat"
+const val orderFileName = "ordersCount.dat"
+const val cartsFileName = "cartsCount.dat"
 class Cart() {
 
     private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart

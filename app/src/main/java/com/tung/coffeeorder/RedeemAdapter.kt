@@ -2,6 +2,7 @@ package com.tung.coffeeorder
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.TextureView
 import android.view.View
@@ -44,9 +45,9 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                     "Đã thêm nước vào giỏ hàng thành công",
                     Toast.LENGTH_SHORT,
                 ).show()
-//                User.singleton.loyalty.removePoints(redeemCoffee.getPoints()) //trừ điểm
-                //trừ sau khi đơn hàng done nên không trừ ở đây
-                ongoingOrders.add(Order(redeemCoffee, LocalDateTime.now(), User.singleton.getaddress(), redeemCoffee.getPoints())) //thêm vào ongoing orders
+                //mở cart
+                val intent= Intent(activity,CartActivity::class.java)
+                activity.startActivity(intent)
             }
             else{
                 Toast.makeText(
