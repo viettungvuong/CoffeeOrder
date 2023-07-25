@@ -55,6 +55,17 @@ class Converters {
         val listType = object : TypeToken<LinkedList<CoffeeInCart>>() {}.type
         return Gson().fromJson(value, listType)
     }
+
+    @TypeConverter
+    fun fromLocalDateTime(value: LocalDateTime): String {
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toLocalDateTime(value: String): LocalDateTime {
+        val listType = object : TypeToken<LocalDateTime>() {}.type
+        return Gson().fromJson(value, listType)
+    }
 }
 
 @Dao
