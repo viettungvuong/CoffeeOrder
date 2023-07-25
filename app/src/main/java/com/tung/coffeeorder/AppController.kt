@@ -33,9 +33,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.LinkedList
 
-const val orderFileName = "filesave-Order.bin"
-const val cartsFileName = "filesave-Cart.bin"
-const val redeemFileName = "filesave-Redeem.bin"
+const val orderFileName = "filesave-Order.dat"
+const val cartsFileName = "filesave-Cart.dat"
+const val redeemFileName = "filesave-Redeem.dat"
 class Cart() {
 
     private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
@@ -284,19 +284,6 @@ class AppController{
             }
         }
 
-        fun retrieveCurrentNoOfRedeems(){
-            if (!sharedPreferences.getBoolean("online_acc", false)) {
-                numberOfRedeem =sharedPreferences.getInt("number-of-redeems", 0) //tăng số lượng cart lên
-            }
-            else{
-
-                db.collection("users").document(Firebase.auth.currentUser!!.uid).get()
-                    .addOnSuccessListener {
-                            document->
-                        numberOfRedeem =(document.getLong("number-of-redeems")?:0L).toInt()
-                    }
-            }
-        }
 
         fun increaseRedeems(){
             numberOfRedeem++
@@ -394,6 +381,7 @@ class AppController{
             else{
                 initCartsLocally(context)
                 fetchOrders(context) //lấy tất cả order (phải có cart thì mới lấy order được)
+                fetchRedeemLocally(context)
             }
         }
 
@@ -488,7 +476,6 @@ class AppController{
             }
             else{
                 fetchOrderLocally(context) //đọc từ file
-                fetchRedeemLocally(context)
             }
         }
 
@@ -544,6 +531,7 @@ class AppController{
             var index = 0
             try {
                 for (line in lines) {
+                    Log.d("current line",line)
                     val lineSplit = line.split(',')
 
                     var currentOrder=Order()
@@ -557,7 +545,7 @@ class AppController{
                     val id = lineSplit[0].toInt()
                     currentOrder = Order(redeemCoffee, time, address, redeemPoint,id)
                     ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
-                    Log.d("Redeem done",done.toString())
+
                     if (done){
                         currentOrder.setDone(
                             ongoingOrders,
@@ -584,6 +572,7 @@ class AppController{
             var index = 0
             try {
                 for (line in lines) {
+                    Log.d("current line",line)
                     val lineSplit = line.split(',')
 
                     var currentOrder=Order()
@@ -604,7 +593,7 @@ class AppController{
                     index++
                 }
             } catch (e: Exception) {
-                Log.d("Error","Không thể đọc file order"+e.message.toString())
+                Log.d("Error","Không thể đọc file order "+e.message.toString())
                 return
             }
         }

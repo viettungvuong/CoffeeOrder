@@ -266,7 +266,7 @@ class Order
             val lines = file.readLines().toMutableList() //đọc toàn bộ dòng và lưu vào một mảng
 
             lines[idCount] =
-                "$idCount,${cart[0].getName()},${cart[0].getSize()},$bonuspoint,${time.format(dateTimeFormat)},$address,true"
+                "$idCount,${cart[0].getName()},${cart[0].getSize()},$bonuspoint,${time.format(dateTimeFormat)},$address,$done"
             Log.d("redeem-lines",lines[idCount])
             file.writeText(lines.joinToString("\n"))
         } catch (e: Exception) {
@@ -287,7 +287,7 @@ class Order
         }
         try {
             val lines =  file.readLines().toMutableList() //đọc toàn bộ dòng và lưu vào một mảng
-            lines[idCount-1] = "$idCount,${time.format(dateTimeFormat)},$address,true"
+            lines[idCount-1] = "$idCount,${time.format(dateTimeFormat)},$address,$done"
 
             Log.d("lines",lines[idCount-1])
             file.writeText(lines.joinToString("\n"))
