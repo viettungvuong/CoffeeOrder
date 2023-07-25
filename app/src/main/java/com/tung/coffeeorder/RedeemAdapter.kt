@@ -54,10 +54,10 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                 val order =Order(-numberOfRedeem,User.singleton.getaddress(),
                     LocalDateTime.now().format(dateTimeFormat),LinkedList<CoffeeInCart>())
                 order.cart.add(redeemCoffee)
+                saveOrder(order,activity) //rồi mới update
                 setRedeem(order,redeemCoffee.getRedeemPoints(),activity)
 
                 ongoingOrders.add(order) //thêm vào orders
-                saveOrder(order,activity) //rồi mới update
                 increaseRedeems() //tăng số redeem lên
 
                 val intent= Intent(activity,OrderSuccess::class.java)

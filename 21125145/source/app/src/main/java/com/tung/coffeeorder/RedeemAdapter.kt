@@ -3,6 +3,7 @@ package com.tung.coffeeorder
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.TextureView
 import android.view.View
@@ -42,7 +43,8 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
             //add vào cart một ly cà phê 0đ
             //mở cart
             //nếu đủ điểm
-            if (redeemCoffee.getPoints()<=User.singleton.loyalty.getCurrentPoints()){
+            Log.d("Current points",User.singleton.loyalty.getCurrentPoints().toString())
+            if (redeemCoffee.getRedeemPoints()<=User.singleton.loyalty.getCurrentPoints()){
                 Toast.makeText(
                     activity,
                     "Đã đổi nước thành công",
@@ -52,6 +54,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                 val order =Order(-numberOfRedeem,User.singleton.getaddress(),
                     LocalDateTime.now().format(dateTimeFormat),LinkedList<CoffeeInCart>())
                 order.cart.add(redeemCoffee)
+                setRedeem(order,redeemCoffee.getRedeemPoints(),activity)
 
                 ongoingOrders.add(order) //thêm vào orders
                 saveOrder(order,activity) //rồi mới update
@@ -83,7 +86,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                     sizeText.text="Size L"
                 } //hiện ra size của ly cà phê
             }
-            pointText.text=redeemCoffee.getPoints().toString()+ "điểm" //điểm số mất nếu redeem
+            pointText.text=redeemCoffee.getRedeemPoints().toString()+ "điểm" //điểm số mất nếu redeem
             coffeeName.text=redeemCoffee.getName()
             validDate.text=redeemCoffee.getValidDate().format(dateFormat)
 

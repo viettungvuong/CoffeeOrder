@@ -152,6 +152,10 @@ fun saveOrder(order: Order, context: Context){
 
 private fun updateAsDone(order: Order, context: Context) {
     order.done = true
+    print(order.id)
+    Log.d("order id",order.id.toString())
+    Log.d("order redeem point",order.bonusPoint.toString())
+    Log.d("order done",order.done.toString())
     if (AppController.sharedPreferences.getBoolean("online_acc", false)) {
         updateToFirebase(order) //up lên firebase
     } else {

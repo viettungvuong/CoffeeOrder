@@ -28,17 +28,11 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
     protected var quantity=1
     protected var currentSize=1 //1 là size nhỏ, 2 là size vừa, 3 là size lớn
 
-    private var singlePriceOfCoffee=0L
-
     constructor(other: CoffeeInCart): this(other as Coffee){
         quantity=other.getquantity()
         currentSize=other.getSize()
 
-        when (currentSize){
-            1->singlePriceOfCoffee=coffee.getSinglePrice()
-            2->singlePriceOfCoffee=(coffee.getSinglePrice().toFloat()*1.2f).toLong()
-            3->singlePriceOfCoffee=(coffee.getSinglePrice().toFloat()*1.3f).toLong()
-        }
+
     }
 
     fun changeQuantity(newQuantity: Int){
@@ -48,11 +42,7 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
     fun changeSize(newSize: Int){
         this.currentSize=newSize
 
-        when (currentSize){
-            1->singlePriceOfCoffee=coffee.getSinglePrice()
-            2->singlePriceOfCoffee=(coffee.getSinglePrice().toFloat()*1.2f).toLong()
-            3->singlePriceOfCoffee=(coffee.getSinglePrice().toFloat()*1.3f).toLong()
-        }
+
     }
 
     fun getquantity(): Int{
@@ -64,6 +54,12 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
     }
 
     open fun calculatePrice(): Long{
+        var singlePriceOfCoffee=0L
+        when (currentSize){
+            1->singlePriceOfCoffee=coffee.getSinglePrice()
+            2->singlePriceOfCoffee=(coffee.getSinglePrice().toFloat()*1.2f).toLong()
+            3->singlePriceOfCoffee=(coffee.getSinglePrice().toFloat()*1.3f).toLong()
+        }
         return singlePriceOfCoffee*quantity
     }
 }

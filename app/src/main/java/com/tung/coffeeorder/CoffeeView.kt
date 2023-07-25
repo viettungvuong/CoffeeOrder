@@ -173,6 +173,7 @@ class CoffeeView() : AppCompatActivity() {
                     //sau khi chữ trong numberEditText thay đổi
                     //ta đặt lại số lượng cho coffeeInCart
                     coffeeInCart.changeQuantity(Integer.parseInt(s.toString())) //đổi số lượng
+                    priceText.text= reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
                 }
             })
             //thêm onchangetextlistener nữa
@@ -186,7 +187,7 @@ class CoffeeView() : AppCompatActivity() {
                 coffeeInCart.changeQuantity(coffeeInCart.getquantity()+1) //tăng quantity
                 numberEditText.setText(coffeeInCart.getquantity().toString())
 
-                priceText.text= AppController.reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
+                priceText.text= reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
             }
         }
 

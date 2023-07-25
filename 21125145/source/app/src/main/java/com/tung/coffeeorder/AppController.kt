@@ -493,6 +493,7 @@ class AppController{
                         var currentOrder: Order?=null
                         if (!redeem){
                             currentOrder=Order(id.toInt(),address!!,time!!,carts[document.id.toInt()-1].getList())
+                            currentOrder.redeem=false
                         }
                         else{ //nếu là redeem
                             val coffeeName = document.getString("redeemCoffee")
@@ -500,12 +501,13 @@ class AppController{
                             val redeemPoint = document.getLong("redeemPoint")!!.toInt()
                             val redeemCoffee= RedeemCoffee(searchCoffeeByName(coffeeName!!)!!,size,redeemPoint)
                             currentOrder=Order(id.toInt(),address!!,time!!,LinkedList<CoffeeInCart>())
+                            setRedeem(currentOrder,redeemCoffee.getRedeemPoints(),context)
                             currentOrder.cart.add(redeemCoffee)
                         }
 
                         ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
-                        if (currentOrder.done){
+                        if (done){
                             setOrderDone(currentOrder,
                                 ongoingOrders,
                                 historyOrders,
@@ -519,7 +521,6 @@ class AppController{
         }
 
         private fun fetchOrderLocally(context: Context){
-            runBlocking {
                 val list = AppDatabase.getSingleton(context).orderDao().getAllOrders()
 
                 for (order in list){
@@ -534,7 +535,6 @@ class AppController{
 
                     }
                 }
-            }
 
         }
 
