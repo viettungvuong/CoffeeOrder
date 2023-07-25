@@ -104,7 +104,7 @@ interface OrderDao {
     @Query("UPDATE order_table SET done=1 WHERE id = :orderId")
     fun markDone(orderId: Int) //update trên database
 
-    @Query("UPDATE order_table SET redeem=1 AND bonusPoint= :redeemPoint  WHERE id = :orderId")
+    @Query("UPDATE order_table SET redeem=1, bonusPoint= :redeemPoint  WHERE id = :orderId")
     fun markRedeem(orderId: Int, redeemPoint: Int)
 
 }
@@ -137,8 +137,10 @@ fun setOrderDone(
         User.singleton.loyalty.removePoints(order.bonusPoint) //trừ điểm sau khi redeem
     }
 
-    if (!initializing)
-    updateAsDone(order,context) //update done sẽ khác là phải chỉnh file chứ không phải thêm vào file
+    if (!initializing){
+        updateAsDone(order,context) //update done sẽ khác là phải chỉnh file chứ không phải thêm vào file
+    }
+
 
 }
 
@@ -152,9 +154,8 @@ fun saveOrder(order: Order, context: Context){
 
 private fun updateAsDone(order: Order, context: Context) {
     order.done = true
-    print(order.id)
     Log.d("order id",order.id.toString())
-    Log.d("order redeem point",order.bonusPoint.toString())
+    Log.d("order redeem",order.redeem.toString())
     Log.d("order done",order.done.toString())
     if (AppController.sharedPreferences.getBoolean("online_acc", false)) {
         updateToFirebase(order) //up lên firebase

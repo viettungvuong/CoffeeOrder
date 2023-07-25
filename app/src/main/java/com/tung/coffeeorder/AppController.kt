@@ -524,6 +524,7 @@ class AppController{
                 val list = AppDatabase.getSingleton(context).orderDao().getAllOrders()
 
                 for (order in list){
+                    Log.d("order",order.id.toString()+" "+order.redeem+" "+order.done)
                     ongoingOrders.add(order) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
                     if (order.done){
