@@ -498,7 +498,17 @@ class AppController{
                         val done = document.getString("done")=="true"
                         val redeem = document.getString("redeem")=="true"
 
-                        val currentOrder=Order(carts[document.id.toInt()-1].getList(),time,address!!,id.toInt())
+                        var currentOrder = Order()
+                        if (!redeem){
+                            currentOrder=Order(carts[document.id.toInt()-1].getList(),time,address!!,id.toInt())
+                        }
+                        else{
+                            val coffeeName = document.getString("redeemCoffee")
+                            val size=document.getLong("redeemSize")!!.toInt()
+                            val redeemPoint = document.getLong("redeemPoint")!!.toInt()
+                            val redeemCoffee= RedeemCoffee(searchCoffeeByName(coffeeName!!)!!,size,redeemPoint)
+                            currentOrder = Order(redeemCoffee,time,address!!,redeemPoint)
+                        }
 
                         ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 

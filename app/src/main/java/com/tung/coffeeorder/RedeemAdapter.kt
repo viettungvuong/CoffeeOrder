@@ -13,6 +13,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.dateFormat
+import com.tung.coffeeorder.AppController.Companion.increaseOrders
+import com.tung.coffeeorder.AppController.Companion.increaseRedeems
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -41,16 +43,16 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
             if (redeemCoffee.getPoints()<=User.singleton.loyalty.getCurrentPoints()){
                 Toast.makeText(
                     activity,
-                    "Đã đặt nước thành công",
+                    "Đã đổi nước thành công",
                     Toast.LENGTH_SHORT,
                 ).show()
                 //mở cart
                 val order = Order(redeemCoffee, LocalDateTime.now(), User.singleton.getaddress(),
                     redeemCoffee.getPoints()
                 )
-                AppController.ongoingOrders.add(order) //thêm vào orders
+                ongoingOrders.add(order) //thêm vào orders
                 order.update(activity) //lúc này chưa increaseCart
-                AppController.increaseOrders() //tăng số order lên
+                increaseRedeems() //tăng số redeem lên
 
                 val intent= Intent(activity,OrderSuccess::class.java)
                 intent.putExtra("Redeem",true)

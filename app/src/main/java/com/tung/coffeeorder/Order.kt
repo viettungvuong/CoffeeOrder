@@ -47,7 +47,7 @@ class Order
         this.idCount=idCount
 
         //tính điểm bonus
-        for (coffeeInCart in getCart()){
+        for (coffeeInCart in getcart()){
             bonuspoint+=((coffeeInCart.calculatePrice()/1000).toInt())
         }
     }
@@ -63,7 +63,7 @@ class Order
         this.bonuspoint=redeemPoint
     }
 
-    fun getCart(): ArrayList<CoffeeInCart>{
+    fun getcart(): ArrayList<CoffeeInCart>{
         return cart
     }
 

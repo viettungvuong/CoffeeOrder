@@ -61,7 +61,7 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
 
             addressText.text=order.getaddress().toString()
 
-            val cart = order.getCart()
+            val cart = order.getcart()
             for (drink in cart){
                 drinksList.addView(drinkView(drink)) //với từng cà phê trong order này thì thêm vào view
             }

@@ -28,7 +28,7 @@ class RewardsPointAdapter(activity: Activity, rewards: LinkedList<Reward>): Recy
         }
 
         fun bind(reward: Reward){
-            for (coffeeInCart in reward.getOrder().getCart()){
+            for (coffeeInCart in reward.getOrder().getcart()){
                 val coffeeText = LayoutInflater.from(activity).inflate(R.layout.coffee_in_cart_linear,null) as TextView
                 coffeeText.text=coffeeInCart.getName()
 
