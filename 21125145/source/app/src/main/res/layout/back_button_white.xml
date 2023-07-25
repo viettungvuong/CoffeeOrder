@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:src="@drawable/back"
+    android:background="?android:attr/selectableItemBackgroundBorderless"
+    android:layout_margin="20dp"
+    android:id="@+id/back_button"
+    app:tint="@color/white"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent">
+
+</ImageButton>

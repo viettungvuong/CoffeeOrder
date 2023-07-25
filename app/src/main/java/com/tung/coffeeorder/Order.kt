@@ -104,6 +104,9 @@ interface OrderDao {
     @Query("UPDATE order_table SET done=1 WHERE id = :orderId")
     fun markDone(orderId: Int) //update trên database
 
+    @Query("UPDATE order_table SET redeem=1 AND bonusPoint= :redeemPoint  WHERE id = :orderId")
+    fun markRedeem(orderId: Int, redeemPoint: Int)
+
 }
 
 fun setOrderDone(
@@ -121,19 +124,20 @@ fun setOrderDone(
 
     //nếu là redeem
     if (!order.redeem) {
-        User.singleton.loyalty.addPoints(order.bonusPoint) //thêm điểm loyalty
+        User.singleton.loyalty.addPoints(calculateBonusPoint(order)) //thêm điểm loyalty
 
         if (!initializing) { //khi gọi từ fetchOrders thì không có bước này
             for (coffeeInCart in order.cart) {
                 User.singleton.loyalty.increaseLoyaltyCard(coffeeInCart.getquantity()) //tăng điểm theo số ly đã có
             }
+            Log.d("Current points",User.singleton.loyalty.getCurrentPoints().toString())
         }
 
     } else {
         User.singleton.loyalty.removePoints(order.bonusPoint) //trừ điểm sau khi redeem
     }
 
-
+    if (!initializing)
     updateAsDone(order,context) //update done sẽ khác là phải chỉnh file chứ không phải thêm vào file
 
 }
@@ -197,17 +201,36 @@ private fun updateToFirebase(order: Order) {
 }
 
 fun calculateTotalPrice(order: Order): Long{
-    var res=0L
-    for (coffeeInCart in order.cart){
-        res+=coffeeInCart.calculatePrice()
+    if (!order.redeem){
+        var res=0L
+        for (coffeeInCart in order.cart){
+            res+=coffeeInCart.calculatePrice()
+        }
+        return res
     }
-    return res
+    else{
+        return 0
+    }
 }
 
 fun calculateBonusPoint(order: Order): Int{
-    var res=0
-    for (coffeeInCart in order.cart){
-        res+=((coffeeInCart.calculatePrice()/1000).toInt())
+    if (!order.redeem){
+        var res=0
+        for (coffeeInCart in order.cart){
+            res+=((coffeeInCart.calculatePrice()/1000).toInt())
+        }
+        return res
     }
-    return res
+    else{
+        return order.bonusPoint
+    }
+
 }
+
+fun setRedeem(order: Order, redeemPoint: Int, context: Context){
+    order.redeem=true
+    order.bonusPoint=redeemPoint
+
+    AppDatabase.getSingleton(context).orderDao().markRedeem(order.id,redeemPoint)
+}
+

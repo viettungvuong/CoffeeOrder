@@ -90,7 +90,7 @@ class RedeemCoffee(coffee: Coffee, private var validDate: LocalDate, private var
         this.currentSize=restrictedSize //size giới hạn cho redeem coffee này
     }
 
-    fun getPoints(): Int{
+    fun getRedeemPoints(): Int{
         return points //điểm số để có thể redeem
     }
 
