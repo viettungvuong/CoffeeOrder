@@ -44,7 +44,7 @@ class Login : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("appprefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
 
-        initRedeem() //lấy danh sách các redeem
+        initRedeem() //lấy danh sách các redeem coffee
 
         autoLogin() //tự động đăng nhập
 

@@ -80,8 +80,8 @@ class CartActivity: AppCompatActivity() {
 
 
     //mỗi lần mở đi mở lại cái activity này thì sẽ cập nhật giá
-    override fun onResume() {
-        super.onResume()
+    override fun onRestart() {
+        super.onRestart()
         updateCartPrice(findViewById(R.id.totalPrice))
     }
 
@@ -97,13 +97,8 @@ class CartActivity: AppCompatActivity() {
         totalPriceText.text=reformatNumber(totalPrice)+" VNĐ"
     }
 
-    inner class SwipeRecyclerHandler(adapter: CartAdapter, context: Context): ItemTouchHelper.Callback() {
-        lateinit var adapter: CartAdapter
-        lateinit var context: Context
-        init {
-            this.adapter=adapter
-            this.context=context
-        }
+    inner class SwipeRecyclerHandler(private var adapter: CartAdapter, private var context: Context): ItemTouchHelper.Callback() {
+
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
             val swipeFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             return makeMovementFlags(0, swipeFlags)

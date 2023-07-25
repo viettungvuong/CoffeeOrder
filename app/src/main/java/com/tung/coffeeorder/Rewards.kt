@@ -38,10 +38,4 @@ class Rewards: Fragment() {
         return view
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        val totalPoint = requireView().findViewById<TextView>(R.id.total_points)
-        totalPoint.text=User.singleton.loyalty.getCurrentPoints().toString()
-    }
 }

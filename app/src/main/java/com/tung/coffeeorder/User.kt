@@ -84,6 +84,18 @@ class User private constructor(){
         return fullName
     }
 
+    fun getaddress(): String{
+        return address
+    }
+
+    fun getphoneNumber(): String{
+        return phoneNumber
+    }
+
+    fun getemail(): String{
+        return email
+    }
+
     fun edit(id: String, name: String, email: String, phoneNumber: String, address: String, create: Boolean=false){
         initialize(id,name,email,phoneNumber, address)
 

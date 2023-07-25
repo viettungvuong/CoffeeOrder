@@ -24,6 +24,7 @@ import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfCarts
 import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfOrders
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import java.io.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.LinkedList
@@ -245,24 +246,24 @@ class AppController{
         }
 
         fun initRedeem() {
+            Log.d("init redeem","Đang init redeem")
             db.collection("redeem").get().addOnSuccessListener { documents ->
                 for (document in documents) {
-                    val date = LocalDateTime.parse(document.getString("valid-date"), DateTimeFormatter.ofPattern(
-                        AppController.dateFormat
-                    ))
-                    if (date> LocalDateTime.now()){
-                        continue //đã quá invalid date nên không thêm nữa
+                    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                    val date = LocalDate.parse(document.getString("valid-date")!!, formatter)
+                    if (date< LocalDate.now()){
+                        continue //đã quá valid date nên không thêm nữa
                     }
-                    val coffeeName = document.id
+                    val coffeeName = document.getString("coffee-name")
                     val temp = AppController.listCoffee
                     temp.sortedBy { it.getName() }
-                    val tempCoffee = listCoffee.find { coffee ->
+                    val tempCoffee = AppController.listCoffee.find { coffee ->
                         coffee.getName() == coffeeName
                     }//tìm object cà phê tương ứng
                     val size = document.getLong("size")?.toInt()
                     val points = document.getLong("points")?.toInt()
                     val redeemCoffee=RedeemCoffee(tempCoffee!!,date,size!!,points!!)
-                    AppController.redeemCoffees.add(redeemCoffee)
+                    redeemCoffees.add(redeemCoffee)
                 }
             }
         }

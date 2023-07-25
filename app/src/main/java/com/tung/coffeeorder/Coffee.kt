@@ -4,6 +4,7 @@ import android.media.Image
 import android.os.Parcel
 import android.os.Parcelable
 import java.io.Serializable
+import java.time.LocalDate
 import java.time.LocalDateTime
 import kotlin.math.sin
 
@@ -67,18 +68,18 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
     }
 }
 
-class RedeemCoffee(coffee: Coffee, private var validDate: LocalDateTime, private var restrictedSize: Int, private var points: Int): CoffeeInCart(
+class RedeemCoffee(coffee: Coffee, private var validDate: LocalDate, private var restrictedSize: Int, private var points: Int): CoffeeInCart(
     coffee
 ){
     init {
         quantity=1
     }
 
-    fun setValidDate(newDate: LocalDateTime){
+    fun setValidDate(newDate: LocalDate){
         validDate =newDate
     }
 
-    fun getValidDate(): LocalDateTime{
+    fun getValidDate(): LocalDate{
         return validDate
     }
 
