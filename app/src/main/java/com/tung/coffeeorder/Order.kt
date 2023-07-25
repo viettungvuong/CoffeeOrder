@@ -66,6 +66,17 @@ class Converters {
         val listType = object : TypeToken<LocalDateTime>() {}.type
         return Gson().fromJson(value, listType)
     }
+
+    @TypeConverter
+    fun fromOrder(value: Order): String {
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toOrder(value: String): Order {
+        val listType = object : TypeToken<Order>() {}.type
+        return Gson().fromJson(value, listType)
+    }
 }
 
 @Dao
@@ -75,9 +86,6 @@ interface OrderDao {
 
     @Update
     suspend fun updateOrder(order: Order)
-
-    @Query("SELECT * FROM order_table WHERE id = :orderId")
-    suspend fun getOrderById(orderId: Int): Order?
 
     @Query("SELECT * FROM order_table")
     suspend fun getAllOrders(): List<Order>
