@@ -42,7 +42,7 @@ class Login : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         initCoffeeList(AppController.listCoffee)
 
-        sharedPreferences = getSharedPreferences("CoffeeApp-Prefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
+        sharedPreferences = getSharedPreferences("Coffee-App-Prefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
 
         initRedeem() //lấy danh sách các redeem coffee
 

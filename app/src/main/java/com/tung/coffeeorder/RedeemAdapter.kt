@@ -39,14 +39,21 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
             //mở cart
             //nếu đủ điểm
             if (redeemCoffee.getPoints()<=User.singleton.loyalty.getCurrentPoints()){
-                Cart.singleton.addToCart(activity,redeemCoffee)
                 Toast.makeText(
                     activity,
-                    "Đã thêm nước vào giỏ hàng thành công",
+                    "Đã đặt nước thành công",
                     Toast.LENGTH_SHORT,
                 ).show()
                 //mở cart
-                val intent= Intent(activity,CartActivity::class.java)
+                val order = Order(redeemCoffee, LocalDateTime.now(), User.singleton.getaddress(),
+                    redeemCoffee.getPoints()
+                )
+                AppController.ongoingOrders.add(order) //thêm vào orders
+                order.update(activity) //lúc này chưa increaseCart
+                AppController.increaseOrders() //tăng số order lên
+
+                val intent= Intent(activity,OrderSuccess::class.java)
+                intent.putExtra("Redeem",true)
                 activity.startActivity(intent)
             }
             else{
