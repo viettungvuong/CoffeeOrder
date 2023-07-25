@@ -19,8 +19,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/time"
                 android:layout_marginEnd="10dp"
          />
@@ -30,21 +30,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thời gian"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="25dp"
+                android:layout_width="20dp"
                 android:layout_height="25dp"
                 android:src="@drawable/address"
+                android:layout_gravity="center_vertical"
                 android:layout_marginEnd="10dp"
              />
 
@@ -66,8 +67,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-
     </LinearLayout>
 
     <TextView

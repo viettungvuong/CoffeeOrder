@@ -50,8 +50,6 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
             }
             drinkContent.text=coffeeInCart.getName()+" "+sizeString+" x"+coffeeInCart.getquantity().toString()
             priceText.text=reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
-            drinkContent.setTextColor(Color.parseColor("#1F5DC9"))
-            priceText.setTextColor(Color.parseColor("#1F5DC9"))
 
             return linearLayout as LinearLayout
         }
