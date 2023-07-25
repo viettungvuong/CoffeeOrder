@@ -28,8 +28,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.LinkedList
 
-const val orderFileName = "orders-save-app.dat"
-const val cartsFileName = "carts-save-app.dat"
+const val orderFileName = "ordersApp.dat"
+const val cartsFileName = "cartsApp.dat"
 class Cart() {
 
     private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
@@ -151,7 +151,6 @@ class AppController{
         lateinit var ongoingAdapter: OrderAdapter
         lateinit var historyAdapter: OrderAdapter //để 2 adapter này ở đây vì hai adapter này có sự liên thông với nhau rất nhiều
         var db= Firebase.firestore
-        val storage = Firebase.storage.reference
         var listCoffee= ArrayList<Coffee>() //danh sách các coffee
         lateinit var sharedPreferences: SharedPreferences //shared preferences
         var carts= ArrayList<Cart>() //danh sách các cart
@@ -270,25 +269,25 @@ class AppController{
 
         fun retrieveCurrentNoOfCarts(){
             if (!sharedPreferences.getBoolean("online_acc", false)) {
-                AppController.numberOfCarts =sharedPreferences.getInt("number-of-carts", 0) //tăng số lượng cart lên
+                numberOfCarts =sharedPreferences.getInt("number-of-carts", 0) //tăng số lượng cart lên
             }
             else{
 
                 db.collection("users").document(Firebase.auth.currentUser!!.uid).get()
                     .addOnSuccessListener {
                             document->
-                        AppController.numberOfCarts =(document.getLong("number-of-carts")?:0L).toInt()
+                        numberOfCarts =(document.getLong("number-of-carts")?:0L).toInt()
                     }
             }
         }
 
         fun getCurrentNoOfCarts(): Int{
-            return AppController.numberOfCarts //trả về số lượng giỏ hàng cho tới hiện tại
+            return numberOfCarts //trả về số lượng giỏ hàng cho tới hiện tại
         }
 
         //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
         fun increaseCarts(){
-            AppController.numberOfCarts++
+            numberOfCarts++
             //acc offline
             if (!sharedPreferences.getBoolean("online_acc", false)) {
                 sharedPreferences.edit().putInt("number-of-carts", AppController.numberOfCarts)
