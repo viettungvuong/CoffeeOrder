@@ -51,7 +51,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                     redeemCoffee.getPoints()
                 )
                 ongoingOrders.add(order) //thêm vào orders
-                order.update(activity) //lúc này chưa increaseCart
+                order.update(activity) //rồi mới update
                 increaseRedeems() //tăng số redeem lên
 
                 val intent= Intent(activity,OrderSuccess::class.java)

@@ -20,6 +20,10 @@ import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.initCarts
 import com.tung.coffeeorder.AppController.Companion.listCoffee
+import com.tung.coffeeorder.AppController.Companion.numberOfCarts
+import com.tung.coffeeorder.AppController.Companion.numberOfOrders
+import com.tung.coffeeorder.AppController.Companion.numberOfRedeem
+import com.tung.coffeeorder.AppController.Companion.redeemCoffees
 import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfCarts
 import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfOrders
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
@@ -29,8 +33,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.LinkedList
 
-const val orderFileName = "file-save-order"
-const val cartsFileName = "file-save-cart"
+const val orderFileName = "filesave-Order.bin"
+const val cartsFileName = "filesave-Cart.bin"
+const val redeemFileName = "filesave-Redeem.bin"
 class Cart() {
 
     private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
@@ -383,6 +388,7 @@ class AppController{
             if (sharedPreferences.getBoolean("online_acc",false)){
                 initCartsFromFirebase(context) {
                     fetchOrders(context)
+
                 }
             }
             else{
@@ -482,6 +488,7 @@ class AppController{
             }
             else{
                 fetchOrderLocally(context) //đọc từ file
+                fetchRedeemLocally(context)
             }
         }
 
@@ -525,6 +532,46 @@ class AppController{
                 }
         }
 
+        private fun fetchRedeemLocally(context: Context){
+            val file = File(context.filesDir, redeemFileName)
+            if (!file.exists()) {
+                Log.d("Error", "Không có file redeem")
+                return
+            }
+
+            val lines = file.readLines()
+
+            var index = 0
+            try {
+                for (line in lines) {
+                    val lineSplit = line.split(',')
+
+                    var currentOrder=Order()
+                    var done=(lineSplit[6] == "true")
+                    val address = lineSplit[5]
+                    val time = LocalDateTime.parse(lineSplit[4], dateTimeFormat)
+                    val redeemPoint = lineSplit[3].toInt()
+                    val size = lineSplit[2].toInt()
+                    val redeemCoffee =
+                        RedeemCoffee(searchCoffeeByName(lineSplit[1])!!, size, redeemPoint)
+                    val id = lineSplit[0].toInt()
+                    currentOrder = Order(redeemCoffee, time, address, redeemPoint,id)
+                    ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
+                    Log.d("Redeem done",done.toString())
+                    if (done){
+                        currentOrder.setDone(
+                            ongoingOrders,
+                            historyOrders,
+                            rewardsPoint, context, true)
+                    }
+
+                    index++
+                }
+            } catch (e: Exception) {
+                Log.d("Error","Không thể đọc file order"+e.message.toString())
+                return
+            }
+        }
         private fun fetchOrderLocally(context: Context){
             val file = File(context.filesDir, orderFileName)
             if (!file.exists()) {
@@ -540,25 +587,11 @@ class AppController{
                     val lineSplit = line.split(',')
 
                     var currentOrder=Order()
-                    val redeem = (lineSplit[0]=="true")
-                    var done=false
-                    if (!redeem){
-                        val id = lineSplit[1]
-                        val time = LocalDateTime.parse(lineSplit[2], dateTimeFormat)
-                        val address = lineSplit[3]
-                        done = (lineSplit[4]=="true")
-                        currentOrder = Order(carts[index].getList(),time,address!!,id.toInt())
-                    }
-                    else{
-                        val time = LocalDateTime.parse(lineSplit[2+2], dateTimeFormat)
-                        val address = lineSplit[3+2]
-                        done = (lineSplit[4+2]=="true")
-                        val size=lineSplit[2].toInt()
-                        val redeemPoint = lineSplit[3].toInt()
-                        val redeemCoffee= RedeemCoffee(searchCoffeeByName(lineSplit[1])!!,size,redeemPoint)
-                        Log.d("redeem",size.toString()+" "+redeemPoint.toString()+" "+redeemCoffee.getName())
-                        currentOrder = Order(redeemCoffee,time,address,redeemPoint)
-                    }
+                    var done=(lineSplit[3] == "true")
+                    val id = lineSplit[0]
+                    val time = LocalDateTime.parse(lineSplit[1], dateTimeFormat)
+                    val address = lineSplit[2]
+                    currentOrder = Order(carts[index].getList(), time, address!!, id.toInt())
                     ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
                     if (done){
@@ -608,16 +641,18 @@ class AppController{
 class AccountFunctions {
     companion object{
         fun logout(context: Context){
-            AccountFunctions.signOut(context)
+            signOut(context)
             sharedPreferences.edit().putBoolean("online_acc",true).apply()
             carts.clear()
+            redeemCoffees.clear() //xoá danh sách redeem
             Cart.singleton.getList().clear()
             AppController.ongoingOrders.clear()
             AppController.historyOrders.clear()
             AppController.rewardsPoint.clear()
             User.singleton.clearUser()
-            AppController.numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
-            AppController.numberOfOrders = 0 //số order
+            numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
+            numberOfOrders = 0 //số order
+            numberOfRedeem=0
         }
         @JvmStatic
         fun signIn(activity: Activity, context: Context, username: String, password: String){

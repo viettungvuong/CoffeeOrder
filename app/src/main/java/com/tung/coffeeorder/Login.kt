@@ -30,8 +30,6 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO) //chặn dark mode
 
-
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
 
@@ -39,8 +37,9 @@ class Login : AppCompatActivity() {
         initCoffeeList(AppController.listCoffee)
 
         sharedPreferences = getSharedPreferences("Coffee-App-Prefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
-        sharedPreferences.edit().putInt("number-of-carts",0).apply()
-        sharedPreferences.edit().putInt("number-of-orders",0).apply()
+//        sharedPreferences.edit().putInt("number-of-carts",0).apply()
+//       sharedPreferences.edit().putInt("number-of-orders",0).apply()
+//        sharedPreferences.edit().putInt("number-of-redeems",0).apply()
 
         initRedeem() //lấy danh sách các redeem coffee
 
