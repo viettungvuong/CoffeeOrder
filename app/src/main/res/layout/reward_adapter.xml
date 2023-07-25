@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_marginHorizontal="15dp"
-    android:layout_marginVertical="10dp">
+    android:layout_marginVertical="10dp"
+    android:background="@drawable/layout_border_square">
 
     <LinearLayout
         android:layout_width="0dp"
