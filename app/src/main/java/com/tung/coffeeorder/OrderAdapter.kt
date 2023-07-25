@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.AppController.Companion.dateFormat
+import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
 import com.tung.coffeeorder.AppController.Companion.reformatNumber
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -56,7 +57,7 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
 
         fun bind(order: Order){
 
-            timeText.text=order.gettime().format(DateTimeFormatter.ofPattern(dateFormat)).toString()
+            timeText.text=order.gettime().format(dateTimeFormat).toString()
 
             addressText.text=order.getaddress().toString()
 

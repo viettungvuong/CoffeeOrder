@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.view.allViews
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.AppController.Companion.dateFormat
+import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
 import java.time.format.DateTimeFormatter
 import java.util.LinkedList
 
@@ -35,7 +36,8 @@ class RewardsPointAdapter(activity: Activity, rewards: LinkedList<Reward>): Recy
             }
 
 
-            view.findViewById<TextView>(R.id.drinkContent).text=reward.getOrder().gettime().format(DateTimeFormatter.ofPattern(dateFormat)).toString()
+            view.findViewById<TextView>(R.id.drinkContent).text=reward.getOrder().gettime().format(
+                dateTimeFormat)
 
             val pointAdded = view.findViewById<TextView>(R.id.pointAdded)
             val redeem=reward.getOrder().getWhetherRedeem()

@@ -144,7 +144,8 @@ class Cart() {
 class AppController{
     companion object{
         @JvmStatic
-        val dateFormat = "dd-MM-yyyy HH:mm" //format ngày tháng
+        val dateFormat= DateTimeFormatter.ofPattern("dd-MM-yyyy") //format ngày tháng
+        val dateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm") //format ngày tháng giờ
         val ongoingOrders=LinkedList<Order>() //danh sách các order onging
         val historyOrders=LinkedList<Order>() //danh sách các order history
         val rewardsPoint=LinkedList<Reward>() //danh sách điểm thưởng
@@ -451,9 +452,7 @@ class AppController{
                 .addOnSuccessListener {
                         documents->
                     for (document in documents){
-                        val time = LocalDateTime.parse(document.getString("time"), DateTimeFormatter.ofPattern(
-                            AppController.dateFormat
-                        ))
+                        val time = LocalDateTime.parse(document.getString("time"), dateTimeFormat)
                         val id = document.id
                         val address = document.getString("address")
                         var done = false
@@ -490,9 +489,7 @@ class AppController{
                 for (line in lines) {
                     val lineSplit = line.split(',')
                     val id = lineSplit[0]
-                    val time = LocalDateTime.parse(lineSplit[1], DateTimeFormatter.ofPattern(
-                        AppController.dateFormat
-                    ))
+                    val time = LocalDateTime.parse(lineSplit[1], dateTimeFormat)
                     val address = lineSplit[2]
                     var done = false
                     done = (lineSplit[3]=="true")

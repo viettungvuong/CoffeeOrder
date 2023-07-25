@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.tung.coffeeorder.AppController.Companion.dateFormat
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -71,10 +72,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
             }
             pointText.text=redeemCoffee.getPoints().toString()+ "điểm" //điểm số mất nếu redeem
             coffeeName.text=redeemCoffee.getName()
-            validDate.text=redeemCoffee.getValidDate().format(
-                DateTimeFormatter.ofPattern(
-                    AppController.dateFormat
-                )).toString()
+            validDate.text=redeemCoffee.getValidDate().format(dateFormat)
 
             imageView.setImageResource(AppController.imageFromCoffee(activity, redeemCoffee))
 

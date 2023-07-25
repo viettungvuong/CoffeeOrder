@@ -11,6 +11,7 @@ import com.google.rpc.Help.Link
 import com.google.type.DateTime
 import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.dateFormat
+import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
 import com.tung.coffeeorder.AppController.Companion.historyOrders
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
 import com.tung.coffeeorder.AppController.Companion.getCurrentNoOfCarts
@@ -131,7 +132,7 @@ class Order
             .document(idCount.toString())
 
         val createField = mapOf(
-            "time" to time.format(DateTimeFormatter.ofPattern(dateFormat)),
+            "time" to time.format(dateTimeFormat),
             "address" to address,
             "done" to done.toString()
         )
@@ -158,7 +159,7 @@ class Order
         try {
             val writer = BufferedWriter(FileWriter(file, true)) //true là append vào file
 
-            val temp = "$idCount,${time.format(DateTimeFormatter.ofPattern(dateFormat))},$address,$done"
+            val temp = "$idCount,${time.format(dateTimeFormat)},$address,$done"
             writer.write(temp)
             writer.newLine()
 
@@ -181,7 +182,7 @@ class Order
         }
         try {
             val lines =  file.readLines().toMutableList() //đọc toàn bộ dòng và lưu vào một mảng
-            lines[idCount-1]="$idCount,${time.format(DateTimeFormatter.ofPattern(dateFormat))},$address,$done" //cập nhật đúng dòng
+            lines[idCount-1]="$idCount,${time.format(dateTimeFormat)},$address,$done" //cập nhật đúng dòng
             file.writeText(lines.joinToString("\n"))
         } catch (e: Exception) {
             Log.d("Error","Không thể xuất ra file order"+e.message.toString())
