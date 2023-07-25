@@ -29,8 +29,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.LinkedList
 
-const val orderFileName = "saveOrdersFile.bin"
-const val cartsFileName = "saveCartsFile.bin"
+const val orderFileName = "file-save-order"
+const val cartsFileName = "file-save-cart"
 class Cart() {
 
     private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
@@ -556,6 +556,7 @@ class AppController{
                         val size=lineSplit[2].toInt()
                         val redeemPoint = lineSplit[3].toInt()
                         val redeemCoffee= RedeemCoffee(searchCoffeeByName(lineSplit[1])!!,size,redeemPoint)
+                        Log.d("redeem",size.toString()+" "+redeemPoint.toString()+" "+redeemCoffee.getName())
                         currentOrder = Order(redeemCoffee,time,address,redeemPoint)
                     }
                     ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders

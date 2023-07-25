@@ -2,39 +2,35 @@ package com.tung.coffeeorder
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.FirebaseApp
-import com.google.firebase.FirebaseException
-import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.AccountFunctions.Companion.signIn
-import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import com.tung.coffeeorder.AppController.Companion.initCarts
 import com.tung.coffeeorder.AppController.Companion.initCoffeeList
 import com.tung.coffeeorder.AppController.Companion.initRedeem
 import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfCarts
 import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfOrders
-import java.util.concurrent.TimeUnit
+import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 
 class Login : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO) //chặn dark mode
+
+
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)

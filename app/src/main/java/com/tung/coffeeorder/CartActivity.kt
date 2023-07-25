@@ -153,25 +153,27 @@ class CartActivity: AppCompatActivity() {
         ) {
             //nếu ta swipe
             if (actionState== ItemTouchHelper.ACTION_STATE_SWIPE){
-                val itemView = viewHolder.itemView
-                val height = itemView.height
-                val width = itemView.width
-
-                val ratio = (dX/3).roundToInt()
+                val itemView = viewHolder.itemView //view holder
+                val height = itemView.height //chiều cao item view
+                val ratio = (dX/5).roundToInt()
 
                 val background= ColorDrawable()
-                background.color= Color.RED
+                background.color= Color.parseColor("#d4798c")
                 background.setBounds(itemView.right + ratio, itemView.top, itemView.right, itemView.bottom)
                 background.draw(c)
 
                 val icon = AppCompatResources.getDrawable(context,R.drawable.remove)
 
-                val intrinsicWidth = icon!!.getIntrinsicWidth();
-                val intrinsicHeight = icon!!.getIntrinsicHeight();
-                val deleteIconTop: Int = itemView.top + (height - intrinsicHeight) / 2
+                val intrinsicWidth = icon!!.getIntrinsicWidth()
+                val intrinsicHeight = icon!!.getIntrinsicHeight()
+
                 val deleteIconMargin: Int = (height - intrinsicHeight) / 2
-                val deleteIconLeft: Int = itemView.right - deleteIconMargin - intrinsicWidth
-                val deleteIconRight = itemView.right - deleteIconMargin
+                //đảm bảo nút xoá ở giữa phần swipe
+
+                val pushToRight = 85
+                val deleteIconTop: Int = itemView.top + deleteIconMargin
+                val deleteIconLeft: Int = itemView.right - deleteIconMargin - intrinsicWidth + pushToRight
+                val deleteIconRight = itemView.right - deleteIconMargin + pushToRight //đưa nút trừ hiện ra sớm hơn
                 val deleteIconBottom: Int = deleteIconTop + intrinsicHeight
 
                 icon.setBounds(deleteIconLeft,deleteIconTop,deleteIconRight,deleteIconBottom)
