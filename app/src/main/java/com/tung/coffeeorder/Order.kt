@@ -15,6 +15,7 @@ import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
 import com.tung.coffeeorder.AppController.Companion.historyOrders
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
 import com.tung.coffeeorder.AppController.Companion.getCurrentNoOfCarts
+import com.tung.coffeeorder.AppController.Companion.numberOfRedeem
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -28,20 +29,21 @@ import kotlin.collections.ArrayList
 class Order
 {
     private var idCount=0
-    private var cart: ArrayList<CoffeeInCart>
-    private var time: LocalDateTime
-    private var address: String
+    lateinit var cart: ArrayList<CoffeeInCart>
+    lateinit var time: LocalDateTime
+    lateinit var address: String
     private var redeem = false //kiểm tra xem order này có phải li nước được redeem không
 
     private var done=false //false là ongoing, true là history
 
     protected var bonuspoint=0 //điểm thưởng
 
-    constructor(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String, idCount: Int, redeem: Boolean=false){
+    constructor() //default constructor
+
+    constructor(cart: ArrayList<CoffeeInCart>, time: LocalDateTime, address: String, idCount: Int){
         this.cart = cart
         this.time=time
         this.address=address
-        this.redeem=redeem
         this.idCount=idCount
 
         //tính điểm bonus
@@ -53,10 +55,11 @@ class Order
     constructor(redeemCoffee: RedeemCoffee, time: LocalDateTime, address: String, redeemPoint: Int){
         this.cart= ArrayList()
         this.cart.add(redeemCoffee) //thêm redeem coffee
+        //cart này là chỉ chưa duy nhất mỗi redeemCoffee
         this.time=time
         this.address=address
         this.redeem=true
-        this.idCount=idCount
+        this.idCount=-numberOfRedeem //vì redeem không quan trọng id nên ta cho id của nó đại là dấu âm
         this.bonuspoint=redeemPoint
     }
 
@@ -78,10 +81,12 @@ class Order
         history.add(this) //thêm vào danh sách History
         val reward=Reward(this)
         rewards.add(reward) //thêm vào reward khi đơn hàng đã xong
+
+        //nếu là redeem
         if (!redeem){
             User.singleton.loyalty.addPoints(bonuspoint) //thêm điểm loyalty
 
-            if (!initializing){ //khi gọi từ initialize thì không có bước này
+            if (!initializing){ //khi gọi từ fetchOrders thì không có bước này
                 for (coffeeInCart in cart){
                     User.singleton.loyalty.increaseLoyaltyCard(coffeeInCart.getquantity()) //tăng điểm theo số ly đã có
                 }
@@ -103,6 +108,10 @@ class Order
             res+=coffeeInCart.calculatePrice()
         }
         return res
+    }
+
+    fun getbonuspoint(): Int{
+        return bonuspoint
     }
 
     fun getWhetherRedeem(): Boolean{
@@ -131,11 +140,26 @@ class Order
         val getOrder = AppController.db.collection("orders"+Firebase.auth.currentUser!!.uid)
             .document(idCount.toString())
 
-        val createField = mapOf(
-            "time" to time.format(dateTimeFormat),
-            "address" to address,
-            "done" to done.toString()
-        )
+        var createField=mapOf<String,Any>()
+        if (!redeem){
+            createField = mapOf(
+                "redeem" to "false",
+                "time" to time.format(dateTimeFormat),
+                "address" to address,
+                "done" to done.toString(),
+            )
+        }
+        else{ //nếu redeem thì format khác
+            createField = mapOf(
+                "redeem" to "true",
+                "redeemCoffee" to cart[0].getName(),
+                "redeemSize" to cart[0].getSize(),
+                "redeemPoint" to bonuspoint,
+                "time" to time.format(dateTimeFormat),
+                "address" to address,
+                "done" to done.toString(),
+            )
+        }
 
         getOrder//lấy document trên firebase
             .get()
@@ -159,7 +183,15 @@ class Order
         try {
             val writer = BufferedWriter(FileWriter(file, true)) //true là append vào file
 
-            val temp = "$idCount,${time.format(dateTimeFormat)},$address,$done"
+            var temp=""
+
+            if (!redeem){
+                temp = "$redeem,$idCount,${time.format(dateTimeFormat)},$address,$done"
+            }
+            else{
+                temp = "$redeem,${cart[0].getName()},${cart[0].getSize()},$bonuspoint,${time.format(dateTimeFormat)},$address,$done"
+            }
+
             writer.write(temp)
             writer.newLine()
 
@@ -182,7 +214,12 @@ class Order
         }
         try {
             val lines =  file.readLines().toMutableList() //đọc toàn bộ dòng và lưu vào một mảng
-            lines[idCount-1]="$idCount,${time.format(dateTimeFormat)},$address,$done" //cập nhật đúng dòng
+            if (!redeem){
+                lines[idCount-1] = "$redeem,$idCount,${time.format(dateTimeFormat)},$address,$done"
+            }
+            else{
+                lines[idCount-1] = "$redeem,${cart[0].getName()},${cart[0].getSize()},$bonuspoint,${time.format(dateTimeFormat)},$address,$done"
+            }
             file.writeText(lines.joinToString("\n"))
         } catch (e: Exception) {
             Log.d("Error","Không thể xuất ra file order"+e.message.toString())
@@ -190,7 +227,5 @@ class Order
         }
     }
 
-    public fun getbonuspoint(): Int{
-        return bonuspoint
-    }
+
 }

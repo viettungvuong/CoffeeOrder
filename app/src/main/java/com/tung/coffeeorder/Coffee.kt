@@ -71,6 +71,9 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
 class RedeemCoffee(coffee: Coffee, private var validDate: LocalDate, private var restrictedSize: Int, private var points: Int): CoffeeInCart(
     coffee
 ){
+    constructor(coffee: Coffee, restrictedSize: Int, points: Int): this(coffee,
+        LocalDate.now(),restrictedSize,points)
+
     init {
         quantity=1
     }
