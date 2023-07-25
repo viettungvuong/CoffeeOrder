@@ -126,7 +126,7 @@ class Login : AppCompatActivity() {
                     Toast.LENGTH_SHORT,
                 ).show()
 
-                startActivity(intent)
+
 
                 val email = Firebase.auth.currentUser!!.email.toString()
 
@@ -141,6 +141,7 @@ class Login : AppCompatActivity() {
                         address,
                         loyaltyPoint
                     )
+                    startActivity(intent)
                     initCarts(this) //lấy danh sách các cart
                     retrieveCurrentNoOfCarts()
                     retrieveCurrentNoOfOrders()

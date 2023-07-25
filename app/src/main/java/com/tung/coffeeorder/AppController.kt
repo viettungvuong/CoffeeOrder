@@ -344,7 +344,7 @@ class AppController{
                 db.collection("users").document(Firebase.auth.currentUser!!.uid).get()
                     .addOnSuccessListener {
                             document->
-                        AppController.numberOfOrders =(document.getLong("number-of-orders")?:0L).toInt()
+                        numberOfOrders =(document.getLong("number-of-orders")?:0L).toInt()
                     }
             }
         }
@@ -556,6 +556,8 @@ class AppController{
 
         //có cần phải resumecart kh
         fun needToResume(): Boolean{
+            Log.d("no of carts", getCurrentNoOfCarts().toString())
+            Log.d("no of orders", getCurrentNoOfOrders().toString())
             return getCurrentNoOfCarts() > getCurrentNoOfOrders()
         }
 
