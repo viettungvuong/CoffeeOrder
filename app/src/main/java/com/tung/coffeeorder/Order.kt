@@ -45,7 +45,7 @@ class Order
 
         //tính điểm bonus
         for (coffeeInCart in getCart()){
-            bonuspoint+=((coffeeInCart.getPrice()/1000).toInt())
+            bonuspoint+=((coffeeInCart.calculatePrice()/1000).toInt())
         }
     }
 
