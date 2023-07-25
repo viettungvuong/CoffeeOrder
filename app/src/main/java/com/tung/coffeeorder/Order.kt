@@ -46,12 +46,23 @@ data class Order(
 
 class Converters {
     @TypeConverter
-    fun fromLinkedList(value: LinkedList<CoffeeInCart>): String {
+    fun fromListOrder(value: List<Order>): String {
         return Gson().toJson(value)
     }
 
     @TypeConverter
-    fun toLinkedList(value: String): LinkedList<CoffeeInCart> {
+    fun toListOrder(value: String): List<Order> {
+        val listType = object : TypeToken<List<Order>>() {}.type
+        return Gson().fromJson(value, listType)
+    }
+
+    @TypeConverter
+    fun fromLinkedListCoffee(value: LinkedList<CoffeeInCart>): String {
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toLinkedListCoffee(value: String): LinkedList<CoffeeInCart> {
         val listType = object : TypeToken<LinkedList<CoffeeInCart>>() {}.type
         return Gson().fromJson(value, listType)
     }
@@ -82,13 +93,13 @@ class Converters {
 @Dao
 interface OrderDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrder(order: Order): Long
+    fun insertOrder(order: Order): Long
 
     @Update
-    suspend fun updateOrder(order: Order)
+    fun updateOrder(order: Order)
 
     @Query("SELECT * FROM order_table")
-    suspend fun getAllOrders(): List<Order>
+    fun getAllOrders(): List<Order>
 
     @Query("UPDATE order_table SET done=1 WHERE id = :orderId")
     fun markDone(orderId: Int) //update trên database
