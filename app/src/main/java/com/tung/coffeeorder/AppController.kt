@@ -229,7 +229,7 @@ class AppController{
         }
 
         fun initCoffeeList(listCoffee: ArrayList<Coffee>){
-            listCoffee.add(Coffee("Cà phê sữa đá","caphesuada",18000))
+            listCoffee.add(Coffee("Cà phê sữa","caphesuada",18000))
             listCoffee.add(Coffee("Cà phê muối","caphemuoi",19000))
             listCoffee.add(Coffee("Americano","americano",35000))
             listCoffee.add(Coffee("Cappuccino","cappuccino",36000))

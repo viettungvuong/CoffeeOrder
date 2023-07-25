@@ -129,6 +129,8 @@ class Login : AppCompatActivity() {
                     Toast.LENGTH_SHORT,
                 ).show()
 
+                startActivity(intent)
+
                 val email = Firebase.auth.currentUser!!.email.toString()
 
                 AppController.getInfoFromFirebase(
@@ -145,7 +147,7 @@ class Login : AppCompatActivity() {
                     initCarts(this) //lấy danh sách các cart
                     retrieveCurrentNoOfCarts()
                     retrieveCurrentNoOfOrders()
-                    startActivity(intent)
+
                     finish()
                 }
             }
