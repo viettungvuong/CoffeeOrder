@@ -33,9 +33,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.LinkedList
 
-const val orderFileName = "filesave-Order.dat"
-const val cartsFileName = "filesave-Cart.dat"
-const val redeemFileName = "filesave-Redeem.dat"
+const val orderFileName = "filesave-Orders.dat"
+const val cartsFileName = "filesave-Carts.dat"
+const val redeemFileName = "filesave-Redeems.dat"
 class Cart() {
 
     private var cartList=ArrayList<CoffeeInCart>() //giỏ hàng của cart
@@ -528,10 +528,8 @@ class AppController{
 
             val lines = file.readLines()
 
-            var index = 0
             try {
                 for (line in lines) {
-                    Log.d("current line",line)
                     val lineSplit = line.split(',')
 
                     var currentOrder=Order()
@@ -552,11 +550,9 @@ class AppController{
                             historyOrders,
                             rewardsPoint, context, true)
                     }
-
-                    index++
                 }
             } catch (e: Exception) {
-                Log.d("Error","Không thể đọc file order"+e.message.toString())
+                Log.d("Error","Không thể đọc file redeem "+e.message.toString())
                 return
             }
         }
@@ -581,6 +577,7 @@ class AppController{
                     val time = LocalDateTime.parse(lineSplit[1], dateTimeFormat)
                     val address = lineSplit[2]
                     currentOrder = Order(carts[index].getList(), time, address!!, id.toInt())
+                    Log.d("Carts index",carts[index].getList()[0].getName())
                     ongoingOrders.add(currentOrder) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
                     if (done){
@@ -591,6 +588,8 @@ class AppController{
                     }
 
                     index++
+
+                    Log.d("Added index",index.toString())
                 }
             } catch (e: Exception) {
                 Log.d("Error","Không thể đọc file order "+e.message.toString())
