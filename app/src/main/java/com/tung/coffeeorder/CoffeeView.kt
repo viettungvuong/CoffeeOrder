@@ -51,10 +51,18 @@ class CoffeeView() : AppCompatActivity() {
         val sizePicker = SizePicker(this, inflater, coffeeInCart,priceText)
         sizePickerLayout.addView(sizePicker)
 
-        val icePickerLayout = findViewById<LinearLayout>(R.id.icePicker)
-        icePickerLayout.removeAllViews()
-        val icePicker = IcePicker(this, inflater, coffeeInCart)
-        icePickerLayout.addView(icePicker)
+
+        if (coffeeInCart.getName()!="Cold brew"){
+            val icePickerLayout = findViewById<LinearLayout>(R.id.icePicker)
+            icePickerLayout.removeAllViews()
+            val icePicker = IcePicker(this, inflater, coffeeInCart)
+            icePickerLayout.addView(icePicker)
+        }
+        else{
+            coffeeInCart.changeHotOrCold(true) //cold brew sẽ luôn luôn là cold
+            findViewById<LinearLayout>(R.id.coldHotSection).visibility=View.GONE //mất luôn phần nóng lạnh nếu là cold brew
+        }
+
 
         val purchaseBtn=findViewById<MaterialButton>(R.id.purchaseBtn)
         purchaseBtn.setOnClickListener(
