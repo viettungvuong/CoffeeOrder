@@ -237,7 +237,7 @@ fun setRedeem(order: Order, redeemPoint: Int, context: Context, initializing: Bo
 
     if (initializing) //nếu như được gọi lúc đang initialize đầu chương trình thì bỏ qua bước update
         return
-    
+
     if (sharedPreferences.getBoolean("online_acc",false)){
         updateToFirebase(order)
     }
