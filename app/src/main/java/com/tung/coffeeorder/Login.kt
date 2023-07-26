@@ -141,11 +141,11 @@ class Login : AppCompatActivity() {
                         address,
                         loyaltyPoint
                     )
-                    startActivity(intent)
+
                     initCarts(this) //lấy danh sách các cart
                     retrieveCurrentNoOfCarts()
                     retrieveCurrentNoOfOrders()
-
+                    startActivity(intent)
                     finish()
                 }
             }

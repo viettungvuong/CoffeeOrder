@@ -168,7 +168,8 @@ private fun updateToFirebase(order: Order) {
 
     var createField = mapOf<String, Any>()
     if (!order.redeem) {
-        val getOrder = AppController.db.collection("orders" + Firebase.auth.currentUser!!.uid)
+        val getOrder = AppController.db.collection("users").document(Firebase.auth.currentUser!!.uid)
+            .collection("orders")
             .document(order.id.toString())
         createField = mapOf(
             "redeem" to "false",

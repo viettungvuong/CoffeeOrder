@@ -417,6 +417,7 @@ class AppController{
                         carts.add(currentCart) //thêm vào danh sách các cart
                     }
 
+                    Log.d("resume cart","resuming Cart")
                     resumeCart(context)
                     callback()
                 }
@@ -482,7 +483,8 @@ class AppController{
         }
 
         private fun fetchOrderFromFirebase(context: Context){
-            val getOrder = AppController.db.collection("orders"+Firebase.auth.currentUser!!.uid)
+            val getOrder = db.collection("users").document(Firebase.auth.currentUser!!.uid)
+                .collection("orders")
 
             getOrder.get()
                 .addOnSuccessListener {
@@ -544,14 +546,15 @@ class AppController{
 
         //resume cart
         fun resumeCart(context: Context){
+
             if (!needToResume()){
-                Log.d("needtoresume", needToResume().toString())
+                Log.d("no need to resume","no need to resume")
                 return
             }
             if (carts.isEmpty()){
                 return
             }
-
+            Log.d("need to resume","need to resume")
             val resumeCart = carts[getCurrentNoOfCarts()-1].getList()
             for (item in resumeCart){
                 Cart.singleton.addToCart(context,item)
