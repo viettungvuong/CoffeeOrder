@@ -2,6 +2,7 @@ package com.tung.coffeeorder
 
 import android.content.Intent
 import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,19 +60,26 @@ class Home: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        var timeOfDate = "" //sáng trưa chiều tối
+        var timeOfDate = "" //sáng trưa chiều tối string
+        val timeOfDateIcon = view.findViewById<ImageView>(R.id.morningOrNight)
+
         if (LocalTime.now().hour in 5..11){
             timeOfDate="sáng"
+           timeOfDateIcon.setImageResource(R.drawable.morning)
         }
         else if (LocalTime.now().hour in 12..14){
             timeOfDate="trưa"
+            timeOfDateIcon.setImageResource(R.drawable.morning)
         }
         else if (LocalTime.now().hour in 15..18){
             timeOfDate="chiều"
+            timeOfDateIcon.setImageResource(R.drawable.night)
         }
         else{
             timeOfDate="tối"
+            timeOfDateIcon.setImageResource(R.drawable.night)
         }
+
         view.findViewById<TextView>(R.id.hello).text="Chào buổi $timeOfDate, ${User.singleton.getname()}"
     }
 
