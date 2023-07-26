@@ -3,17 +3,16 @@
         android:id="@+id/home"
         android:enabled="true"
         android:icon="@drawable/store"
-        android:title="Trang chủ"
-
+        android:title=""
       />
     <item
         android:id="@+id/rewards"
         android:enabled="true"
         android:icon="@drawable/giftcard"
-        android:title="Tích điểm" />
+        android:title=""/>
     <item
         android:id="@+id/orders"
         android:enabled="true"
         android:icon="@drawable/order"
-        android:title="Đơn hàng"/>
+        android:title=""/>
 </menu>
