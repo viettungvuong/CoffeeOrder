@@ -18,28 +18,28 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 class Home: Fragment() {
-    lateinit var view: View
+    lateinit var homeView: View
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        view = inflater.inflate(R.layout.home_fragment, container, false)
+        homeView = inflater.inflate(R.layout.home_fragment, container, false)
 
         requireActivity().supportFragmentManager.beginTransaction().replace(R.id.rewards_section,RewardSection()).commit()
 
-        val coffeeRecyclerView: RecyclerView = view.findViewById(R.id.coffeeRecyclerView)
+        val coffeeRecyclerView: RecyclerView = homeView.findViewById(R.id.coffeeRecyclerView)
         val spanCount = 2
         val spacing = 30
         val layoutManager = GridLayoutManager(requireContext(), spanCount)
         coffeeRecyclerView.layoutManager = layoutManager
 
-        //đặt margin cho các item trong recycler view
+        //đặt margin cho các item trong recycler homeView
         coffeeRecyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing))
 
         coffeeRecyclerView.adapter = CoffeeAdapter(requireActivity(), listCoffee)
 
-        val cartBtn = view.findViewById<ImageButton>(R.id.cartBtn)
+        val cartBtn = homeView.findViewById<ImageButton>(R.id.cartBtn)
         cartBtn.setOnClickListener(
             View.OnClickListener {
                 val intent= Intent(requireActivity(),CartActivity::class.java)
@@ -47,7 +47,7 @@ class Home: Fragment() {
             }
         )
 
-        val userBtn = view.findViewById<ImageButton>(R.id.userBtn)
+        val userBtn = homeView.findViewById<ImageButton>(R.id.userBtn)
         userBtn.setOnClickListener(
             View.OnClickListener {
                 val intent= Intent(requireActivity(),UserEdit::class.java)
@@ -55,13 +55,13 @@ class Home: Fragment() {
             }
         )
 
-        return view
+        return homeView
     }
 
     override fun onResume() {
         super.onResume()
         var timeOfDate = "" //sáng trưa chiều tối string
-        val timeOfDateIcon = view.findViewById<ImageView>(R.id.morningOrNight)
+        val timeOfDateIcon = homeView.findViewById<ImageView>(R.id.morningOrNight)
 
         if (LocalTime.now().hour in 5..11){
             timeOfDate="sáng"
@@ -80,15 +80,15 @@ class Home: Fragment() {
             timeOfDateIcon.setImageResource(R.drawable.night)
         }
 
-        view.findViewById<TextView>(R.id.hello).text="Chào buổi $timeOfDate, ${User.singleton.getname()}"
+        homeView.findViewById<TextView>(R.id.hello).text="Chào buổi $timeOfDate, ${User.singleton.getname()}"
     }
 
 
-    //decorate grid cho recyccler view
+    //decorate grid cho recyccler homeView
     inner class GridSpacingItemDecoration(private val spanCount: Int, private val spacing: Int) : RecyclerView.ItemDecoration() {
 
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            val position = parent.getChildAdapterPosition(view)
+        override fun getItemOffsets(outRect: Rect, homeView: View, parent: RecyclerView, state: RecyclerView.State) {
+            val position = parent.getChildAdapterPosition(homeView)
             val column = position % spanCount
 
             outRect.left = spacing - column * spacing / spanCount
