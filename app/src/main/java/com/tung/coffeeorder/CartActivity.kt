@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.tung.coffeeorder.AppController.Companion.carts
+import com.tung.coffeeorder.AppController.Companion.currentCart
 import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
 import com.tung.coffeeorder.AppController.Companion.increaseOrders
 import com.tung.coffeeorder.AppController.Companion.numberOfCarts
@@ -42,7 +43,7 @@ class CartActivity: AppCompatActivity() {
         setContentView(R.layout.cart_activity)
         val cartRecyclerView = findViewById<RecyclerView>(R.id.cartRecyclerView)
         cartRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false) //đặt recyclerView là chiều ngang
-        cartAdapter=CartAdapter(this,Cart.singleton.getList())
+        cartAdapter=CartAdapter(this,currentCart!!.cartList)
         cartRecyclerView.adapter=cartAdapter
 
         //xử lý vuốt thì sẽ xoá
@@ -72,8 +73,8 @@ class CartActivity: AppCompatActivity() {
             }
         )
 
-        if (Cart.singleton.getList().isEmpty()){ //chứng tỏ là cart mới
-            carts.add(Cart.singleton) //báo là mới thêm cart mới
+        if (currentCart!!.cartList.isEmpty()){ //chứng tỏ là cart mới
+            carts.add(currentCart!!) //báo là mới thêm cart mới
         }
 
 
@@ -94,14 +95,14 @@ class CartActivity: AppCompatActivity() {
 
 
     fun updateCartPrice(totalPriceText: TextView){
-        for (coffeeInCart in Cart.singleton.getList()){
+        for (coffeeInCart in currentCart!!.cartList){
             totalPrice+=coffeeInCart.calculatePrice()
         }
         totalPriceText.text=reformatNumber(totalPrice)+" VNĐ"
     }
 
     fun removeFromCartPrice(index: Int, totalPriceText: TextView){
-        totalPrice-=Cart.singleton.getList()[index].calculatePrice()
+        totalPrice-=currentCart!!.cartList[index].calculatePrice()
         totalPriceText.text=reformatNumber(totalPrice)+" VNĐ"
     }
 
@@ -121,7 +122,7 @@ class CartActivity: AppCompatActivity() {
 
         fun deleteFromCart(position: Int){
             removeFromCartPrice(position, findViewById(R.id.totalPrice)) //giảm giá tổng của cart
-            Cart.singleton.removeFromCart(context,position) //xoá khỏi cart
+            currentCart!!.removeFromCart(context,position) //xoá khỏi cart
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -131,7 +132,7 @@ class CartActivity: AppCompatActivity() {
             //xoá khỏi cart ở vị trí position
             deleteFromCart(position)
             adapter.notifyItemRemoved(position)
-            adapter.notifyItemRangeChanged(position,Cart.singleton.getList().size-position)
+            adapter.notifyItemRangeChanged(position,currentCart!!.cartList.size-position)
             viewHolder.itemView.visibility= View.GONE
             Toast.makeText(
                 context,
@@ -190,7 +191,7 @@ class CartActivity: AppCompatActivity() {
     //rảnh thì đổi Cart qua Map (key là tên cà phê cùng với size) để tối ưu vụ updateCartPrice
 
     fun checkOut(){
-        if (Cart.singleton.getList().isEmpty()){
+        if (currentCart!!.cartList.isEmpty()){
             Toast.makeText(
                 this,
                 "Không có gì để đặt",
@@ -198,13 +199,13 @@ class CartActivity: AppCompatActivity() {
             ).show()
             return
         }
-        val temp = LinkedList(Cart.singleton.getList()) //copy constructor để nó kh reference
+        val temp = LinkedList(currentCart!!.cartList) //copy constructor để nó kh reference
         val localDateTimeStr = LocalDateTime.now().format(dateTimeFormat)
         val order = Order(numberOfCarts,User.singleton.getaddress(),localDateTimeStr,temp)
         addToOngoing(order) //thêm vào orders
 
         //xoá hết giỏ hàng khi đã checkout
-        Cart.singleton.getList().clear()
+        currentCart!!.cartList.clear()
     }
 
     //thêm vào ônging

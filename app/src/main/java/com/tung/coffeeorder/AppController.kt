@@ -16,6 +16,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.tung.coffeeorder.AppController.Companion.carts
+import com.tung.coffeeorder.AppController.Companion.currentCart
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.initCarts
 import com.tung.coffeeorder.AppController.Companion.listCoffee
@@ -58,6 +59,8 @@ class AppController{
 
         lateinit var sharedPreferences: SharedPreferences //shared preferences
 
+        var currentCart: Cart?=null //cart
+
         var carts= ArrayList<Cart>() //danh sách các cart
         var numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
         var numberOfOrders = 0 //số order
@@ -66,7 +69,7 @@ class AppController{
 
         @JvmStatic
         fun checkInCart(coffeeInCart: CoffeeInCart): Int{
-            val temp = Cart.singleton.getList().toList().sortedBy { it.getName() } //sort cart theo tên
+            val temp = currentCart!!.cartList.toList().sortedBy { it.getName() } //sort cart theo tên
 
             var i=0
             while (i<temp.size&&coffeeInCart.getName()<=temp[i].getName()){
@@ -276,7 +279,7 @@ class AppController{
                             //để kiếm cách fix thằng 0 này sau
                         }
                         val cart = document.get("cart") as java.util.ArrayList<String> //array field cart
-                        var currentCart=Cart()
+                        var currentCart=Cart(LinkedList())
                         for (cartDesc in cart) {
                             val split = cartDesc.split(',') //tách từ theo dấu phẩy
 
@@ -290,9 +293,9 @@ class AppController{
                             coffeeInCart.changeQuantity(split[2].toInt())
                             coffeeInCart.changeSize(split[1].toInt())
                             coffeeInCart.changeHotOrCold((split[3]=="true"))
-                            currentCart.addToCart(context,coffeeInCart)
+                            currentCart!!.addToCart(context,coffeeInCart)
                         }
-                        carts.add(currentCart) //thêm vào danh sách các cart
+                        carts.add(currentCart!!) //thêm vào danh sách các cart
                     }
 
                     callback()
@@ -309,7 +312,7 @@ class AppController{
             Log.d("Đọc file", "Có file")
             val lines = file.readLines()
 
-            var currentCart = Cart()
+            var currentCart = Cart(LinkedList())
 
             try {
                 for (line in lines) {
@@ -323,14 +326,14 @@ class AppController{
                         coffeeInCart.changeSize(split[1].toInt())
                         coffeeInCart.changeHotOrCold((split[3]=="true"))
 
-                        currentCart.addToCart(context,coffeeInCart)
+                        currentCart!!.addToCart(context,coffeeInCart)
                     } else {
-                        val temp = Cart(currentCart) //copy constructor
+                        val temp = currentCart.copy() //copy constructor
                         carts.add(temp)
-                        currentCart = Cart() //xoá cart hiện tại
+                        currentCart = Cart(LinkedList()) //xoá cart hiện tại
                     }
                 }
-                val temp = Cart(currentCart) //copy constructor
+                val temp = currentCart.copy() //copy constructor
                 carts.add(temp) //add thêm một lần nữa ở cuối file
 
             } catch (e: Exception) {
@@ -373,7 +376,7 @@ class AppController{
 
                         var currentOrder: Order?=null
                         if (!redeem){
-                            currentOrder=Order(id.toInt(),address!!,time!!,carts[document.id.toInt()-1].getList())
+                            currentOrder=Order(id.toInt(),address!!,time!!,carts[document.id.toInt()-1].cartList)
                             currentOrder.redeem=false
                         }
                         else{ //nếu là redeem
@@ -430,11 +433,11 @@ class AppController{
                 return
             }
             Log.d("need to resume","need to resume")
-            val resumeCart = carts[numberOfCarts-1].getList()
-            Cart.singleton.getList().clear()
+            val resumeCart = carts[numberOfCarts-1].cartList
+            currentCart!!.cartList.clear()
             for (item in resumeCart){
                 Log.d("item name",item.getName())
-                Cart.singleton.addToCart(context,item)
+                currentCart!!.addToCart(context,item)
             }
         }
 
@@ -458,7 +461,7 @@ class AccountFunctions {
             sharedPreferences.edit().putBoolean("online_acc",true).apply()
             carts.clear()
             redeemCoffees.clear() //xoá danh sách redeem
-            Cart.singleton.getList().clear()
+            currentCart!!.cartList.clear()
             AppController.ongoingOrders.clear()
             AppController.historyOrders.clear()
             AppController.rewardsPoint.clear()

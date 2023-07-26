@@ -70,7 +70,7 @@ class Cart() {
         update(context)
     }
 
-    fun getList(): LinkedList<CoffeeInCart>{
+    fun cartList: LinkedList<CoffeeInCart>{
         return this.cartList
     }
 
@@ -174,7 +174,7 @@ class AppController{
 
         @JvmStatic
         fun checkInCart(coffeeInCart: CoffeeInCart): Int{
-            val temp = Cart.singleton.getList().toList().sortedBy { it.getName() } //sort cart theo tên
+            val temp = currentCart!!.cartList.toList().sortedBy { it.getName() } //sort cart theo tên
 
             var i=0
             while (i<temp.size&&coffeeInCart.getName()<=temp[i].getName()){
@@ -395,7 +395,7 @@ class AppController{
                             //để kiếm cách fix thằng 0 này sau
                         }
                         val cart = document.get("cart") as java.util.ArrayList<String> //array field cart
-                        var currentCart=Cart()
+                        var currentCart!!=Cart()
                         for (cartDesc in cart) {
                             val split = cartDesc.split(',') //tách từ theo dấu phẩy
 
@@ -408,9 +408,9 @@ class AppController{
                             val coffeeInCart = CoffeeInCart(tempCoffee!!)
                             coffeeInCart.changeQuantity(split[2].toInt())
                             coffeeInCart.changeSize(split[1].toInt())
-                            currentCart.addToCart(context,coffeeInCart)
+                            currentCart!!.addToCart(context,coffeeInCart)
                         }
-                        carts.add(currentCart) //thêm vào danh sách các cart
+                        carts.add(currentCart!!) //thêm vào danh sách các cart
                     }
 
                     resumeCart(context)
@@ -428,7 +428,7 @@ class AppController{
             Log.d("Đọc file", "Có file")
             val lines = file.readLines()
 
-            var currentCart = Cart()
+            var currentCart!! = Cart()
 
             try {
                 for (line in lines) {
@@ -441,14 +441,14 @@ class AppController{
                         coffeeInCart.changeQuantity(split[2].toInt())
                         coffeeInCart.changeSize(split[1].toInt())
 
-                        currentCart.addToCart(context,coffeeInCart)
+                        currentCart!!.addToCart(context,coffeeInCart)
                     } else {
-                        val temp = Cart(currentCart) //copy constructor
+                        val temp = Cart(currentCart!!) //copy constructor
                         carts.add(temp)
-                        currentCart = Cart() //xoá cart hiện tại
+                        currentCart!! = Cart() //xoá cart hiện tại
                     }
                 }
-                val temp = Cart(currentCart) //copy constructor
+                val temp = Cart(currentCart!!) //copy constructor
                 carts.add(temp) //add thêm một lần nữa ở cuối file
 
                 resumeCart(context)
@@ -492,7 +492,7 @@ class AppController{
 
                         var currentOrder: Order?=null
                         if (!redeem){
-                            currentOrder=Order(id.toInt(),address!!,time!!,carts[document.id.toInt()-1].getList())
+                            currentOrder=Order(id.toInt(),address!!,time!!,carts[document.id.toInt()-1].cartList)
                             currentOrder.redeem=false
                         }
                         else{ //nếu là redeem
@@ -548,9 +548,9 @@ class AppController{
                 return
             }
 
-            val resumeCart = carts[getCurrentNoOfCarts()-1].getList()
+            val resumeCart = carts[getCurrentNoOfCarts()-1].cartList
             for (item in resumeCart){
-                Cart.singleton.addToCart(context,item)
+                currentCart!!.addToCart(context,item)
             }
         }
 
@@ -574,7 +574,7 @@ class AccountFunctions {
             sharedPreferences.edit().putBoolean("online_acc",true).apply()
             carts.clear()
             redeemCoffees.clear() //xoá danh sách redeem
-            Cart.singleton.getList().clear()
+            currentCart!!.cartList.clear()
             AppController.ongoingOrders.clear()
             AppController.historyOrders.clear()
             AppController.rewardsPoint.clear()
