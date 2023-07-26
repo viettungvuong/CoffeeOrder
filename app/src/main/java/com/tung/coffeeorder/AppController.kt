@@ -52,7 +52,7 @@ class Cart() {
         val tempList = LinkedList<String>()
 
         for (coffeeInCart in cartList){
-            val desc=coffeeInCart.getName()+","+coffeeInCart.getSize().toString()+","+coffeeInCart.getquantity().toString()
+            val desc=coffeeInCart.getName()+","+coffeeInCart.getSize().toString()+","+coffeeInCart.getquantity().toString()+","+coffeeInCart.getHotOrCold().toString()
             tempList.add(desc)
         }
 
@@ -76,11 +76,9 @@ class Cart() {
 
     fun update(context: Context){
         if (sharedPreferences.getBoolean("online_acc",false)){
-            Log.d("Updated firebase","ok")
             updateToFirebase(getDescList()) //up lên firebase
         }
         else{
-            Log.d("Updated locally","ok")
             updateLocally(context,getDescList()) //xuất ra file
         }
     }
@@ -100,7 +98,7 @@ class Cart() {
             "cart" to FieldValue.delete()
         )
 
-        getCart.update(deleteField)
+        getCart.update(deleteField) //update firebase
 
         getCart
             .get()
@@ -134,8 +132,6 @@ class Cart() {
             lines.addAll(tempList)
 
             //xuất từng dòng ra file, dùng jointostring với kí tự '\n' để xuống dòng
-            print("Update locally")
-            print(lines)
             file.writeText(lines.joinToString("\n"))
 
         } catch (e: Exception) {
@@ -399,6 +395,7 @@ class AppController{
                             val coffeeInCart = CoffeeInCart(tempCoffee!!)
                             coffeeInCart.changeQuantity(split[2].toInt())
                             coffeeInCart.changeSize(split[1].toInt())
+                            coffeeInCart.changeHotOrCold((split[3]=="true"))
                             currentCart.addToCart(context,coffeeInCart)
                         }
                         carts.add(currentCart) //thêm vào danh sách các cart
@@ -430,6 +427,7 @@ class AppController{
 
                         coffeeInCart.changeQuantity(split[2].toInt())
                         coffeeInCart.changeSize(split[1].toInt())
+                        coffeeInCart.changeHotOrCold((split[3]=="true"))
 
                         currentCart.addToCart(context,coffeeInCart)
                     } else {

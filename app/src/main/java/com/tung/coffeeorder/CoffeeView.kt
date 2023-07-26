@@ -51,6 +51,11 @@ class CoffeeView() : AppCompatActivity() {
         val sizePicker = SizePicker(this, inflater, coffeeInCart,priceText)
         sizePickerLayout.addView(sizePicker)
 
+        val icePickerLayout = findViewById<LinearLayout>(R.id.icePicker)
+        icePickerLayout.removeAllViews()
+        val icePicker = IcePicker(this, inflater, coffeeInCart)
+        icePickerLayout.addView(icePicker)
+
         val purchaseBtn=findViewById<MaterialButton>(R.id.purchaseBtn)
         purchaseBtn.setOnClickListener(
             View.OnClickListener {
@@ -130,7 +135,7 @@ class CoffeeView() : AppCompatActivity() {
         }
     }
 
-    inner class IcePicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart, priceText: TextView): Picker,LinearLayout(context){
+    inner class IcePicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart): Picker,LinearLayout(context){
 
         private var buttons= ArrayList<ImageButton>()
         private var coffeeInCart=coffeeInCart

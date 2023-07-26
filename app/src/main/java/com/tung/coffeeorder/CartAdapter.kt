@@ -45,6 +45,13 @@ class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): Recyc
                 } //hiện ra size của ly cà phê
             }
 
+            if (coffeeInCart.getHotOrCold()){ //cold là true, hot là false
+                coffeeSize.text=coffeeSize.text.toString()+" | Cold"
+            }
+            else{
+                coffeeSize.text=coffeeSize.text.toString()+" | Hot"
+            }
+
             coffeeImage.setImageResource(imageFromCoffee(activity,coffeeInCart)) //đặt hình ảnh
         }
     }
