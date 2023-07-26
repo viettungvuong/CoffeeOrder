@@ -35,8 +35,6 @@ import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.LinkedList
 
-const val cartsFileName = "filesave-Carts.dat"
-
 class AppController{
     companion object{
         @JvmStatic
@@ -59,7 +57,8 @@ class AppController{
 
         lateinit var sharedPreferences: SharedPreferences //shared preferences
 
-        var currentCart: Cart?=null //cart
+        var currentCart=Cart(0, LinkedList())//cart chính của chương trình
+        //sẽ initialize sau
 
         var carts= ArrayList<Cart>() //danh sách các cart
         var numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
@@ -206,6 +205,7 @@ class AppController{
         //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
         fun increaseCarts(){
             numberOfCarts++
+
             //acc offline
             if (!sharedPreferences.getBoolean("online_acc", false)) {
                 sharedPreferences.edit().putInt("number-of-carts", AppController.numberOfCarts)
@@ -261,6 +261,7 @@ class AppController{
             }
             else{
                 initCartsLocally(context)
+                Log.d("resuming cart","resuming cart")
                 resumeCart(context)
                 fetchOrders(context) //lấy tất cả order (phải có cart thì mới lấy order được)
             }
@@ -396,16 +397,17 @@ class AppController{
 
             if (!needToResume()){
                 Log.d("no need to resume","no need to resume")
+                currentCart=Cart(numberOfCarts+1,LinkedList()) //tạo cart rỗng nếu không cần resume
                 return
             }
             if (carts.isEmpty()){
+                Log.d("carts is empty","carts is empty")
                 return
             }
             Log.d("need to resume","need to resume")
             val resumeCart = carts[numberOfCarts-1].cartList
-            currentCart!!.cartList.clear()
+            currentCart=Cart(numberOfCarts, LinkedList())
             for (item in resumeCart){
-                Log.d("item name",item.getName())
                 addToCart(currentCart!!,context,item)
             }
         }

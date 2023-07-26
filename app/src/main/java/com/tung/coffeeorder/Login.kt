@@ -17,6 +17,7 @@ import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tung.coffeeorder.AccountFunctions.Companion.signIn
+import com.tung.coffeeorder.AppController.Companion.currentCart
 import com.tung.coffeeorder.AppController.Companion.initCarts
 import com.tung.coffeeorder.AppController.Companion.initCoffeeList
 import com.tung.coffeeorder.AppController.Companion.initRedeem
@@ -39,7 +40,6 @@ class Login : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("Coffee-App-Prefs", Context.MODE_PRIVATE) //dùng sharedprerences để lưu vài thông tin
 //        sharedPreferences.edit().putInt("number-of-carts",0).apply()
 //       sharedPreferences.edit().putInt("number-of-orders",0).apply()
-//        sharedPreferences.edit().putInt("number-of-redeems",0).apply()
 
         initRedeem() //lấy danh sách các redeem coffee
 

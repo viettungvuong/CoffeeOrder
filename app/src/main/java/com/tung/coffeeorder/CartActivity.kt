@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.google.rpc.Help.Link
 import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.currentCart
 import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
@@ -205,7 +206,7 @@ class CartActivity: AppCompatActivity() {
         addToOngoing(order) //thêm vào orders
 
         //xoá hết giỏ hàng khi đã checkout
-        currentCart!!.cartList.clear()
+        currentCart=Cart(numberOfCarts+1,LinkedList())
     }
 
     //thêm vào ônging
