@@ -279,7 +279,7 @@ class AppController{
                             //để kiếm cách fix thằng 0 này sau
                         }
                         val cart = document.get("cart") as java.util.ArrayList<String> //array field cart
-                        var currentCart=Cart(LinkedList())
+                        var currentCart=Cart(document.id.toInt(),LinkedList())
                         for (cartDesc in cart) {
                             val split = cartDesc.split(',') //tách từ theo dấu phẩy
 
@@ -304,41 +304,10 @@ class AppController{
         }
 
         private fun initCartsLocally(context: Context) {
-            val file = File(context.filesDir, cartsFileName)
-            if (!file.exists()) {
-                Log.d("Error", "Không có file cart")
-                return
-            }
-            Log.d("Đọc file", "Có file")
-            val lines = file.readLines()
+            val list = AppDatabase.getSingleton(context).cartDao().getAllCarts()
 
-            var currentCart = Cart(LinkedList())
-
-            try {
-                for (line in lines) {
-                    if (line.isNotBlank()) {
-                        val split = line.split(',') //tách từ theo dấu phẩy
-                        //tìm cà phê
-                        val tempCoffee= searchCoffeeByName(split[0])
-                        val coffeeInCart = CoffeeInCart(tempCoffee!!)
-
-                        coffeeInCart.changeQuantity(split[2].toInt())
-                        coffeeInCart.changeSize(split[1].toInt())
-                        coffeeInCart.changeHotOrCold((split[3]=="true"))
-
-                       addToCart( currentCart!!,context,coffeeInCart)
-                    } else {
-                        val temp = currentCart.copy() //copy constructor
-                        carts.add(temp)
-                        currentCart = Cart(LinkedList()) //xoá cart hiện tại
-                    }
-                }
-                val temp = currentCart.copy() //copy constructor
-                carts.add(temp) //add thêm một lần nữa ở cuối file
-
-            } catch (e: Exception) {
-                Log.d("Error", "Không thể đọc file carts")
-                return
+            for (cart in list){
+                carts.add(cart)
             }
 
 

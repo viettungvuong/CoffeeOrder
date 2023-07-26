@@ -18,7 +18,8 @@ import java.util.*
 @Entity(tableName = "cart_table")
 data class Cart(
     @PrimaryKey(autoGenerate = true)
-    var cartList: LinkedList<CoffeeInCart>
+    var id: Int,
+    var cartList: LinkedList<CoffeeInCart>,
 )
 
 @Dao
@@ -30,7 +31,7 @@ interface CartDao{
     fun updateCart(cart: Cart)
 
     @Query("SELECT * FROM cart_table")
-    fun getAllOCarts(): List<Cart>
+    fun getAllCarts(): List<Cart>
 
 }
 
