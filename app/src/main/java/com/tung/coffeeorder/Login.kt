@@ -141,10 +141,9 @@ class Login : AppCompatActivity() {
                         address,
                         loyaltyPoint
                     )
-
-                    initCarts(this) //lấy danh sách các cart
                     retrieveCurrentNoOfCarts()
                     retrieveCurrentNoOfOrders()
+                    initCarts(this) //lấy danh sách các cart, rồi resume cart, rồi lấy order
                     startActivity(intent)
                     finish()
                 }

@@ -58,9 +58,8 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                 Log.d("id",order.id.toString())
                 saveOrder(order,activity) //rồi mới update
                 setRedeem(order,redeemCoffee.getRedeemPoints(),activity)
-
-
                 ongoingOrders.add(order) //thêm vào orders
+                increaseOrders()
 
 
                 val intent= Intent(activity,OrderSuccess::class.java)
@@ -89,7 +88,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                     sizeText.text="Size L"
                 } //hiện ra size của ly cà phê
             }
-            pointText.text=redeemCoffee.getRedeemPoints().toString()+ "điểm" //điểm số mất nếu redeem
+            pointText.text=redeemCoffee.getRedeemPoints().toString()+ " điểm" //điểm số mất nếu redeem
             coffeeName.text=redeemCoffee.getName()
             validDate.text=redeemCoffee.getValidDate().format(dateFormat)
 

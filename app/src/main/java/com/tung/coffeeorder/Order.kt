@@ -18,7 +18,6 @@ import com.tung.coffeeorder.AppController.Companion.dateFormat
 import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
 import com.tung.coffeeorder.AppController.Companion.historyOrders
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
-import com.tung.coffeeorder.AppController.Companion.getCurrentNoOfCarts
 import com.tung.coffeeorder.AppController.Companion.numberOfRedeem
 import java.io.BufferedWriter
 import java.io.File
@@ -30,6 +29,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 import com.google.gson.Gson
+import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import kotlinx.coroutines.runBlocking
 
 @Entity(tableName = "order_table")
@@ -154,9 +154,6 @@ fun saveOrder(order: Order, context: Context){
 
 private fun updateAsDone(order: Order, context: Context) {
     order.done = true
-    Log.d("order id",order.id.toString())
-    Log.d("order redeem",order.redeem.toString())
-    Log.d("order done",order.done.toString())
     if (AppController.sharedPreferences.getBoolean("online_acc", false)) {
         updateToFirebase(order) //up lên firebase
     } else {
@@ -185,8 +182,9 @@ private fun updateToFirebase(order: Order) {
                 }
             })
     } else { //nếu redeem thì format khác
-        val getOrder = AppController.db.collection("orders" + Firebase.auth.currentUser!!.uid)
-            .document((-order.id).toString())
+        val getOrder = AppController.db.collection("users").document(Firebase.auth.currentUser!!.uid)
+            .collection("orders")
+            .document(order.id.toString())
         createField = mapOf(
             "redeem" to "true",
             "redeemCoffee" to order.cart[0].getName(),
@@ -233,10 +231,19 @@ fun calculateBonusPoint(order: Order): Int{
 
 }
 
-fun setRedeem(order: Order, redeemPoint: Int, context: Context){
+fun setRedeem(order: Order, redeemPoint: Int, context: Context, initializing: Boolean=false){
     order.redeem=true
     order.bonusPoint=redeemPoint
 
-    AppDatabase.getSingleton(context).orderDao().markRedeem(order.id,redeemPoint)
+    if (initializing) //nếu như được gọi lúc đang initialize đầu chương trình thì bỏ qua bước update
+        return
+    
+    if (sharedPreferences.getBoolean("online_acc",false)){
+        updateToFirebase(order)
+    }
+    else{
+        AppDatabase.getSingleton(context).orderDao().markRedeem(order.id,redeemPoint)
+    }
+
 }
 

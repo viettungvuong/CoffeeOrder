@@ -15,7 +15,6 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.tung.coffeeorder.AppController.Companion.getCurrentNoOfCarts
 import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.initCarts
@@ -95,7 +94,7 @@ class Cart() {
 
         val getCart = db.collection("users").document(Firebase.auth.currentUser!!.uid)
             .collection("carts")
-           .document(getCurrentNoOfCarts().toString())
+           .document(numberOfCarts.toString())
 
         val deleteField = mapOf(
             "cart" to FieldValue.delete()
@@ -292,13 +291,7 @@ class AppController{
             //acc offline
             if (!sharedPreferences.getBoolean("online_acc", false)) {
                 sharedPreferences.edit().putInt("number-of-redeems", AppController.numberOfCarts)
-                    .apply() //tăng số lượng cart lên
-            }
-            else{
-                val setField=mapOf(
-                    "number-of-redeems" to AppController.numberOfCarts
-                )
-                db.collection("users").document(Firebase.auth.currentUser!!.uid).set(setField, SetOptions.merge())
+                    .apply() //tăng số lượng redeem lên
             }
         }
 
@@ -314,10 +307,6 @@ class AppController{
                         numberOfCarts =(document.getLong("number-of-carts")?:0L).toInt()
                     }
             }
-        }
-
-        fun getCurrentNoOfCarts(): Int{
-            return numberOfCarts //trả về số lượng giỏ hàng cho tới hiện tại
         }
 
 
@@ -350,10 +339,6 @@ class AppController{
                         numberOfOrders =(document.getLong("number-of-orders")?:0L).toInt()
                     }
             }
-        }
-
-        fun getCurrentNoOfOrders(): Int{
-            return AppController.numberOfOrders //trả về số lượng giỏ hàng cho tới hiện tại
         }
 
         //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
@@ -505,7 +490,7 @@ class AppController{
                             val redeemPoint = document.getLong("redeemPoint")!!.toInt()
                             val redeemCoffee= RedeemCoffee(searchCoffeeByName(coffeeName!!)!!,size,redeemPoint)
                             currentOrder=Order(id.toInt(),address!!,time!!,LinkedList<CoffeeInCart>())
-                            setRedeem(currentOrder,redeemCoffee.getRedeemPoints(),context)
+                            setRedeem(currentOrder,redeemCoffee.getRedeemPoints(),context,true) //setredeem từ init
                             currentOrder.cart.add(redeemCoffee)
                         }
 
@@ -553,7 +538,7 @@ class AppController{
                 return
             }
             Log.d("need to resume","need to resume")
-            val resumeCart = carts[getCurrentNoOfCarts()-1].getList()
+            val resumeCart = carts[numberOfCarts-1].getList()
             Cart.singleton.getList().clear()
             for (item in resumeCart){
                 Log.d("item name",item.getName())
@@ -563,9 +548,7 @@ class AppController{
 
         //có cần phải resumecart kh
         private fun needToResume(): Boolean{
-            Log.d("no of carts", getCurrentNoOfCarts().toString())
-            Log.d("no of orders", getCurrentNoOfOrders().toString())
-            return getCurrentNoOfCarts() > getCurrentNoOfOrders()
+            return numberOfCarts > numberOfOrders
         }
 
 
