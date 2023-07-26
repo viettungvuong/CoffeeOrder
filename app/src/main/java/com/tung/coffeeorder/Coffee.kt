@@ -26,13 +26,13 @@ open class Coffee(private val coffeeName: String, private val imageFilename: Str
 
 open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), coffee.getImageFilename(), coffee.getSinglePrice()){
     protected var quantity=1
-    protected var currentSize=1 //1 là size nhỏ, 2 là size vừa, 3 là size lớn
+    private var currentSize=1 //1 là size nhỏ, 2 là size vừa, 3 là size lớn
+    private var cold=true //false là hot, true là cold
 
     constructor(other: CoffeeInCart): this(other as Coffee){
         quantity=other.getquantity()
         currentSize=other.getSize()
-
-
+        cold=other.getHotOrCold()
     }
 
     fun changeQuantity(newQuantity: Int){
@@ -41,8 +41,10 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
 
     fun changeSize(newSize: Int){
         this.currentSize=newSize
+    }
 
-
+    fun changeHotOrCold(cold: Boolean){
+        this.cold=cold
     }
 
     fun getquantity(): Int{
@@ -51,6 +53,10 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
 
     fun getSize(): Int{
         return currentSize
+    }
+
+    fun getHotOrCold(): Boolean{
+        return cold
     }
 
     open fun calculatePrice(): Long{
@@ -74,17 +80,11 @@ class RedeemCoffee(coffee: Coffee, private var validDate: LocalDate, private var
         quantity=1
     }
 
-    fun setValidDate(newDate: LocalDate){
-        validDate =newDate
-    }
 
     fun getValidDate(): LocalDate{
         return validDate
     }
 
-    fun setSize(size: Int){
-        this.currentSize=restrictedSize //size giới hạn cho redeem coffee này
-    }
 
     fun getRedeemPoints(): Int{
         return points //điểm số để có thể redeem

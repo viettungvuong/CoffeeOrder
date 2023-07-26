@@ -81,11 +81,35 @@
         app:layout_constraintTop_toBottomOf="@id/introSection">
 
         <LinearLayout
-            android:id="@+id/sizeSection"
+            android:id="@+id/coldHotSection"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="50dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="60"
+                android:text="Nóng hay lạnh:"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <include
+                android:id="@+id/icePicker"
+                layout="@layout/pick_ice" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sizeSection"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 

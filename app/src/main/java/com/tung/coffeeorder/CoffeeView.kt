@@ -91,60 +91,72 @@ class CoffeeView() : AppCompatActivity() {
         )
     }
 
-    inner class SizePicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart, priceText: TextView): LinearLayout(context){
-        private var smallButton: ImageButton
-        private var mediumButton: ImageButton
-        private var largeButton: ImageButton
+    interface Picker{
+        fun buttonClick(index: Int, view: View) //bấm nút
+    }
+
+    inner class SizePicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart, priceText: TextView): Picker,LinearLayout(context){
+
+        private var buttons= ArrayList<ImageButton>()
         private var coffeeInCart=coffeeInCart
         private var priceText=priceText
         init {
             inflater.inflate(R.layout.pick_size,this,true)
 
-            smallButton=findViewById(R.id.buttonSmall)
-            mediumButton=findViewById(R.id.buttonMedium)
-            largeButton=findViewById(R.id.buttonLarge)
+            buttons.add(findViewById(R.id.buttonSmall))
+            buttons.add(findViewById(R.id.buttonMedium))
+            buttons.add(findViewById(R.id.buttonLarge))
 
 
-            smallButton.setOnClickListener(smallButtonClick())
-            mediumButton.setOnClickListener(mediumButtonClick())
-            largeButton.setOnClickListener(largeButtonClick())
+            for (i in 0 until buttons.size){
+                buttons[i].setOnClickListener {
+                    view -> buttonClick(i,view)
+                }
+            }
         }
 
-        fun updatePrice(){
+        private fun updatePrice(){
             priceText.text= reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
         }
+        override fun buttonClick(index: Int, view: View) {
+            view.alpha=1f
+            for (i in 0 until index){
+                if (i!=index){
+                    buttons[i].alpha=0.5f
+                }
+            }
+            coffeeInCart.changeSize(index+1)
+            updatePrice()
+        }
+    }
 
-        fun smallButtonClick(): OnClickListener{
-            return OnClickListener {
-                coffeeInCart.changeSize(1) //size nhỏ = 1
-                smallButton.alpha=1f
-                mediumButton.alpha=0.5f //làm mờ các nút còn lại
-                largeButton.alpha=0.5f
-                updatePrice()
+    inner class IcePicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart, priceText: TextView): Picker,LinearLayout(context){
+
+        private var buttons= ArrayList<ImageButton>()
+        private var coffeeInCart=coffeeInCart
+        init {
+            inflater.inflate(R.layout.pick_ice,this,true)
+
+            buttons.add(findViewById(R.id.hot))
+            buttons.add(findViewById(R.id.cold))
+
+
+            for (i in 0 until buttons.size){
+                buttons[i].setOnClickListener {
+                        view -> buttonClick(i,view)
+                }
             }
         }
 
-        fun mediumButtonClick(): OnClickListener{
-            return OnClickListener {
-                coffeeInCart.changeSize(2) //size vừa = 2
-                smallButton.alpha=0.5f
-                mediumButton.alpha=1f
-                largeButton.alpha=0.5f
-                updatePrice()
+        override fun buttonClick(index: Int, view: View) {
+            view.alpha=1f
+            for (i in 0 until index){
+                if (i!=index){
+                    buttons[i].alpha=0.5f
+                }
             }
+            coffeeInCart.changeHotOrCold(index==1)
         }
-
-        fun largeButtonClick(): OnClickListener{
-            return OnClickListener {
-                coffeeInCart.changeSize(3) //size lớn = 3
-                smallButton.alpha=0.5f
-                mediumButton.alpha=0.5f
-                largeButton.alpha=1f
-                updatePrice()
-
-            }
-        }
-
     }
 
     inner class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart, priceText: TextView): LinearLayout(context){
