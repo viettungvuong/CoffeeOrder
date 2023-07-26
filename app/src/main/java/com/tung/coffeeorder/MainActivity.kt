@@ -14,7 +14,6 @@ import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.listCoffee
 import com.tung.coffeeorder.AppController.Companion.fetchOrders
 import com.tung.coffeeorder.AppController.Companion.initCarts
-import com.tung.coffeeorder.AppController.Companion.resumeCart
 import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfCarts
 import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfOrders
 import kotlinx.coroutines.CoroutineScope

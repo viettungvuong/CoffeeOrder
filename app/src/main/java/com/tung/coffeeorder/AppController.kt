@@ -376,12 +376,14 @@ class AppController{
         fun initCarts(context: Context){
             if (sharedPreferences.getBoolean("online_acc",false)){
                 initCartsFromFirebase(context) {
+                    resumeCart(context)
                     fetchOrders(context)
 
                 }
             }
             else{
                 initCartsLocally(context)
+                resumeCart(context)
                 fetchOrders(context) //lấy tất cả order (phải có cart thì mới lấy order được)
             }
         }
@@ -417,8 +419,6 @@ class AppController{
                         carts.add(currentCart) //thêm vào danh sách các cart
                     }
 
-                    Log.d("resume cart","resuming Cart")
-                    resumeCart(context)
                     callback()
                 }
 
@@ -455,8 +455,6 @@ class AppController{
                 }
                 val temp = Cart(currentCart) //copy constructor
                 carts.add(temp) //add thêm một lần nữa ở cuối file
-
-                resumeCart(context)
 
             } catch (e: Exception) {
                 Log.d("Error", "Không thể đọc file carts")
@@ -545,7 +543,7 @@ class AppController{
         }
 
         //resume cart
-        fun resumeCart(context: Context){
+        private fun resumeCart(context: Context){
 
             if (!needToResume()){
                 Log.d("no need to resume","no need to resume")
@@ -556,13 +554,15 @@ class AppController{
             }
             Log.d("need to resume","need to resume")
             val resumeCart = carts[getCurrentNoOfCarts()-1].getList()
+            Cart.singleton.getList().clear()
             for (item in resumeCart){
+                Log.d("item name",item.getName())
                 Cart.singleton.addToCart(context,item)
             }
         }
 
         //có cần phải resumecart kh
-        fun needToResume(): Boolean{
+        private fun needToResume(): Boolean{
             Log.d("no of carts", getCurrentNoOfCarts().toString())
             Log.d("no of orders", getCurrentNoOfOrders().toString())
             return getCurrentNoOfCarts() > getCurrentNoOfOrders()
