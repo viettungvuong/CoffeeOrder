@@ -7,18 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.AppController.Companion.listCoffee
+import java.time.LocalDate
+import java.time.LocalTime
 
 class Home: Fragment() {
+    lateinit var view: View
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.home_fragment, container, false)
+        view = inflater.inflate(R.layout.home_fragment, container, false)
 
         requireActivity().supportFragmentManager.beginTransaction().replace(R.id.rewards_section,RewardSection()).commit()
 
@@ -50,6 +55,24 @@ class Home: Fragment() {
         )
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        var timeOfDate = "" //sáng trưa chiều tối
+        if (LocalTime.now().hour in 5..11){
+            timeOfDate="sáng"
+        }
+        else if (LocalTime.now().hour in 12..14){
+            timeOfDate="trưa"
+        }
+        else if (LocalTime.now().hour in 15..18){
+            timeOfDate="chiều"
+        }
+        else{
+            timeOfDate="tối"
+        }
+        view.findViewById<TextView>(R.id.hello).text="Chào buổi $timeOfDate, ${User.singleton.getname()}"
     }
 
 

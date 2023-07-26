@@ -36,7 +36,7 @@
                 android:textStyle="bold"
                 android:textSize="18dp"
                 android:layout_marginLeft="10dp"
-                android:text="Hello Tùng"/>
+                android:text="Chào buổi sáng, Tùng"/>
 
             <ImageButton
                 android:id="@+id/cartBtn"

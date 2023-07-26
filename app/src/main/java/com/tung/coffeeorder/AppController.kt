@@ -32,6 +32,7 @@ import java.io.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import java.util.LinkedList
 
 const val cartsFileName = "filesave-Carts.dat"
@@ -92,7 +93,8 @@ class Cart() {
         )
 
 
-        val getCart = db.collection("cart" + Firebase.auth.currentUser!!.uid)
+        val getCart = db.collection("users").document(Firebase.auth.currentUser!!.uid)
+            .collection("carts")
            .document(getCurrentNoOfCarts().toString())
 
         val deleteField = mapOf(
@@ -150,6 +152,7 @@ class AppController{
         @JvmStatic
         val dateFormat= DateTimeFormatter.ofPattern("dd-MM-yyyy") //format ngày tháng
         val dateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm") //format ngày tháng giờ
+        val timeFormat = DateTimeFormatter.ofPattern("HH:mm")
 
         val ongoingOrders=LinkedList<Order>() //danh sách các order onging
         val historyOrders=LinkedList<Order>() //danh sách các order history
@@ -385,7 +388,8 @@ class AppController{
 
         //load tất cả các cart
         private fun initCartsFromFirebase(context: Context, callback: ()->Unit){
-            val getCart = db.collection("cart" + Firebase.auth.currentUser!!.uid)
+            val getCart = db.collection("users").document(Firebase.auth.currentUser!!.uid)
+                .collection("carts")
 
             getCart.get()
                 .addOnSuccessListener { documents ->
