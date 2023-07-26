@@ -71,7 +71,7 @@ class CoffeeView() : AppCompatActivity() {
                 val checkInCart = checkInCart(coffeeInCart) //kiểm tra loại cà phê hiện tại đã có trong giỏ hàng hay chưa
                 if (checkInCart!=-1){
                     currentCart!!.cartList[checkInCart].changeQuantity(coffeeInCart.getquantity()) //thay đổi số lượng nếu đã có trong giỏ hàng
-                    currentCart!!.update(this) //update cart trên hệ thống
+                    updateCart(currentCart!!,this) //update cart trên hệ thống
                 }
                 else{
                     val temp = CoffeeInCart(coffeeInCart) //tạo copy để đề phòng người dùng muốn thêm ly khác size của cùng một loại cà phê
@@ -79,7 +79,7 @@ class CoffeeView() : AppCompatActivity() {
                     if (currentCart!!.cartList.isEmpty()){
                         increaseCarts() //thêm số cart
                     }
-                    currentCart!!.addToCart(this,temp) //thêm ly cà phê hiện tại vào giỏ hàng
+                    addToCart( currentCart!!,this,temp) //thêm ly cà phê hiện tại vào giỏ hàng
 
                 }
 

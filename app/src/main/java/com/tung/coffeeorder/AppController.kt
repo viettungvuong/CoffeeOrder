@@ -293,7 +293,7 @@ class AppController{
                             coffeeInCart.changeQuantity(split[2].toInt())
                             coffeeInCart.changeSize(split[1].toInt())
                             coffeeInCart.changeHotOrCold((split[3]=="true"))
-                            currentCart!!.addToCart(context,coffeeInCart)
+                            addToCart(currentCart!!,context,coffeeInCart)
                         }
                         carts.add(currentCart!!) //thêm vào danh sách các cart
                     }
@@ -326,7 +326,7 @@ class AppController{
                         coffeeInCart.changeSize(split[1].toInt())
                         coffeeInCart.changeHotOrCold((split[3]=="true"))
 
-                        currentCart!!.addToCart(context,coffeeInCart)
+                       addToCart( currentCart!!,context,coffeeInCart)
                     } else {
                         val temp = currentCart.copy() //copy constructor
                         carts.add(temp)
@@ -437,7 +437,7 @@ class AppController{
             currentCart!!.cartList.clear()
             for (item in resumeCart){
                 Log.d("item name",item.getName())
-                currentCart!!.addToCart(context,item)
+                addToCart(currentCart!!,context,item)
             }
         }
 

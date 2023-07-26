@@ -122,7 +122,7 @@ class CartActivity: AppCompatActivity() {
 
         fun deleteFromCart(position: Int){
             removeFromCartPrice(position, findViewById(R.id.totalPrice)) //giảm giá tổng của cart
-            currentCart!!.removeFromCart(context,position) //xoá khỏi cart
+            removeFromCart(currentCart!!,context,position) //xoá khỏi cart
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
