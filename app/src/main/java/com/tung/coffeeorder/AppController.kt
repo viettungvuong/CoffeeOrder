@@ -261,7 +261,6 @@ class AppController{
             }
             else{
                 initCartsLocally(context)
-                Log.d("resuming cart","resuming cart")
                 resumeCart(context)
                 fetchOrders(context) //lấy tất cả order (phải có cart thì mới lấy order được)
             }

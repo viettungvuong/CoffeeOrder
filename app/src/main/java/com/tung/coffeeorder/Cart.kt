@@ -1,5 +1,6 @@
 package com.tung.coffeeorder
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
 import androidx.room.*
@@ -106,6 +107,8 @@ fun deleteCart(cart: Cart, context: Context){
             .collection("carts")
             .document(numberOfCarts.toString())
             .delete() //xoá document
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
         val setField=mapOf(
             "number-of-carts" to numberOfCarts-1
         )
