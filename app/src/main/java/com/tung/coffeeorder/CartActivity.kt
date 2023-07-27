@@ -74,6 +74,12 @@ class CartActivity: AppCompatActivity() {
             }
         )
 
+        val homeBtn=findViewById<ImageButton>(R.id.home_button)
+        homeBtn.setOnClickListener {
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
+        }
+
         if (currentCart!!.cartList.isEmpty()){ //chứng tỏ là cart mới
             carts.add(currentCart!!) //báo là mới thêm cart mới
         }
