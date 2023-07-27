@@ -169,7 +169,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/rounded_button_alt"
         app:backgroundTint="@color/blue_1"
         android:text="Thêm vào giỏ hàng"
         android:textSize="15dp"

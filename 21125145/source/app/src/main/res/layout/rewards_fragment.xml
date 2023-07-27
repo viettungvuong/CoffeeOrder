@@ -39,7 +39,7 @@
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/rounded_button_alt"
         android:orientation="vertical"
         android:id="@+id/total_points_section"
         android:padding="30dp">
@@ -72,7 +72,7 @@
                 android:layout_weight="0.4"
                 android:layout_height="wrap_content"
                 android:text="Đổi điểm"
-                android:background="@drawable/rounded_button"
+                android:background="@drawable/rounded_button_alt"
                 app:backgroundTint="#3e698c"/>
 
         </LinearLayout>

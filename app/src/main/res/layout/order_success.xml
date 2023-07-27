@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Theo dõi đơn hàng"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/rounded_button_alt"
         app:backgroundTint="@color/blue_1"
         android:layout_marginTop="20dp"
         android:id="@+id/trackBtn"

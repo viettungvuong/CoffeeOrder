@@ -82,7 +82,7 @@
             android:layout_weight="0.4"
             android:layout_height="wrap_content"
             android:text="Thanh toán"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_button_alt"
             app:backgroundTint="@color/blue_1"
             android:layout_marginStart="40dp"
             android:id="@+id/checkoutBtn"

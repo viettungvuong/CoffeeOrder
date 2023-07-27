@@ -16,6 +16,8 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.tung.coffeeorder.AccountFunctions.Companion.anonymousLogin
+import com.tung.coffeeorder.AccountFunctions.Companion.autoLogin
 import com.tung.coffeeorder.AccountFunctions.Companion.signIn
 import com.tung.coffeeorder.AppController.Companion.currentCart
 import com.tung.coffeeorder.AppController.Companion.initCarts
@@ -43,7 +45,7 @@ class Login : AppCompatActivity() {
 
         initRedeem() //lấy danh sách các redeem coffee
 
-        autoLogin() //tự động đăng nhập
+        autoLogin(this) //tự động đăng nhập
 
         val userInput = findViewById<TextInputEditText>(R.id.username)
         val passwordInput = findViewById<TextInputEditText>(R.id.password)
@@ -76,82 +78,17 @@ class Login : AppCompatActivity() {
 
         val anonymousUse = findViewById<MaterialButton>(R.id.anonymous)
         anonymousUse.setOnClickListener{
-            anonymousLogin()
+            anonymousLogin(this)
         }
 
     }
 
-    fun anonymousLogin(){
-        sharedPreferences.edit().putBoolean("online_acc",false).apply() //đặt là không dùng tài khoản online
-        retrieveCurrentNoOfCarts()
-        retrieveCurrentNoOfOrders()
-        initCarts(this) //lấy danh sách các cart
-        User.singleton.loadLocal() //đọc thông tin local
 
-        //nếu thiếu thông tin thì phải nhập
-        if (User.singleton.getaddress().isBlank()||User.singleton.getphoneNumber().isBlank()) {
-            Toast.makeText(
-                this,
-                "Bạn hãy nhập thông tin để tiếp tục",
-                Toast.LENGTH_LONG,
-            ).show()
-            val intent = Intent(this, UserEdit::class.java)
-            intent.putExtra("anonymouslogin", true) //để báo đây là anonymouslogin
-            startActivity(intent) //mở userEdit để người dùng nhập thông tin
-        }
-        else{
-            //đủ thông tin thì vào màn hình chính
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent) //mở userEdit để người dùng nhập thông tin
-        }
-    }
 
     fun startLogin(userInput: TextInputEditText, passwordInput: TextInputEditText){
         signIn(this,this,userInput.text.toString(), passwordInput.text.toString())
     }
 
-    fun autoLogin(){
-        if (sharedPreferences.getBoolean("online_acc", false)) {
-            if (Firebase.auth.currentUser != null) {
-                val intent =
-                    Intent(this, MainActivity::class.java)
 
-                sharedPreferences.edit()
-                    .putBoolean("online_acc", true)
-                    .apply() //ghi nhận là dùng tài khoản online cho app
-
-                Toast.makeText(
-                    this,
-                    "Đã đăng nhập thành công",
-                    Toast.LENGTH_SHORT,
-                ).show()
-
-
-
-                val email = Firebase.auth.currentUser!!.email.toString()
-
-                AppController.getInfoFromFirebase(
-                    User.singleton
-                ) { id, name, phoneNumber, address,loyaltyPoint ->
-                    User.singleton.initialize(
-                        Firebase.auth.currentUser!!.uid,
-                        name,
-                        email,
-                        phoneNumber,
-                        address,
-                        loyaltyPoint
-                    )
-                    retrieveCurrentNoOfCarts()
-                    retrieveCurrentNoOfOrders()
-                    initCarts(this) //lấy danh sách các cart, rồi resume cart, rồi lấy order
-                    startActivity(intent)
-                    finish()
-                }
-            }
-        }
-        else{
-            anonymousLogin()
-        }
-    }
 
 }
