@@ -472,6 +472,7 @@ class AccountFunctions {
                                 address,
                                 loyaltyPoint
                             )
+                            Log.d("name",name)
                             initCarts(activity) //lấy danh sách các cart
                             retrieveCurrentNoOfCarts()
                             retrieveCurrentNoOfOrders()

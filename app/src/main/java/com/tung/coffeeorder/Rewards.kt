@@ -24,6 +24,7 @@ class Rewards: Fragment() {
 
         val rewardsRecycler=view.findViewById<RecyclerView>(R.id.rewards_recycler)
         rewardsRecycler.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+
         rewardsRecycler.adapter=RewardsPointAdapter(requireActivity(),AppController.rewardsPoint)
 
         val totalPoint = view.findViewById<TextView>(R.id.total_points)
