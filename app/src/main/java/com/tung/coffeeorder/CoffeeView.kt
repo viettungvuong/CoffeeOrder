@@ -164,7 +164,7 @@ class CoffeeView() : AppCompatActivity() {
 
         override fun buttonClick(index: Int, view: View) {
             view.alpha=1f
-            for (i in 0 until index){
+            for (i in 0 until buttons.size){
                 if (i!=index){
                     buttons[i].alpha=0.5f
                 }
