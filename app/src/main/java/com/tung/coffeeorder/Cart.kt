@@ -7,8 +7,10 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.common.reflect.TypeToken
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
+import com.tung.coffeeorder.AppController.Companion.numberOfCarts
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import java.io.File
 import java.io.IOException
@@ -97,13 +99,23 @@ private fun updateToFirebase(cart: Cart) {
 }
 
 fun deleteCart(cart: Cart, context: Context){
+
     if (sharedPreferences.getBoolean("online_acc",false)){
+        Log.d("number of carts", numberOfCarts.toString())
         AppController.db.collection("users").document(Firebase.auth.currentUser!!.uid)
             .collection("carts")
-            .document(cart.id.toString())
+            .document(numberOfCarts.toString())
             .delete() //xoá document
+        val setField=mapOf(
+            "number-of-carts" to numberOfCarts-1
+        )
+        AppController.db.collection("users").document(Firebase.auth.currentUser!!.uid).set(setField, SetOptions.merge())
+
     }
     else{
-        AppDatabase.getSingleton(context).cartDao().deleteCart(cart.id)
+        AppDatabase.getSingleton(context).cartDao().deleteCart(numberOfCarts)
+        sharedPreferences.edit().putInt("number-of-carts", numberOfCarts-1)
+            .apply() //tăng số lượng cart lên
     }
+    numberOfCarts--
 }

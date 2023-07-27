@@ -125,8 +125,9 @@ class CartActivity: AppCompatActivity() {
             removeFromCartPrice(position, findViewById(R.id.totalPrice)) //giảm giá tổng của cart
             removeFromCart(currentCart!!,context,position) //xoá khỏi cart
             if (currentCart.cartList.isEmpty()){
-                numberOfCarts--
+                Log.d("Number of carts", numberOfCarts.toString())
                 //update remove
+                deleteCart(currentCart!!,context) //cập nhật xoá cart
             }
         }
 
