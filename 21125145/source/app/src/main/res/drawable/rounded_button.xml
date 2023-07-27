@@ -1,5 +1,5 @@
 <!-- res/drawable/rounded_corner_shape.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#324A59" />
+    <solid android:color="@color/blue_1" />
     <corners android:radius="15dp" />
 </shape>

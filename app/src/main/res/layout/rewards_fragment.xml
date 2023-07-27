@@ -22,7 +22,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginVertical="30dp"
             android:layout_centerHorizontal="true"
-            android:textColor="#324A59"
+            android:textColor="@color/blue_1"
             />
 
     </RelativeLayout>
