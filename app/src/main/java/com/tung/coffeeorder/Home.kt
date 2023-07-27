@@ -80,7 +80,10 @@ class Home: Fragment() {
             timeOfDateIcon.setImageResource(R.drawable.night)
         }
 
-        homeView.findViewById<TextView>(R.id.hello).text="Chào buổi $timeOfDate, ${User.singleton.getname()}"
+        homeView.findViewById<TextView>(R.id.hello1).text="Chào buổi $timeOfDate"
+
+        val splitName = User.singleton.getname().split(' ')
+        homeView.findViewById<TextView>(R.id.hello2).text=splitName[splitName.size-1]
     }
 
 

@@ -26,17 +26,35 @@
                 android:layout_height="40dp"
 />
 
-            <TextView
+
+            <LinearLayout
+
                 app:layout_constraintLeft_toRightOf="@id/morningOrNight"
                 app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/hello"
-                android:paddingVertical="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="18dp"
-                android:layout_marginLeft="10dp"
-                android:text="Chào buổi sáng, Tùng"/>
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/hello1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Chào buổi sáng"/>
+
+                <TextView
+                    android:id="@+id/hello2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Tùng"/>
+
+            </LinearLayout>
+
 
             <ImageButton
                 android:id="@+id/cartBtn"

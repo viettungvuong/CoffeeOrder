@@ -51,7 +51,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="70"
+                    android:layout_weight="0.8"
                     android:text="Cà phê sữa"
                     android:textColor="#000000"
                     android:textSize="24sp"
@@ -63,7 +63,7 @@
                     android:layout_height="60dp"
                     android:layout_gravity="end"
                     android:layout_marginLeft="150dp"
-                    android:layout_weight="30"
+                    android:layout_weight="0.2"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/favorite_btn" />
 

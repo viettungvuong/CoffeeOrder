@@ -158,7 +158,7 @@ class CartActivity: AppCompatActivity() {
             if (actionState== ItemTouchHelper.ACTION_STATE_SWIPE){
                 val itemView = viewHolder.itemView //view holder
                 val height = itemView.height //chiều cao item view
-                val ratio = (dX/5).roundToInt()
+                val ratio = (dX/6).roundToInt()
 
                 val background= ColorDrawable()
                 background.color= Color.parseColor("#d4798c")
@@ -173,7 +173,7 @@ class CartActivity: AppCompatActivity() {
                 val deleteIconMargin: Int = (height - intrinsicHeight) / 2
                 //đảm bảo nút xoá ở giữa phần swipe
 
-                val pushToRight = 85
+                val pushToRight = 95
                 val deleteIconTop: Int = itemView.top + deleteIconMargin
                 val deleteIconLeft: Int = itemView.right - deleteIconMargin - intrinsicWidth + pushToRight
                 val deleteIconRight = itemView.right - deleteIconMargin + pushToRight //đưa nút trừ hiện ra sớm hơn
@@ -185,7 +185,7 @@ class CartActivity: AppCompatActivity() {
             }
 
             //dX/5 nghĩa là ta vuốt 1/5 chiều dài là khoảng nhỏ nhất để nhận sự kiện
-            super.onChildDraw(c, recyclerView, viewHolder, dX/5, dY, actionState, isCurrentlyActive)
+            super.onChildDraw(c, recyclerView, viewHolder, dX/6, dY, actionState, isCurrentlyActive)
         }
     }
 
