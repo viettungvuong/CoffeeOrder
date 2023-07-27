@@ -37,7 +37,6 @@ class Home: Fragment() {
         val spacing = 30
         val layoutManager = GridLayoutManager(requireContext(), spanCount)
         coffeeRecyclerView.layoutManager = layoutManager
-
         //đặt margin cho các item trong recycler homeView
         coffeeRecyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing))
 
