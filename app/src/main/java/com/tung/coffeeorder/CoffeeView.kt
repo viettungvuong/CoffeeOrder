@@ -202,7 +202,6 @@ class CoffeeView() : AppCompatActivity() {
                     priceText.text= reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
                 }
             })
-            //thêm onchangetextlistener nữa
 
             plusButton.setOnClickListener(plusButtonClick())
             minusButton.setOnClickListener(minusButtonClick())

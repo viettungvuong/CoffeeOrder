@@ -26,9 +26,13 @@ class Home: Fragment() {
     ): View? {
         homeView = inflater.inflate(R.layout.home_fragment, container, false)
 
-        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.rewards_section,RewardSection()).commit()
-
         val coffeeRecyclerView: RecyclerView = homeView.findViewById(R.id.coffeeRecyclerView)
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.rewards_section,RewardSection())
+            .replace(R.id.search_bar_fragment,SearchBar(coffeeRecyclerView))
+            .commit()
+
         val spanCount = 2
         val spacing = 30
         val layoutManager = GridLayoutManager(requireContext(), spanCount)
