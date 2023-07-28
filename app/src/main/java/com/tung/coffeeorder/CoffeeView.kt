@@ -109,12 +109,6 @@ class CoffeeView() : AppCompatActivity() {
             }
         )
 
-        val singleBtn=findViewById<MaterialButton>(R.id.singleBtn)
-        val doubleBtn=findViewById<MaterialButton>(R.id.doubleBtn)
-        singleBtn.setOnClickListener {
-            doubleBtn.alpha=0.5f
-        }
-        doubleBtn.setOnClickListener {  }
     }
 
     interface Picker{
@@ -131,7 +125,6 @@ class CoffeeView() : AppCompatActivity() {
             Log.d("buttons size",buttons.size.toString())
 
             for (i in 0 until buttons.size){
-                Log.d("set clicked",i.toString())
                 buttons[i].setOnClickListener {
                         view -> buttonClick(i,view)
                 }
