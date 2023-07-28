@@ -28,6 +28,7 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
     protected var quantity=1
     private var currentSize=1 //1 là size nhỏ, 2 là size vừa, 3 là size lớn
     private var cold=true //false là hot, true là cold
+    private var shot=true //true là single, false là double
 
     constructor(other: CoffeeInCart): this(other as Coffee){
         quantity=other.getquantity()
@@ -47,6 +48,10 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
         this.cold=cold
     }
 
+    fun changeShot(single: Boolean){
+        this.shot=single
+    }
+
     fun getquantity(): Int{
         return quantity
     }
@@ -57,6 +62,10 @@ open class CoffeeInCart(private val coffee: Coffee): Coffee(coffee.getName(), co
 
     fun getHotOrCold(): Boolean{
         return cold
+    }
+
+    fun getShot(): Boolean{
+        return shot
     }
 
     open fun calculatePrice(): Long{

@@ -6,28 +6,24 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
-import com.google.rpc.Help.Link
 import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.currentCart
 import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
 import com.tung.coffeeorder.AppController.Companion.increaseOrders
 import com.tung.coffeeorder.AppController.Companion.numberOfCarts
 import com.tung.coffeeorder.AppController.Companion.reformatNumber
+import com.tung.coffeeorder.adapters.CartAdapter
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.roundToInt
@@ -44,7 +40,7 @@ class CartActivity: AppCompatActivity() {
         setContentView(R.layout.cart_activity)
         val cartRecyclerView = findViewById<RecyclerView>(R.id.cartRecyclerView)
         cartRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false) //đặt recyclerView là chiều ngang
-        cartAdapter=CartAdapter(this,currentCart!!.cartList)
+        cartAdapter= CartAdapter(this,currentCart!!.cartList)
         cartRecyclerView.adapter=cartAdapter
 
         //xử lý vuốt thì sẽ xoá

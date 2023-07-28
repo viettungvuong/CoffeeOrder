@@ -1,17 +1,17 @@
-package com.tung.coffeeorder
+package com.tung.coffeeorder.adapters
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import java.util.LinkedList
+import com.tung.coffeeorder.AppController
+import com.tung.coffeeorder.Coffee
+import com.tung.coffeeorder.CoffeeView
+import com.tung.coffeeorder.R
 
 class CoffeeAdapter(activity: Activity, coffeeList: ArrayList<Coffee>) :
     RecyclerView.Adapter<CoffeeAdapter.CoffeeViewHolder>() {
@@ -46,7 +46,7 @@ class CoffeeAdapter(activity: Activity, coffeeList: ArrayList<Coffee>) :
         }
 
         fun setPrice(coffee: Coffee){
-            coffePriceText.text= AppController.reformatNumber(coffee.getSinglePrice())+" VNĐ"
+            coffePriceText.text= AppController.reformatNumber(coffee.getSinglePrice()) +" VNĐ"
         }
 
         fun bind(coffee: Coffee){
@@ -72,7 +72,7 @@ class CoffeeAdapter(activity: Activity, coffeeList: ArrayList<Coffee>) :
         //thêm xử lý khi click
         holder.itemView.setOnClickListener(
             View.OnClickListener {
-                val intent = Intent(activity,CoffeeView::class.java)
+                val intent = Intent(activity, CoffeeView::class.java)
                 intent.putExtra("Coffee",currentItem)
                 activity.startActivity(intent) //mở activity
             }

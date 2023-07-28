@@ -5,22 +5,15 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.location.Address
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.tung.coffeeorder.AppController.Companion.carts
 import com.tung.coffeeorder.AppController.Companion.currentCart
-import com.tung.coffeeorder.AppController.Companion.db
 import com.tung.coffeeorder.AppController.Companion.initCarts
-import com.tung.coffeeorder.AppController.Companion.listCoffee
 import com.tung.coffeeorder.AppController.Companion.numberOfCarts
 import com.tung.coffeeorder.AppController.Companion.numberOfOrders
 import com.tung.coffeeorder.AppController.Companion.numberOfRedeem
@@ -28,12 +21,9 @@ import com.tung.coffeeorder.AppController.Companion.redeemCoffees
 import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfCarts
 import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfOrders
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
-import kotlinx.coroutines.runBlocking
-import java.io.*
+import com.tung.coffeeorder.adapters.OrderAdapter
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
 import java.util.LinkedList
 
 class AppController{
@@ -48,7 +38,7 @@ class AppController{
         val rewardsPoint=LinkedList<Reward>() //danh sách điểm thưởng
 
         val redeemCoffees= LinkedList<RedeemCoffee>()
-
+        
         lateinit var ongoingAdapter: OrderAdapter
         lateinit var historyAdapter: OrderAdapter //để 2 adapter này ở đây vì hai adapter này có sự liên thông với nhau rất nhiều
 

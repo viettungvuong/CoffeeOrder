@@ -1,9 +1,10 @@
-package com.tung.coffeeorder
+package com.tung.coffeeorder.adapters
 
-import android.app.Activity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.tung.coffeeorder.HistoryFragment
+import com.tung.coffeeorder.OngoingFragment
 
 //adapter cho tabLayout
 class TabPageAdapter(activity: FragmentActivity): FragmentStateAdapter(activity) {

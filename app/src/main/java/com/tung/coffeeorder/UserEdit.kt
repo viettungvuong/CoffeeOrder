@@ -128,7 +128,7 @@ class UserEdit : AppCompatActivity() {
         val temp = textFields[index].text.toString()
 
         if (!editMode[index]){
-            cancelButtons[index].setVisibility(View.VISIBLE) //hiện nút
+            cancelButtons[index].setVisibility(View.VISIBLE) //hiện nút cancel
             editMode[index] = true
             textFields[index].isEnabled = true
 
@@ -144,7 +144,8 @@ class UserEdit : AppCompatActivity() {
             val imm: InputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(textFields[index], InputMethodManager.SHOW_IMPLICIT)
-            textFields[index].setSelection(textFields[index].length())
+
+            textFields[index].setSelection(textFields[index].length()) //đặt con trỏ ở cuối vị trí của string trong edittext
         }
         else{ //lúc này nút là nút Accept, bấm là lưu thay đổi
             val newText = textFields[index].text.toString()

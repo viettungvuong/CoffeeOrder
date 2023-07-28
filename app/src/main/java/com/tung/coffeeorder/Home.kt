@@ -2,7 +2,6 @@ package com.tung.coffeeorder
 
 import android.content.Intent
 import android.graphics.Rect
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.AppController.Companion.listCoffee
-import java.time.LocalDate
+import com.tung.coffeeorder.adapters.CoffeeAdapter
 import java.time.LocalTime
 
 class Home: Fragment() {

@@ -1,18 +1,15 @@
-package com.tung.coffeeorder
+package com.tung.coffeeorder.adapters
 
 import android.app.Activity
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.allViews
 import androidx.recyclerview.widget.RecyclerView
-import com.tung.coffeeorder.AppController.Companion.dateFormat
-import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
-import java.time.format.DateTimeFormatter
+import com.tung.coffeeorder.R
+import com.tung.coffeeorder.Reward
 import java.util.LinkedList
 
 class RewardsPointAdapter(activity: Activity, rewards: LinkedList<Reward>): RecyclerView.Adapter<RewardsPointAdapter.rewardViewHolder>() {

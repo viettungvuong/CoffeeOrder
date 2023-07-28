@@ -1,16 +1,16 @@
-package com.tung.coffeeorder
+package com.tung.coffeeorder.adapters
 
 import android.app.Activity
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.rpc.Help.Link
 import com.tung.coffeeorder.AppController.Companion.imageFromCoffee
 import com.tung.coffeeorder.AppController.Companion.reformatNumber
+import com.tung.coffeeorder.CoffeeInCart
+import com.tung.coffeeorder.R
 import java.util.LinkedList
 
 class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
@@ -50,6 +50,14 @@ class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): Recyc
             }
             else{
                 coffeeSize.text=coffeeSize.text.toString()+" | Hot"
+            }
+
+
+            if (coffeeInCart.getShot()){ //cold là true, hot là false
+                coffeeSize.text=coffeeSize.text.toString()+" | Single"
+            }
+            else{
+                coffeeSize.text=coffeeSize.text.toString()+" | Double"
             }
 
             coffeeImage.setImageResource(imageFromCoffee(activity,coffeeInCart)) //đặt hình ảnh

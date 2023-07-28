@@ -52,8 +52,13 @@ class CoffeeView() : AppCompatActivity() {
         val sizePicker = SizePicker(this, inflater, coffeeInCart,priceText)
         sizePickerLayout.addView(sizePicker)
 
+        val singleDoubleLayout = findViewById<LinearLayout>(R.id.shotPicker)
+        singleDoubleLayout.removeAllViews()
+        val singleDoublePicker=SingleDoublePicker(this,inflater,coffeeInCart)
+        singleDoubleLayout.addView(singleDoublePicker)
 
-        if (coffeeInCart.getName()!="Cold brew"){
+
+        if (coffeeInCart.getName()!="Cold brew"){ //cold brew thì không hiện phần chọn Nóng hay lạnh
             val icePickerLayout = findViewById<LinearLayout>(R.id.icePicker)
             icePickerLayout.removeAllViews()
             val icePicker = IcePicker(this, inflater, coffeeInCart)
@@ -103,17 +108,50 @@ class CoffeeView() : AppCompatActivity() {
 
             }
         )
+
+        val singleBtn=findViewById<MaterialButton>(R.id.singleBtn)
+        val doubleBtn=findViewById<MaterialButton>(R.id.doubleBtn)
+        singleBtn.setOnClickListener {
+            doubleBtn.alpha=0.5f
+        }
+        doubleBtn.setOnClickListener {  }
     }
 
     interface Picker{
         fun buttonClick(index: Int, view: View) //bấm nút
     }
 
-    inner class SizePicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart, priceText: TextView): Picker,LinearLayout(context){
+    inner class SingleDoublePicker(context: Context, inflater: LayoutInflater, private var coffeeInCart: CoffeeInCart): Picker, LinearLayout(context){
+        private var buttons = ArrayList<MaterialButton>()
+        init{
+            Log.d("initialize","initialize")
+            inflater.inflate(R.layout.single_double_picker,this,true)
+            buttons.add(findViewById(R.id.singleBtn))
+            buttons.add(findViewById(R.id.doubleBtn))
+            Log.d("buttons size",buttons.size.toString())
+
+            for (i in 0 until buttons.size){
+                Log.d("set clicked",i.toString())
+                buttons[i].setOnClickListener {
+                        view -> buttonClick(i,view)
+                }
+            }
+        }
+
+        override fun buttonClick(index: Int, view: View) {
+            view.alpha=1f
+            for (i in 0 until index){
+                if (i!=index){
+                    buttons[i].alpha=0.5f
+                }
+            }
+            coffeeInCart.changeShot(index==0)
+        }
+    }
+
+    inner class SizePicker(context: Context, inflater: LayoutInflater, private var coffeeInCart: CoffeeInCart, private var priceText: TextView): Picker,LinearLayout(context){
 
         private var buttons= ArrayList<ImageButton>()
-        private var coffeeInCart=coffeeInCart
-        private var priceText=priceText
         init {
             inflater.inflate(R.layout.pick_size,this,true)
 
@@ -144,10 +182,9 @@ class CoffeeView() : AppCompatActivity() {
         }
     }
 
-    inner class IcePicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart): Picker,LinearLayout(context){
+    inner class IcePicker(context: Context, inflater: LayoutInflater, private var coffeeInCart: CoffeeInCart): Picker,LinearLayout(context){
 
         private var buttons= ArrayList<ImageButton>()
-        private var coffeeInCart=coffeeInCart
         init {
             inflater.inflate(R.layout.pick_ice,this,true)
 
@@ -173,12 +210,10 @@ class CoffeeView() : AppCompatActivity() {
         }
     }
 
-    inner class NumberPicker(context: Context, inflater: LayoutInflater, coffeeInCart: CoffeeInCart, priceText: TextView): LinearLayout(context){
+    inner class NumberPicker(context: Context, inflater: LayoutInflater, private var coffeeInCart: CoffeeInCart, private var priceText: TextView): LinearLayout(context){
         var plusButton: ImageButton
         var minusButton: ImageButton
         private var numberEditText: TextInputEditText
-        private var coffeeInCart= coffeeInCart
-        private var priceText=priceText
         init {
             inflater.inflate(R.layout.number_picker,this,true)
 

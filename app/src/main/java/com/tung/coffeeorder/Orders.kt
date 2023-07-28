@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.tung.coffeeorder.adapters.TabPageAdapter
 
 class Orders: Fragment() {
     override fun onCreateView(
@@ -21,7 +22,7 @@ class Orders: Fragment() {
 
         val viewPager=view.findViewById<ViewPager2>(R.id.viewPager) //viewPager
         val tabLayout=view.findViewById<TabLayout>(R.id.tabLayout) //tabLayout
-        viewPager.adapter=TabPageAdapter(requireActivity()) //adapter tab cho viewPager
+        viewPager.adapter= TabPageAdapter(requireActivity()) //adapter tab cho viewPager
         tabLayout.tabMode = TabLayout.MODE_FIXED
 
         //hiển thị tab

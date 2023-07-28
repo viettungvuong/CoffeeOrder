@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.AppController.Companion.listCoffee
 import com.tung.coffeeorder.R.id.suggestions
+import com.tung.coffeeorder.adapters.CoffeeAdapter
 import java.util.*
 
 

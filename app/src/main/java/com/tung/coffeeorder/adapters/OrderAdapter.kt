@@ -1,24 +1,16 @@
-package com.tung.coffeeorder
+package com.tung.coffeeorder.adapters
 
 import android.app.Activity
-import android.graphics.Color
-import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.tung.coffeeorder.AppController.Companion.dateFormat
-import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
+import com.tung.coffeeorder.*
 import com.tung.coffeeorder.AppController.Companion.reformatNumber
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Fragment): RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
@@ -89,7 +81,10 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
             View.OnClickListener {
                 if (fragment is OngoingFragment){ //chỉ nhận onclick của OngoingFragment
 
-                    setOrderDone(orders[position],AppController.ongoingOrders,AppController.historyOrders,AppController.rewardsPoint,activity) //đánh dấu đã hoàn thành order này
+                    setOrderDone(orders[position],
+                        AppController.ongoingOrders,
+                        AppController.historyOrders,
+                        AppController.rewardsPoint,activity) //đánh dấu đã hoàn thành order này
                     AppController.ongoingAdapter.notifyItemRemoved(position)
 
                     AppController.historyAdapter.notifyItemInserted(AppController.historyOrders.size-1) //thông báo mới thêm item

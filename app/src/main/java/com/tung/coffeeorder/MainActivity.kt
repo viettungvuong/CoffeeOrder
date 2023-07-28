@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.tung.coffeeorder.adapters.OrderAdapter
 
 
 class MainActivity : AppCompatActivity() {

@@ -1,11 +1,9 @@
-package com.tung.coffeeorder
+package com.tung.coffeeorder.adapters
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -13,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.tung.coffeeorder.*
 import com.tung.coffeeorder.AppController.Companion.dateFormat
 import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
 import com.tung.coffeeorder.AppController.Companion.increaseOrders
@@ -20,7 +19,6 @@ import com.tung.coffeeorder.AppController.Companion.increaseRedeems
 import com.tung.coffeeorder.AppController.Companion.numberOfRedeem
 import com.tung.coffeeorder.AppController.Companion.ongoingOrders
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>):
@@ -44,7 +42,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
             //mở cart
             //nếu đủ điểm
 
-            if (redeemCoffee.getRedeemPoints()<=User.singleton.loyalty.getCurrentPoints()){
+            if (redeemCoffee.getRedeemPoints()<= User.singleton.loyalty.getCurrentPoints()){
                 Toast.makeText(
                     activity,
                     "Đã đổi nước thành công",
@@ -52,7 +50,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                 ).show()
 
                 increaseRedeems() //tăng số redeem lên
-                val order =Order(-numberOfRedeem,User.singleton.getaddress(),
+                val order = Order(-numberOfRedeem, User.singleton.getaddress(),
                     LocalDateTime.now().format(dateTimeFormat),LinkedList<CoffeeInCart>())
                 order.cart.add(redeemCoffee)
                 Log.d("id",order.id.toString())
@@ -62,7 +60,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                 increaseOrders()
 
 
-                val intent= Intent(activity,OrderSuccess::class.java)
+                val intent= Intent(activity, OrderSuccess::class.java)
                 intent.putExtra("Redeem",true)
                 activity.startActivity(intent)
             }

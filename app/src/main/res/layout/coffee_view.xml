@@ -81,11 +81,35 @@
         app:layout_constraintTop_toBottomOf="@id/introSection">
 
         <LinearLayout
-            android:id="@+id/coldHotSection"
+            android:id="@+id/singeOrDoubleSection"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="50dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="60"
+                android:text="Shot:"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <include
+                android:id="@+id/shotPicker"
+                layout="@layout/single_double_picker" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/coldHotSection"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
