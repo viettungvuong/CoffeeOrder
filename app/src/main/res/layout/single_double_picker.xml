@@ -1,7 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:layout_marginRight="10dp">
@@ -12,9 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
+        android:backgroundTint="@color/white"
         android:text="Single"
-        android:background="@drawable/rounded_button_alt"
-        app:backgroundTint="@color/white"
         android:textColor="@color/black" />
 
     <com.google.android.material.button.MaterialButton
@@ -22,8 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.5"
-        android:background="@drawable/rounded_button_alt"
-        app:backgroundTint="@color/white"
+        android:backgroundTint="@color/white"
         android:text="Double"
         android:textColor="@color/black" />
 

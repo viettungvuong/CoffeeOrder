@@ -63,7 +63,8 @@ class AppController{
 
             var i=0
             while (i<temp.size&&coffeeInCart.getName()<=temp[i].getName()){
-                if (coffeeInCart.getName()==temp[i].getName()&&coffeeInCart.getSize()==temp[i].getSize()){
+                if (coffeeInCart.getName()==temp[i].getName()&&coffeeInCart.getSize()==temp[i].getSize()&&coffeeInCart.getShot()==temp[i].getShot()
+                    &&coffeeInCart.getHotOrCold()==temp[i].getHotOrCold()){
                         return i //cà phê này đã có trong giỏ hàng (trùng tên và kích thước)
                         //nếu có trả về index
                 }

@@ -45,10 +45,10 @@ private fun getDescList(cart: Cart): LinkedList<String> { //mảng chứa mô t�
     val tempList = LinkedList<String>()
 
     for (coffeeInCart in cart.cartList) {
-        val desc = coffeeInCart.getName() + "," + coffeeInCart.getSize()
+        val desc = coffeeInCart.getName() + "," + coffeeInCart.getSizeNum()
             .toString() + "," + coffeeInCart.getquantity()
-            .toString() + "," + coffeeInCart.getHotOrCold()
-            .toString() + "," + coffeeInCart.getShot().toString()
+            .toString() + "," + coffeeInCart.getHotOrColdBool()
+            .toString() + "," + coffeeInCart.getShotBool().toString()
         tempList.add(desc)
     }
 

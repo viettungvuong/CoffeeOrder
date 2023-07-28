@@ -1,16 +1,16 @@
 package com.tung.coffeeorder.adapters
 
 import android.app.Activity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.tung.coffeeorder.*
 import com.tung.coffeeorder.AppController.Companion.imageFromCoffee
 import com.tung.coffeeorder.AppController.Companion.reformatNumber
-import com.tung.coffeeorder.CoffeeInCart
-import com.tung.coffeeorder.R
 import java.util.LinkedList
 
 class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
@@ -34,31 +34,20 @@ class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): Recyc
             coffeePriceText.text=reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
             coffeeQuantity.text="Số lượng: "+coffeeInCart.getquantity().toString()
             when (coffeeInCart.getSize()){
-                1->{
+                Size.Small->{
                     coffeeSize.text="Size S"
                 }
-                2->{
+                Size.Medium->{
                     coffeeSize.text="Size M"
                 }
-                3->{
+                Size.Large->{
                     coffeeSize.text="Size L"
                 } //hiện ra size của ly cà phê
             }
 
-            if (coffeeInCart.getHotOrCold()){ //cold là true, hot là false
-                coffeeSize.text=coffeeSize.text.toString()+" | Cold"
-            }
-            else{
-                coffeeSize.text=coffeeSize.text.toString()+" | Hot"
-            }
+            coffeeSize.text=coffeeSize.text.toString()+if (coffeeInCart.getHotOrCold()==HotCold.Cold) " |Cold" else " |Hot"
+            coffeeSize.text=coffeeSize.text.toString()+if (coffeeInCart.getShot()==Shot.Single) " |Single" else " |Double"
 
-
-            if (coffeeInCart.getShot()){ //cold là true, hot là false
-                coffeeSize.text=coffeeSize.text.toString()+" | Single"
-            }
-            else{
-                coffeeSize.text=coffeeSize.text.toString()+" | Double"
-            }
 
             coffeeImage.setImageResource(imageFromCoffee(activity,coffeeInCart)) //đặt hình ảnh
         }

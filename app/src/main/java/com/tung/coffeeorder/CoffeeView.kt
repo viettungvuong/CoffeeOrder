@@ -74,7 +74,7 @@ class CoffeeView() : AppCompatActivity() {
         purchaseBtn.setOnClickListener(
             View.OnClickListener {
                 val checkInCart = checkInCart(coffeeInCart) //kiểm tra loại cà phê hiện tại đã có trong giỏ hàng hay chưa
-                if (checkInCart!=-1){
+                if (checkInCart!=-1){ //nếu có trong giỏ hàng
                     currentCart!!.cartList[checkInCart].changeQuantity(coffeeInCart.getquantity()) //thay đổi số lượng nếu đã có trong giỏ hàng
                     updateCart(currentCart!!,this) //update cart trên hệ thống
                 }
@@ -118,11 +118,9 @@ class CoffeeView() : AppCompatActivity() {
     inner class SingleDoublePicker(context: Context, inflater: LayoutInflater, private var coffeeInCart: CoffeeInCart): Picker, LinearLayout(context){
         private var buttons = ArrayList<MaterialButton>()
         init{
-            Log.d("initialize","initialize")
             inflater.inflate(R.layout.single_double_picker,this,true)
             buttons.add(findViewById(R.id.singleBtn))
             buttons.add(findViewById(R.id.doubleBtn))
-            Log.d("buttons size",buttons.size.toString())
 
             for (i in 0 until buttons.size){
                 buttons[i].setOnClickListener {
@@ -132,13 +130,17 @@ class CoffeeView() : AppCompatActivity() {
         }
 
         override fun buttonClick(index: Int, view: View) {
+            Log.d("clicked",index.toString())
             view.alpha=1f
-            for (i in 0 until index){
+            for (i in 0 until buttons.size){
                 if (i!=index){
                     buttons[i].alpha=0.5f
                 }
             }
-            coffeeInCart.changeShot(index==0)
+            when (index){
+                0->coffeeInCart.changeShot(Shot.Single)
+                1->coffeeInCart.changeShot(Shot.Double)
+            }
         }
     }
 
@@ -170,7 +172,11 @@ class CoffeeView() : AppCompatActivity() {
                     buttons[i].alpha=0.5f
                 }
             }
-            coffeeInCart.changeSize(index+1)
+            when (index){
+                0->coffeeInCart.changeSize(Size.Small)
+                1->coffeeInCart.changeSize(Size.Medium)
+                2->coffeeInCart.changeSize(Size.Large)
+            }
             updatePrice()
         }
     }
@@ -199,7 +205,10 @@ class CoffeeView() : AppCompatActivity() {
                     buttons[i].alpha=0.5f
                 }
             }
-            coffeeInCart.changeHotOrCold(index==1)
+            when (index){
+                0->coffeeInCart.changeHotOrCold(HotCold.Hot)
+                1->coffeeInCart.changeHotOrCold(HotCold.Cold)
+            }
         }
     }
 

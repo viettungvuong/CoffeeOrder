@@ -76,13 +76,13 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
 
         fun bind(redeemCoffee: RedeemCoffee){
             when (redeemCoffee.getSize()){
-                1->{
+                Size.Small->{
                     sizeText.text="Size S"
                 }
-                2->{
+                Size.Medium->{
                     sizeText.text="Size M"
                 }
-                3->{
+                Size.Large->{
                     sizeText.text="Size L"
                 } //hiện ra size của ly cà phê
             }

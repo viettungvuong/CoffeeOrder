@@ -37,9 +37,15 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
 
             var sizeString = ""
             when (coffeeInCart.getSize()){
-                1->sizeString="(size S)"
-                2->sizeString="(size M)"
-                3->sizeString="(size L)"
+                Size.Small->{
+                    sizeString="(Size S)"
+                }
+                Size.Medium->{
+                    sizeString="(Size M)"
+                }
+                Size.Large->{
+                    sizeString="(Size L)"
+                } //hiện ra size của ly cà phê
             }
             drinkContent.text=coffeeInCart.getName()+" "+sizeString+" x"+coffeeInCart.getquantity().toString()
             priceText.text=reformatNumber(coffeeInCart.calculatePrice())+" VNĐ"
