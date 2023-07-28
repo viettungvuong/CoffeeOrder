@@ -285,6 +285,7 @@ class AppController{
                             coffeeInCart.changeQuantity(split[2].toInt())
                             coffeeInCart.changeSize(split[1].toInt())
                             coffeeInCart.changeHotOrCold((split[3]=="true"))
+                            coffeeInCart.changeShot((split[4]=="true"))
                             addToCart(currentCart!!,context,coffeeInCart)
                         }
                         carts.add(currentCart!!) //thêm vào danh sách các cart
@@ -405,6 +406,8 @@ class AppController{
 
         //có cần phải resumecart kh
         private fun needToResume(): Boolean{
+            Log.d("no of carts", numberOfCarts.toString())
+            Log.d("no of orders", numberOfOrders.toString())
             return numberOfCarts > numberOfOrders
         }
 
@@ -420,17 +423,10 @@ class AccountFunctions {
     companion object{
         fun logout(context: Context){
             signOut(context)
+
+            //xoá mọi thứ hiện tại
             sharedPreferences.edit().putBoolean("online_acc",true).apply()
-            carts.clear()
-            redeemCoffees.clear() //xoá danh sách redeem
-            currentCart!!.cartList.clear()
-            AppController.ongoingOrders.clear()
-            AppController.historyOrders.clear()
-            AppController.rewardsPoint.clear()
-            User.singleton.clearUser()
-            numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
-            numberOfOrders = 0 //số order
-            numberOfRedeem=0
+            AppController()
         }
         @JvmStatic
         fun autoLogin(activity: Activity){
