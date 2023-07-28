@@ -18,8 +18,7 @@ import com.tung.coffeeorder.AppController.Companion.numberOfCarts
 import com.tung.coffeeorder.AppController.Companion.numberOfOrders
 import com.tung.coffeeorder.AppController.Companion.numberOfRedeem
 import com.tung.coffeeorder.AppController.Companion.redeemCoffees
-import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfCarts
-import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfOrders
+import com.tung.coffeeorder.AppController.Companion.retrieveNoCartsOrders
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import com.tung.coffeeorder.adapters.OrderAdapter
 import java.time.LocalDate
@@ -179,20 +178,6 @@ class AppController{
             }
         }
 
-        fun retrieveCurrentNoOfCarts(){
-            if (!sharedPreferences.getBoolean("online_acc", false)) {
-                numberOfCarts =sharedPreferences.getInt("number-of-carts", 0) //tăng số lượng cart lên
-            }
-            else{
-
-                db.collection("users").document(Firebase.auth.currentUser!!.uid).get()
-                    .addOnSuccessListener {
-                            document->
-                        numberOfCarts =(document.getLong("number-of-carts")?:0L).toInt()
-                    }
-            }
-        }
-
 
         //cái này sẽ gọi khi checkout cart, cho nên là khi cart vẫn còn dang dở thì nó sẽ kh được gọi
         fun increaseCarts(){
@@ -212,17 +197,31 @@ class AppController{
             }
         }
 
-        fun retrieveCurrentNoOfOrders(){
+        //lấy số order (để resume)
+        fun retrieveNoCartsOrders(callback: () -> Unit){
             if (!sharedPreferences.getBoolean("online_acc", false)) {
-                AppController.numberOfOrders =sharedPreferences.getInt("number-of-orders", 0) //tăng số lượng cart lên
+                numberOfCarts =sharedPreferences.getInt("number-of-carts", 0) //tăng số lượng cart lên
+                numberOfOrders =sharedPreferences.getInt("number-of-orders", 0) //tăng số lượng cart lên
+                callback()
             }
             else{
 
                 db.collection("users").document(Firebase.auth.currentUser!!.uid).get()
                     .addOnSuccessListener {
                             document->
-                        numberOfOrders =(document.getLong("number-of-orders")?:0L).toInt()
+                        numberOfCarts =(document.getLong("number-of-carts")?:0L).toInt()
+
+                        db.collection("users").document(Firebase.auth.currentUser!!.uid).get()
+                            .addOnSuccessListener {
+                                    document->
+                                numberOfOrders =(document.getLong("number-of-orders")?:0L).toInt()
+
+                                callback() //gọi callback
+                            }
                     }
+
+
+
             }
         }
 
@@ -435,8 +434,6 @@ class AccountFunctions {
             }
             if (sharedPreferences.getBoolean("online_acc", false)) {
                 if (Firebase.auth.currentUser != null) {
-                    val intent =
-                        Intent(activity, MainActivity::class.java)
 
                     sharedPreferences.edit()
                         .putBoolean("online_acc", true)
@@ -463,11 +460,16 @@ class AccountFunctions {
                             address,
                             loyaltyPoint
                         )
-                        retrieveCurrentNoOfCarts()
-                        retrieveCurrentNoOfOrders()
-                        initCarts(activity) //lấy danh sách các cart, rồi resume cart, rồi lấy order
-                        activity.startActivity(intent)
-                        activity.finish()
+
+                        retrieveNoCartsOrders{
+                            initCarts(activity) //lấy danh sách các cart, rồi resume cart, rồi lấy order
+
+                            val intent =
+                                Intent(activity, MainActivity::class.java)
+                            activity.startActivity(intent)
+                            activity.finish()
+                        }
+
                     }
                 }
             }
@@ -479,28 +481,36 @@ class AccountFunctions {
         @JvmStatic
         fun anonymousLogin(activity: Activity){
             sharedPreferences.edit().putBoolean("online_acc",false).apply() //đặt là không dùng tài khoản online
-            retrieveCurrentNoOfCarts()
-            retrieveCurrentNoOfOrders()
-            initCarts(activity) //lấy danh sách các cart
-            User.singleton.loadLocal() //đọc thông tin local
 
-            //nếu thiếu thông tin thì phải nhập
-            if (User.singleton.getaddress().isBlank()||User.singleton.getphoneNumber().isBlank()) {
-                Toast.makeText(
-                    activity,
-                    "Bạn hãy nhập thông tin để tiếp tục",
-                    Toast.LENGTH_LONG,
-                ).show()
-                val intent = Intent(activity, UserEdit::class.java)
-                intent.putExtra("anonymouslogin", true) //để báo đây là anonymouslogin
-                activity.startActivity(intent) //mở userEdit để người dùng nhập thông tin
+            retrieveNoCartsOrders{
+                initCarts(activity) //lấy danh sách các cart, rồi resume cart, rồi lấy order
+
+                val intent =
+                    Intent(activity, MainActivity::class.java)
+                activity.startActivity(intent)
+                activity.finish()
+
+                User.singleton.loadLocal() //đọc thông tin local
+
+                //nếu thiếu thông tin thì phải nhập
+                if (User.singleton.getaddress().isBlank()||User.singleton.getphoneNumber().isBlank()) {
+                    Toast.makeText(
+                        activity,
+                        "Bạn hãy nhập thông tin để tiếp tục",
+                        Toast.LENGTH_LONG,
+                    ).show()
+                    val intent = Intent(activity, UserEdit::class.java)
+                    intent.putExtra("anonymouslogin", true) //để báo đây là anonymouslogin
+                    activity.startActivity(intent) //mở userEdit để người dùng nhập thông tin
+                }
+                else{
+                    //đủ thông tin thì vào màn hình chính
+                    sharedPreferences.edit().putBoolean("first_time", false).apply() //không còn lần đầu dùng nữa
+                    val intent = Intent(activity, MainActivity::class.java)
+                    activity.startActivity(intent) //mở userEdit để người dùng nhập thông tin
+                }
             }
-            else{
-                //đủ thông tin thì vào màn hình chính
-                sharedPreferences.edit().putBoolean("first_time", false).apply() //không còn lần đầu dùng nữa
-                val intent = Intent(activity, MainActivity::class.java)
-                activity.startActivity(intent) //mở userEdit để người dùng nhập thông tin
-            }
+
         }
 
         @JvmStatic
@@ -508,8 +518,7 @@ class AccountFunctions {
             Firebase.auth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(activity) { task ->
                     if (task.isSuccessful) {
-                        val intent =
-                            Intent(activity, MainActivity::class.java)
+
 
                         sharedPreferences.edit()
                             .putBoolean("online_acc", true)
@@ -537,11 +546,15 @@ class AccountFunctions {
                                 loyaltyPoint
                             )
                             Log.d("name",name)
-                            initCarts(activity) //lấy danh sách các cart
-                            retrieveCurrentNoOfCarts()
-                            retrieveCurrentNoOfOrders()
-                            activity.startActivity(intent)
-                            activity.finish()
+
+                            retrieveNoCartsOrders {
+                                initCarts(activity) //lấy danh sách các cart
+                                val intent =
+                                    Intent(activity, MainActivity::class.java)
+                                activity.startActivity(intent)
+                                activity.finish()
+                            }
+
                         }
 
                     } else {

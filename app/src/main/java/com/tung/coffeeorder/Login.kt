@@ -23,8 +23,6 @@ import com.tung.coffeeorder.AppController.Companion.currentCart
 import com.tung.coffeeorder.AppController.Companion.initCarts
 import com.tung.coffeeorder.AppController.Companion.initCoffeeList
 import com.tung.coffeeorder.AppController.Companion.initRedeem
-import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfCarts
-import com.tung.coffeeorder.AppController.Companion.retrieveCurrentNoOfOrders
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 
 class Login : AppCompatActivity() {
