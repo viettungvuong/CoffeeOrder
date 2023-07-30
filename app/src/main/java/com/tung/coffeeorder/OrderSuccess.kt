@@ -22,7 +22,7 @@ class OrderSuccess : AppCompatActivity() {
         trackOrderBtn.setOnClickListener(
             View.OnClickListener {
                 val intent = Intent(this,MainActivity::class.java)
-                intent.putExtra("CallingActivity","OrderSuccess") ///thông báo để MainActivity mở đúng Orders fragment
+                intent.putExtra(callingActivityExtra,"OrderSuccess") ///thông báo để MainActivity mở đúng Orders fragment
                 startActivity(intent)
                 finish()
             }

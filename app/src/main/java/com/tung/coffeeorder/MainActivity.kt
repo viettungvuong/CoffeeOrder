@@ -14,6 +14,7 @@ import com.tung.coffeeorder.adapters.OrderAdapter
 const val firstFragmentTag = "Home"
 const val secondFragmentTag = "Rewards"
 const val thirdFragmentTag = "Orders"
+public const val callingActivityExtra = "CallingActivity"
 
 class MainActivity : AppCompatActivity() {
     lateinit var bottomNavigationHandler: BottomNavigationHandler
@@ -21,15 +22,18 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val caller = intent?.getStringExtra("CallingActivity")
+        val caller = intent?.getStringExtra(callingActivityExtra)
         if (caller != null) {
             if (caller == "OrderSuccess") {
-                val thirdMenuItem: MenuItem =
-                    findViewById<BottomNavigationView>(R.id.bottom_navigation).menu.getItem(2)
-                thirdMenuItem.isChecked = true //mở orders fragment
                 (this as FragmentActivity).supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment, Orders())
                     .addToBackStack(thirdFragmentTag).commit() //hiện fragment lên
+            }
+            else if (caller=="CoffeeView")
+            {
+                (this as FragmentActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment, Home())
+                    .addToBackStack(firstFragmentTag).commit() //hiện fragment lên
             }
         }
         //khi mà quay lại actvitiy mà caller là OrderSuccess thì nó sẽ mở đúng tab

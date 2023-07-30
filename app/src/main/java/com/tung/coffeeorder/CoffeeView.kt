@@ -112,6 +112,9 @@ class CoffeeView() : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        val intent = Intent(this,MainActivity::class.java)
+        intent.putExtra(callingActivityExtra,"CoffeeView")
+        startActivity(intent)
         finish()
     }
 
