@@ -34,7 +34,6 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
         val validDate = view.findViewById<TextView>(R.id.validdate)
         val imageView = view.findViewById<ImageView>(R.id.coffeeImage)
         val sizeText = view.findViewById<TextView>(R.id.size)
-        val pointText = view.findViewById<TextView>(R.id.points)
 
         val redeemBtn = view.findViewById<MaterialButton>(R.id.redeem_btn)
 
@@ -87,12 +86,12 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
                     sizeText.text="Size L"
                 } //hiện ra size của ly cà phê
             }
-            pointText.text=redeemCoffee.getRedeemPoints().toString()+ " điểm" //điểm số mất nếu redeem
             coffeeName.text=redeemCoffee.getName()
-            validDate.text=redeemCoffee.getValidDate().format(dateFormat)
+            validDate.text="Tới "+redeemCoffee.getValidDate().format(dateFormat)
 
             imageView.setImageResource(AppController.imageFromCoffee(activity, redeemCoffee))
 
+            redeemBtn.text=redeemCoffee.getRedeemPoints().toString()+ " điểm" //điểm số mất nếu redeem
             redeemBtn.setOnClickListener{
                 redeem(redeemCoffee)
             }
