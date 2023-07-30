@@ -31,7 +31,6 @@ import kotlin.math.roundToInt
 class CartActivity: AppCompatActivity() {
     lateinit var cartAdapter: CartAdapter
 
-    var editMode = false //edit mode = true là cho thay đổi giao đến đâu
     var totalPrice=0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,12 +94,14 @@ class CartActivity: AppCompatActivity() {
         updateCartPrice(findViewById(R.id.totalPrice))
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        totalPrice=0L
+    }
 
 
     fun updateCartPrice(totalPriceText: TextView){
-        for (coffeeInCart in currentCart!!.cartList){
-            totalPrice+=coffeeInCart.calculatePrice()
-        }
+        totalPrice= calculateTotalPrice(currentCart)
         totalPriceText.text=reformatNumber(totalPrice)+" VNĐ"
     }
 

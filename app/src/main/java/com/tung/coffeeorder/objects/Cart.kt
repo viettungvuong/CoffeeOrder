@@ -123,3 +123,11 @@ fun deleteCart(cart: Cart, context: Context){
     }
     numberOfCarts--
 }
+
+fun calculateTotalPrice(cart: Cart): Long{
+    var res = 0L
+    for (coffeeInCart in cart.cartList){
+        res+=coffeeInCart.calculatePrice()
+    }
+    return res
+}

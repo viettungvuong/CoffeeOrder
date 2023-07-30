@@ -18,6 +18,7 @@ import com.tung.coffeeorder.AppController.Companion.numberOfCarts
 import com.tung.coffeeorder.AppController.Companion.numberOfOrders
 import com.tung.coffeeorder.AppController.Companion.numberOfRedeem
 import com.tung.coffeeorder.AppController.Companion.redeemCoffees
+import com.tung.coffeeorder.AppController.Companion.resetAll
 import com.tung.coffeeorder.AppController.Companion.retrieveNoCartsOrders
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
 import com.tung.coffeeorder.adapters.OrderAdapter
@@ -410,8 +411,18 @@ class AppController{
             return numberOfCarts > numberOfOrders
         }
 
-
-
+        fun resetAll(){
+            carts.clear()
+            redeemCoffees.clear() //xoá danh sách redeem
+            currentCart!!.cartList.clear()
+            ongoingOrders.clear()
+            historyOrders.clear()
+            rewardsPoint.clear()
+            User.singleton.clearUser()
+            numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
+            numberOfOrders = 0 //số order
+            numberOfRedeem=0
+        }
 
     }
 
@@ -422,17 +433,9 @@ class AccountFunctions {
     companion object{
         fun logout(context: Context){
             signOut(context)
+
             //xoá mọi thứ hiện tại
-            carts.clear()
-            redeemCoffees.clear() //xoá danh sách redeem
-            currentCart!!.cartList.clear()
-            AppController.ongoingOrders.clear()
-            AppController.historyOrders.clear()
-            AppController.rewardsPoint.clear()
-            User.singleton.clearUser()
-            numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
-            numberOfOrders = 0 //số order
-            numberOfRedeem=0
+            resetAll()
 
             //ta để true để nó ra màn hình login, thay vì tiếp tục anonymous login
             sharedPreferences.edit().putBoolean("online_acc",true).apply()

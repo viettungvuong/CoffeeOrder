@@ -7,6 +7,8 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.tung.coffeeorder.AppController.Companion.currentCart
+import com.tung.coffeeorder.AppController.Companion.resetAll
 import com.tung.coffeeorder.adapters.OrderAdapter
 
 const val firstFragmentTag = "Home"
@@ -95,6 +97,12 @@ class MainActivity : AppCompatActivity() {
             System.exit(0) //thoát khỏi app luôn
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        resetAll() //xoá hết mọi thứ hiện tại
     }
 
     class BottomNavigationHandler(activity: Activity, navBar: BottomNavigationView) {
