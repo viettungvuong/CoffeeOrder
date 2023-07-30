@@ -51,7 +51,7 @@ class RedeemAdapter(activity: Activity, redeemCoffees: LinkedList<RedeemCoffee>)
 
                 increaseRedeems() //tăng số redeem lên
                 val order = Order(-numberOfRedeem, User.singleton.getaddress(),
-                    LocalDateTime.now().format(dateTimeFormat),LinkedList<CoffeeInCart>())
+                    LocalDateTime.now().format(dateTimeFormat),ArrayList<CoffeeInCart>())
                 order.cart.add(redeemCoffee)
                 Log.d("id",order.id.toString())
                 saveOrder(order,activity) //rồi mới update

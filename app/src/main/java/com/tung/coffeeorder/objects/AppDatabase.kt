@@ -20,6 +20,16 @@ class Converters {
     }
 
 
+    @TypeConverter
+    fun fromArrayListCoffee(value: ArrayList<CoffeeInCart>): String {
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toArrayListCoffee(value: String): ArrayList<CoffeeInCart> {
+        val listType = object : TypeToken<ArrayList<CoffeeInCart>>() {}.type
+        return Gson().fromJson(value, listType)
+    }
 
     @TypeConverter
     fun fromLinkedListCoffee(value: LinkedList<CoffeeInCart>): String {

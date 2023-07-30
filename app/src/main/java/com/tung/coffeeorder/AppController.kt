@@ -11,13 +11,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.tung.coffeeorder.AppController.Companion.carts
-import com.tung.coffeeorder.AppController.Companion.currentCart
 import com.tung.coffeeorder.AppController.Companion.initCarts
-import com.tung.coffeeorder.AppController.Companion.numberOfCarts
-import com.tung.coffeeorder.AppController.Companion.numberOfOrders
-import com.tung.coffeeorder.AppController.Companion.numberOfRedeem
-import com.tung.coffeeorder.AppController.Companion.redeemCoffees
 import com.tung.coffeeorder.AppController.Companion.resetAll
 import com.tung.coffeeorder.AppController.Companion.retrieveNoCartsOrders
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
@@ -48,7 +42,7 @@ class AppController{
 
         lateinit var sharedPreferences: SharedPreferences //shared preferences
 
-        var currentCart=Cart(0, LinkedList())//cart chính của chương trình
+        var currentCart=Cart(0, ArrayList())//cart chính của chương trình
         //sẽ initialize sau
 
         var carts= ArrayList<Cart>() //danh sách các cart
@@ -271,7 +265,7 @@ class AppController{
                             //để kiếm cách fix thằng 0 này sau
                         }
                         val cart = document.get("cart") as java.util.ArrayList<String> //array field cart
-                        var currentCart=Cart(document.id.toInt(),LinkedList())
+                        var currentCart=Cart(document.id.toInt(),ArrayList())
                         for (cartDesc in cart) {
                             val split = cartDesc.split(',') //tách từ theo dấu phẩy
 
@@ -346,7 +340,7 @@ class AppController{
                             val size=document.getLong("redeemSize")!!.toInt()
                             val redeemPoint = document.getLong("redeemPoint")!!.toInt()
                             val redeemCoffee= RedeemCoffee(searchCoffeeByName(coffeeName!!)!!,size,redeemPoint)
-                            currentOrder=Order(id.toInt(),address!!,time!!,LinkedList<CoffeeInCart>())
+                            currentOrder=Order(id.toInt(),address!!,time!!,ArrayList<CoffeeInCart>())
                             setRedeem(currentOrder,redeemCoffee.getRedeemPoints(),context,true) //setredeem từ init
                             currentOrder.cart.add(redeemCoffee)
                         }
@@ -388,17 +382,14 @@ class AppController{
         private fun resumeCart(context: Context){
 
             if (!needToResume()){
-                Log.d("no need to resume","no need to resume")
-                currentCart=Cart(numberOfCarts+1,LinkedList()) //tạo cart rỗng nếu không cần resume
+                currentCart=Cart(numberOfCarts+1,ArrayList()) //tạo cart rỗng nếu không cần resume
                 return
             }
             if (carts.isEmpty()){
-                Log.d("carts is empty","carts is empty")
                 return
             }
-            Log.d("need to resume","need to resume")
             val resumeCart = carts[numberOfCarts-1].cartList
-            currentCart=Cart(numberOfCarts, LinkedList())
+            currentCart=Cart(numberOfCarts, ArrayList())
             for (item in resumeCart){
                 addToCart(currentCart!!,context,item)
             }

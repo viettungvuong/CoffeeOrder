@@ -22,7 +22,7 @@ import java.util.*
 data class Cart(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
-    var cartList: LinkedList<CoffeeInCart>,
+    var cartList: ArrayList<CoffeeInCart>,
 )
 
 @Dao

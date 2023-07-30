@@ -208,13 +208,13 @@ class CartActivity: AppCompatActivity() {
             ).show()
             return
         }
-        val temp = LinkedList(currentCart!!.cartList) //copy constructor để nó kh reference
+        val temp = ArrayList(currentCart!!.cartList) //copy constructor để nó kh reference
         val localDateTimeStr = LocalDateTime.now().format(dateTimeFormat)
         val order = Order(numberOfCarts,User.singleton.getaddress(),localDateTimeStr,temp)
         addToOngoing(order) //thêm vào orders
 
         //xoá hết giỏ hàng khi đã checkout
-        currentCart=Cart(numberOfCarts+1,LinkedList())
+        currentCart=Cart(numberOfCarts+1,ArrayList())
     }
 
     //thêm vào ônging

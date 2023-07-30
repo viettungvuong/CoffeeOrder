@@ -2,35 +2,14 @@ package com.tung.coffeeorder
 
 
 import android.content.Context
-import android.location.Address
 import android.util.Log
 import androidx.room.*
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.common.reflect.TypeToken
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.ktx.Firebase
-import com.google.rpc.Help.Link
-import com.google.type.DateTime
-import com.tung.coffeeorder.AppController.Companion.carts
-import com.tung.coffeeorder.AppController.Companion.dateFormat
 import com.tung.coffeeorder.AppController.Companion.dateTimeFormat
-import com.tung.coffeeorder.AppController.Companion.historyOrders
-import com.tung.coffeeorder.AppController.Companion.ongoingOrders
-import com.tung.coffeeorder.AppController.Companion.numberOfRedeem
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
-import java.io.IOException
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
-import com.google.gson.Gson
 import com.tung.coffeeorder.AppController.Companion.sharedPreferences
-import kotlinx.coroutines.runBlocking
 
 @Entity(tableName = "order_table")
 data class Order(
@@ -38,7 +17,7 @@ data class Order(
     var id: Int,
     var address: String,
     var time: String,
-    var cart: LinkedList<CoffeeInCart>,
+    var cart: java.util.ArrayList<CoffeeInCart>,
     var redeem: Boolean = false,
     var done: Boolean = false,
     var bonusPoint: Int = 0,

@@ -1,7 +1,6 @@
 package com.tung.coffeeorder.adapters
 
 import android.app.Activity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tung.coffeeorder.*
 import com.tung.coffeeorder.AppController.Companion.imageFromCoffee
 import com.tung.coffeeorder.AppController.Companion.reformatNumber
+import java.util.ArrayList
 import java.util.LinkedList
 
-class CartAdapter(activity: Activity, cartList: LinkedList<CoffeeInCart>): RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+class CartAdapter(activity: Activity, cartList: ArrayList<CoffeeInCart>): RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
     var activity: Activity
-    var cartList: LinkedList<CoffeeInCart>
+    var cartList: ArrayList<CoffeeInCart>
 
     init {
         this.activity=activity
