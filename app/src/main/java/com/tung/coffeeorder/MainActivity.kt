@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
+        if (supportFragmentManager.backStackEntryCount > 1) {
             supportFragmentManager.popBackStackImmediate() //quay về fragment trước trong main activity
             //thêm chữ immediate là để cập nhật luôn
             setBottomNavChecked()
