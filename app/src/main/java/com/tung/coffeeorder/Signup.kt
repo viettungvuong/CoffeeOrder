@@ -63,4 +63,10 @@ class Signup : AppCompatActivity() {
             address.text.toString()
         )
     }
+
+    override fun onBackPressed() {
+        val intent = Intent(this,Login::class.java)
+        startActivity(intent)
+        finish() //quay về activity trước
+    }
 }
