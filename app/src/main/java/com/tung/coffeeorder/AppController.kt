@@ -422,10 +422,18 @@ class AccountFunctions {
     companion object{
         fun logout(context: Context){
             signOut(context)
-
+            carts.clear()
+            redeemCoffees.clear() //xoá danh sách redeem
+            currentCart!!.cartList.clear()
+            AppController.ongoingOrders.clear()
+            AppController.historyOrders.clear()
+            AppController.rewardsPoint.clear()
+            User.singleton.clearUser()
+            numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
+            numberOfOrders = 0 //số order
+            numberOfRedeem=0
             //xoá mọi thứ hiện tại
             sharedPreferences.edit().putBoolean("online_acc",true).apply()
-            AppController()
         }
         @JvmStatic
         fun autoLogin(activity: Activity){
