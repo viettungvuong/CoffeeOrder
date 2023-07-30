@@ -88,5 +88,9 @@ class Login : AppCompatActivity() {
     }
 
 
+    override fun onBackPressed() {
+        finishAffinity()
+        System.exit(0) //thoát khỏi app luôn
+    }
 
 }
