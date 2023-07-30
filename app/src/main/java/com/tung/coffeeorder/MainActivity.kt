@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        AppController.initCoffeeList(AppController.listCoffee) //load danh sách cà phê
-
         //từ đây mới có order và resume
 
         AppController.ongoingAdapter =

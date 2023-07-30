@@ -81,13 +81,13 @@ class OrderAdapter(activity: Activity, orders: LinkedList<Order>, fragment: Frag
     }
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
-        holder.bind(orders[position])
+        holder.bind(orders[holder.layoutPosition])
 
         holder.itemView.setOnClickListener(
             View.OnClickListener {
                 if (fragment is OngoingFragment){ //chỉ nhận onclick của OngoingFragment
 
-                    setOrderDone(orders[position],
+                    setOrderDone(orders[holder.layoutPosition],
                         AppController.ongoingOrders,
                         AppController.historyOrders,
                         AppController.rewardsPoint,activity) //đánh dấu đã hoàn thành order này

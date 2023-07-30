@@ -130,7 +130,7 @@ class CartActivity: AppCompatActivity() {
             if (currentCart.cartList.isEmpty()){
                 Log.d("Number of carts", numberOfCarts.toString())
                 //update remove
-                deleteCart(currentCart!!,context) //cập nhật xoá cart
+                deleteCart(currentCart!!,context) //cập nhật xoá cart và giảm số cart
             }
         }
 

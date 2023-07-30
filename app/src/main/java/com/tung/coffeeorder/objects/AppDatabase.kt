@@ -76,7 +76,7 @@ abstract class AppDatabase: RoomDatabase() {
 
         fun getSingleton(context: Context): AppDatabase{
             if (singleton==null){
-                singleton=Room.databaseBuilder(context, AppDatabase::class.java, "coffeeOrder-db")
+                singleton=Room.databaseBuilder(context, AppDatabase::class.java, "SQL-Coffee")
                     .allowMainThreadQueries()
                     .build()
             }

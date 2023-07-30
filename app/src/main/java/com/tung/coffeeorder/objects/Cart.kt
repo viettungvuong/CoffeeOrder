@@ -103,7 +103,6 @@ private fun updateToFirebase(cart: Cart) {
 fun deleteCart(cart: Cart, context: Context){
 
     if (sharedPreferences.getBoolean("online_acc",false)){
-        Log.d("number of carts", numberOfCarts.toString())
         AppController.db.collection("users").document(Firebase.auth.currentUser!!.uid)
             .collection("carts")
             .document(numberOfCarts.toString())
@@ -119,7 +118,7 @@ fun deleteCart(cart: Cart, context: Context){
     else{
         AppDatabase.getSingleton(context).cartDao().deleteCart(numberOfCarts)
         sharedPreferences.edit().putInt("number-of-carts", numberOfCarts-1)
-            .apply() //tăng số lượng cart lên
+            .apply() //giảm số cart
     }
     numberOfCarts--
 }
