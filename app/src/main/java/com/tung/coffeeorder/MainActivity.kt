@@ -9,6 +9,9 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tung.coffeeorder.adapters.OrderAdapter
 
+const val firstFragmentTag = "Home"
+const val secondFragmentTag = "Rewards"
+const val thirdFragmentTag = "Orders"
 
 class MainActivity : AppCompatActivity() {
     lateinit var bottomNavigationHandler: BottomNavigationHandler
@@ -16,12 +19,15 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val caller=intent?.getStringExtra("CallingActivity")
-        if (caller!=null){
-            if (caller=="OrderSuccess"){
-                val thirdMenuItem: MenuItem = findViewById<BottomNavigationView>(R.id.bottom_navigation).menu.getItem(2)
+        val caller = intent?.getStringExtra("CallingActivity")
+        if (caller != null) {
+            if (caller == "OrderSuccess") {
+                val thirdMenuItem: MenuItem =
+                    findViewById<BottomNavigationView>(R.id.bottom_navigation).menu.getItem(2)
                 thirdMenuItem.isChecked = true //mở orders fragment
-                (this as FragmentActivity).supportFragmentManager.beginTransaction().replace(R.id.fragment,Orders()).commit() //hiện fragment lên
+                (this as FragmentActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment, Orders())
+                    .addToBackStack(thirdFragmentTag).commit() //hiện fragment lên
             }
         }
         //khi mà quay lại actvitiy mà caller là OrderSuccess thì nó sẽ mở đúng tab
@@ -35,48 +41,97 @@ class MainActivity : AppCompatActivity() {
 
         //từ đây mới có order và resume
 
-        AppController.ongoingAdapter = OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())
-        AppController.historyAdapter = OrderAdapter(this, AppController.historyOrders, HistoryFragment())
+        AppController.ongoingAdapter =
+            OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())
+        AppController.historyAdapter =
+            OrderAdapter(this, AppController.historyOrders, HistoryFragment())
 
 
-        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        supportFragmentManager.beginTransaction().replace(R.id.fragment,Home()).commit() //hiện fragment Home đầu tiên
+        supportFragmentManager.beginTransaction().replace(R.id.fragment, Home()).addToBackStack(
+            firstFragmentTag
+        ).commit() //hiện fragment Home đầu tiên
 
-        bottomNavigationHandler=BottomNavigationHandler(this,bottomNavigationView) //handler bottom navigation view
+        bottomNavigationHandler =
+            BottomNavigationHandler(this, bottomNavigationView) //handler bottom navigation view
 
     }
 
+    override fun onResume() {
+        super.onResume()
 
-}
+        //xử lý tab trên bottom navigation sẽ hiện tương ứng theo fragment đang được chọn
+        setBottomNavChecked()
+    }
 
-class BottomNavigationHandler(activity: Activity, navBar: BottomNavigationView) {
-    //dùng class này để quản lý bottom nav bar gọn hơn
-    init {
-        var currentSelected=0
-        navBar.selectedItemId=currentSelected //đặt index cho bottom nav bar
+    private fun setBottomNavChecked() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
 
-        navBar.setOnItemSelectedListener { item ->
-            //khi bấm vào sẽ mở fragment tương ứng
-            lateinit var selectedFragment: Fragment
-
-            when (item.itemId) {
-                R.id.home -> {
-                    selectedFragment=Home()
-                }
-                R.id.rewards-> {
-                    selectedFragment=Rewards()
-                }
-                R.id.orders -> {
-                    selectedFragment=Orders()
-                }
+            val fragment =
+                supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
+            when (fragment) {
+                firstFragmentTag -> findViewById<BottomNavigationView>(R.id.bottom_navigation).menu.findItem(
+                    R.id.home
+                ).setChecked(true)
+                secondFragmentTag -> findViewById<BottomNavigationView>(R.id.bottom_navigation).menu.findItem(
+                    R.id.rewards
+                ).setChecked(true)
+                thirdFragmentTag -> findViewById<BottomNavigationView>(R.id.bottom_navigation).menu.findItem(
+                    R.id.orders
+                ).setChecked(true)
             }
+        }
+        //khi mà quay lại actvitiy mà caller là OrderSuccess thì nó sẽ mở đúng tab
+    }
 
-            if (selectedFragment!=null){
-                (activity as FragmentActivity).supportFragmentManager.beginTransaction().replace(R.id.fragment,selectedFragment).commit() //hiện fragment lên
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStackImmediate() //quay về fragment trước trong main activity
+            //thêm chữ immediate là để cập nhật luôn
+            setBottomNavChecked()
+        } else {
+            finishAffinity()
+            System.exit(0) //thoát khỏi app luôn
+        }
+
+    }
+
+    class BottomNavigationHandler(activity: Activity, navBar: BottomNavigationView) {
+        //dùng class này để quản lý bottom nav bar gọn hơn
+        init {
+            var currentSelected = 0
+            navBar.selectedItemId = currentSelected //đặt index cho bottom nav bar
+
+            navBar.setOnItemSelectedListener { item ->
+                //khi bấm vào sẽ mở fragment tương ứng
+                lateinit var selectedFragment: Fragment
+
+                var tag = ""
+
+                when (item.itemId) {
+                    R.id.home -> {
+                        selectedFragment = Home()
+                        tag = firstFragmentTag
+                    }
+                    R.id.rewards -> {
+                        selectedFragment = Rewards()
+                        tag = secondFragmentTag
+                    }
+                    R.id.orders -> {
+                        selectedFragment = Orders()
+                        tag = thirdFragmentTag
+                    }
+                }
+
+                if (selectedFragment != null) {
+                    (activity as FragmentActivity).supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment, selectedFragment)
+                        .addToBackStack(tag).commit() //hiện fragment lên
+                }
+
+                return@setOnItemSelectedListener true
             }
-
-            return@setOnItemSelectedListener true
         }
     }
 }
