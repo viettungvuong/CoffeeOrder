@@ -422,6 +422,7 @@ class AccountFunctions {
     companion object{
         fun logout(context: Context){
             signOut(context)
+            //xoá mọi thứ hiện tại
             carts.clear()
             redeemCoffees.clear() //xoá danh sách redeem
             currentCart!!.cartList.clear()
@@ -432,7 +433,8 @@ class AccountFunctions {
             numberOfCarts = 0 //số cart (kể cả cart chưa hoàn thành)
             numberOfOrders = 0 //số order
             numberOfRedeem=0
-            //xoá mọi thứ hiện tại
+
+            //ta để true để nó ra màn hình login, thay vì tiếp tục anonymous login
             sharedPreferences.edit().putBoolean("online_acc",true).apply()
         }
         @JvmStatic
