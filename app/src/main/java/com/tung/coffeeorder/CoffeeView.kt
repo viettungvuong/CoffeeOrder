@@ -111,6 +111,10 @@ class CoffeeView() : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        finish()
+    }
+
     interface Picker{
         fun buttonClick(index: Int, view: View) //bấm nút
     }
