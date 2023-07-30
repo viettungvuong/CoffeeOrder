@@ -101,8 +101,8 @@ class AccountFunctions {
                         activity.startActivity(intent) //mở userEdit để người dùng nhập thông tin
                     } else {
                         //đủ thông tin thì vào màn hình chính
-                        AppController.sharedPreferences.edit().putBoolean("first_time", false)
-                            .apply() //không còn lần đầu dùng nữa
+
+                      
                         val intent = Intent(activity, MainActivity::class.java)
                         activity.startActivity(intent) //mở userEdit để người dùng nhập thông tin
                     }
@@ -131,7 +131,7 @@ class AccountFunctions {
                             Toast.LENGTH_SHORT,
                         ).show()
 
-                        AppController.sharedPreferences.edit().putBoolean("first_time", false).apply() //không còn lần đầu dùng nữa
+
 
                         val email = Firebase.auth.currentUser!!.email.toString()
 
@@ -181,7 +181,7 @@ class AccountFunctions {
                             Toast.LENGTH_SHORT,
                         ).show()
 
-                        AppController.sharedPreferences.edit().putBoolean("first_time", false).apply() //không còn lần đầu dùng nữa
+
 
                         AppController.sharedPreferences.edit().putBoolean("online_acc",true).apply() //ghi nhận là dùng tài khoản online cho app
 

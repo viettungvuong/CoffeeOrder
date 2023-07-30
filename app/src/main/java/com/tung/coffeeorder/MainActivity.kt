@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //từ đây mới có order và resume
+        AppController.sharedPreferences.edit().putBoolean("first_time", false) //không còn lần đầu dùng
 
         AppController.ongoingAdapter =
             OrderAdapter(this, AppController.ongoingOrders, OngoingFragment())

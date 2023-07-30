@@ -215,6 +215,13 @@ class UserEdit : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        if (fromAnonymousLogin){
+            val intent = Intent(this,Login::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
 
 
 }
