@@ -8,10 +8,13 @@ import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.tung.coffeeorder.AppController.Companion.listCoffee
 
 class AccountFunctions {
     companion object{
         fun logout(context: Context){
+            listCoffee.clear() //để init lại trong onCreate của login (Login đã finish trc khi vào MainActivity)
+
             signOut(context)
 
             //xoá mọi thứ hiện tại
@@ -55,12 +58,14 @@ class AccountFunctions {
                         )
 
                         AppController.retrieveNoCartsOrders {
-                            AppController.initCarts(activity) //lấy danh sách các cart, rồi resume cart, rồi lấy order
+                            AppController.initCarts(activity){
+                                val intent =
+                                    Intent(activity, MainActivity::class.java)
+                                activity.startActivity(intent)
+                                activity.finish()
+                            } //lấy danh sách các cart, rồi resume cart, rồi lấy order
 
-                            val intent =
-                                Intent(activity, MainActivity::class.java)
-                            activity.startActivity(intent)
-                            activity.finish()
+
                         }
 
                     }
@@ -74,36 +79,37 @@ class AccountFunctions {
         @JvmStatic
         fun anonymousLogin(activity: Activity){
             AppController.sharedPreferences.edit().putBoolean("online_acc",false).apply() //đặt là không dùng tài khoản online
-
+            User.singleton.loadLocal() //đọc thông tin local
             AppController.retrieveNoCartsOrders {
-                AppController.initCarts(activity) //lấy danh sách các cart, rồi resume cart, rồi lấy order
+                AppController.initCarts(activity){
+                    val intent =
+                        Intent(activity, MainActivity::class.java)
+                    activity.startActivity(intent)
+                    activity.finish()
 
-                val intent =
-                    Intent(activity, MainActivity::class.java)
-                activity.startActivity(intent)
-                activity.finish()
+                    //nếu thiếu thông tin thì phải nhập
+                    if (User.singleton.getaddress().isBlank() || User.singleton.getphoneNumber()
+                            .isBlank()
+                    ) {
+                        Toast.makeText(
+                            activity,
+                            "Bạn hãy nhập thông tin để tiếp tục",
+                            Toast.LENGTH_LONG,
+                        ).show()
+                        val intent = Intent(activity, UserEdit::class.java)
+                        intent.putExtra("anonymouslogin", true) //để báo đây là anonymouslogin
+                        activity.startActivity(intent) //mở userEdit để người dùng nhập thông tin
+                    } else {
+                        //đủ thông tin thì vào màn hình chính
+                        AppController.sharedPreferences.edit().putBoolean("first_time", false)
+                            .apply() //không còn lần đầu dùng nữa
+                        val intent = Intent(activity, MainActivity::class.java)
+                        activity.startActivity(intent) //mở userEdit để người dùng nhập thông tin
+                    }
+                } //lấy danh sách các cart, rồi resume cart, rồi lấy order
 
-                User.singleton.loadLocal() //đọc thông tin local
 
-                //nếu thiếu thông tin thì phải nhập
-                if (User.singleton.getaddress().isBlank() || User.singleton.getphoneNumber()
-                        .isBlank()
-                ) {
-                    Toast.makeText(
-                        activity,
-                        "Bạn hãy nhập thông tin để tiếp tục",
-                        Toast.LENGTH_LONG,
-                    ).show()
-                    val intent = Intent(activity, UserEdit::class.java)
-                    intent.putExtra("anonymouslogin", true) //để báo đây là anonymouslogin
-                    activity.startActivity(intent) //mở userEdit để người dùng nhập thông tin
-                } else {
-                    //đủ thông tin thì vào màn hình chính
-                    AppController.sharedPreferences.edit().putBoolean("first_time", false)
-                        .apply() //không còn lần đầu dùng nữa
-                    val intent = Intent(activity, MainActivity::class.java)
-                    activity.startActivity(intent) //mở userEdit để người dùng nhập thông tin
-                }
+
             }
 
         }
@@ -142,11 +148,13 @@ class AccountFunctions {
                             )
 
                             AppController.retrieveNoCartsOrders {
-                                AppController.initCarts(activity) //lấy danh sách các cart
-                                val intent =
-                                    Intent(activity, MainActivity::class.java)
-                                activity.startActivity(intent)
-                                activity.finish()
+                                AppController.initCarts(activity){
+                                    val intent =
+                                        Intent(activity, MainActivity::class.java)
+                                    activity.startActivity(intent)
+                                    activity.finish()
+                                } //lấy danh sách các cart
+
                             }
 
                         }

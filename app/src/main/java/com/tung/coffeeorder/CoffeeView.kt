@@ -85,7 +85,6 @@ class CoffeeView() : AppCompatActivity() {
                         AppDatabase.getSingleton(this).cartDao().insertCart(currentCart)
                     }
                     addToCart( currentCart!!,this,temp) //thêm ly cà phê hiện tại vào giỏ hàng
-
                 }
 
                 val intent= Intent(this,CartActivity::class.java)

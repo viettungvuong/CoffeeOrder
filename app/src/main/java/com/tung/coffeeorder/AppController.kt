@@ -195,8 +195,8 @@ class AppController{
         //lấy số order (để resume)
         fun retrieveNoCartsOrders(callback: () -> Unit){
             if (!sharedPreferences.getBoolean("online_acc", false)) {
-                numberOfCarts =sharedPreferences.getInt("number-of-carts", 0) //tăng số lượng cart lên
-                numberOfOrders =sharedPreferences.getInt("number-of-orders", 0) //tăng số lượng cart lên
+                numberOfCarts =sharedPreferences.getInt("number-of-carts", 0) //lấy số lượng cart
+                numberOfOrders =sharedPreferences.getInt("number-of-orders", 0) //lấy số lượng order
                 callback()
             }
             else{
@@ -237,20 +237,22 @@ class AppController{
         }
 
         @JvmStatic
-        fun initCarts(context: Context){
+        fun initCarts(context: Context, callback: () -> Unit){
             if (sharedPreferences.getBoolean("online_acc",false)){
                 initCartsFromFirebase(context) {
                     resumeCart(context)
                     fetchOrders(context)
-
+                    callback()
                 }
             }
             else{
                 initCartsLocally(context){
                     resumeCart(context)
                     fetchOrders(context) //lấy tất cả order (phải có cart thì mới lấy order được)
+                    callback()
                 }
             }
+
         }
 
         //load tất cả các cart
@@ -368,7 +370,6 @@ class AppController{
                 val list = AppDatabase.getSingleton(context).orderDao().getAllOrders()
 
                 for (order in list){
-                    Log.d("order",order.id.toString()+" "+order.redeem+" "+order.done)
                     ongoingOrders.add(order) //cứ để vào history order, nếu nó done thì gọi setDone nó sẽ loại khỏi ongoingOrders
 
                     if (order.done){
@@ -392,7 +393,7 @@ class AppController{
             if (carts.isEmpty()){
                 return
             }
-            val resumeCart = carts[numberOfCarts-1].cartList
+            val resumeCart = carts[carts.size-1].cartList
             currentCart=Cart(numberOfCarts, ArrayList())
             for (item in resumeCart){
                 addToCart(currentCart!!,context,item)
